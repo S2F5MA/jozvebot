@@ -187,8 +187,7 @@ def back_to_physic_menu(message):
 # 🚀 اجرای اصلی ربات
 # ----------------------------------------
 if __name__ == "__main__":
+    bot.remove_webhook()
     keep_alive()
     print("✅ keep_alive started. Running bot now...")
     bot.infinity_polling()
-
-print("bot updated")
