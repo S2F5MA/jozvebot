@@ -2,6 +2,7 @@ import telebot
 from telebot import types  # ✅ حتماً این باشه
 from dotenv import load_dotenv
 import os
+from keep_alive import keep_alive
 
 load_dotenv()  # بارگذاری متغیرها از فایل .env
 
@@ -193,4 +194,5 @@ def back_home(message):
 # ---------------------------
 # 🚀 Start Bot
 # ---------------------------
+keep_alive()
 bot.polling()
