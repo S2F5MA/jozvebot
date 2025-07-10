@@ -191,3 +191,5 @@ if __name__ == "__main__":
     keep_alive()
     print("✅ keep_alive started. Running bot now...")
     bot.infinity_polling()
+
+print("kir")
