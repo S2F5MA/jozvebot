@@ -125,11 +125,6 @@ def send_physic_sample_questions(message):
     )
 
 
-@bot.message_handler(func=lambda message: message.text == "🔙 بازگشت به درس‌ها")
-def back_to_term2_subjects(message):
-    show_term2_subjects(message)
-
-
 @bot.message_handler(func=lambda message: message.text == "📘 جزوه")
 def show_jozve_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -170,6 +165,11 @@ def send_physic_ppt_files(message):
 
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id)
+
+
+@bot.message_handler(func=lambda message: message.text == "🔙 بازگشت به درس‌ها")
+def back_to_term2_subjects(message):
+    show_term2_subjects(message)
 
 # ---------------------------
 # 🔙 Back to Home
