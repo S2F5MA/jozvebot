@@ -1,12 +1,9 @@
 import telebot
 from telebot import types
-from dotenv import load_dotenv
-import os
 from keep_alive import keep_alive
 
-# 📥 بارگذاری متغیرهای محیطی (از .env)
-load_dotenv()
-TOKEN = os.getenv("BOT_TOKEN")
+# 🔐 توکن بات را مستقیم اینجا قرار بده
+TOKEN = "7552676791:AAHU-ogfKxQYlg27OO-QeS4sWNxAEdfxzZQ"  # 🟡 توکن رباتت را اینجا جایگزین کن
 
 # 🧠 ساخت بات با توکن
 bot = telebot.TeleBot(TOKEN)
@@ -14,7 +11,6 @@ bot = telebot.TeleBot(TOKEN)
 # ----------------------------------------
 # 📎 هندل فایل‌های تکی
 # ----------------------------------------
-
 
 @bot.message_handler(content_types=['document', 'video', 'photo', 'audio', 'voice'])
 def get_file_id_single(message):
@@ -42,8 +38,6 @@ def get_file_id_single(message):
             message.chat.id, f"{file_type}\n`{file_id}`", parse_mode='Markdown')
 
 # 📎 هندل فایل‌های گروهی
-
-
 @bot.message_handler(content_types=['media_group'])
 def get_file_ids_group(messages):
     for message in messages:
@@ -52,7 +46,6 @@ def get_file_ids_group(messages):
 # ----------------------------------------
 # 🏠 /start command
 # ----------------------------------------
-
 
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
@@ -76,7 +69,6 @@ def send_welcome(message):
 # 📗 ترم ۲ - لیست دروس
 # ----------------------------------------
 
-
 @bot.message_handler(func=lambda msg: msg.text == "📗 ترم 2")
 def show_term2_subjects(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -96,7 +88,6 @@ def show_term2_subjects(message):
 # ----------------------------------------
 # 📡 فیزیک پزشکی - منو
 # ----------------------------------------
-
 
 @bot.message_handler(func=lambda msg: msg.text == "📡 فیزیک پزشکی")
 def show_physic_menu(message):
@@ -118,7 +109,6 @@ def show_physic_menu(message):
     )
 
 # 📘 جزوه اصلی و ضمیمه
-
 
 @bot.message_handler(func=lambda msg: msg.text == "📘 جزوه")
 def show_jozve_menu(message):
@@ -145,14 +135,12 @@ def send_physic_attach_note(message):
 
 # ❓ نمونه سوال
 
-
 @bot.message_handler(func=lambda msg: msg.text == "❓ نمونه سوال")
 def send_physic_sample_questions(message):
     bot.send_document(
         message.chat.id, "BQACAgQAAxkBAAPMaG9LcDPdu9RsvYCRBlMKYPSVIu8AArcWAAKfmcBTDQ_6qcgHnzo2BA")
 
 # 📊 پاورپوینت‌ها
-
 
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور")
 def send_physic_ppt_files(message):
@@ -167,21 +155,17 @@ def send_physic_ppt_files(message):
 
 # 🔙 برگشت به منوها
 
-
 @bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به درس‌ها")
 def back_to_term2_subjects(message):
     show_term2_subjects(message)
-
 
 @bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به خانه")
 def back_home(message):
     send_welcome(message)
 
-
 @bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی فیزیک پزشکی")
 def back_to_physic_menu(message):
     show_physic_menu(message)
-
 
 # ----------------------------------------
 # 🚀 اجرای اصلی ربات
