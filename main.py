@@ -2,25 +2,68 @@ import telebot
 from telebot import types
 from dotenv import load_dotenv
 import os
-from keep_alive import keep_alive
 
-# 📥 بارگذاری متغیرهای محیطی (از .env)
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
-
-# 🧠 ساخت بات با توکن
 bot = telebot.TeleBot(TOKEN)
 
-# ----------------------------------------
-# 📎 هندل فایل‌های تکی
-# ----------------------------------------
+# =================================================================
+# ⚙️ DATA STRUCTURE ⚙️
+# تمام اطلاعات ربات در این دیکشنری ذخیره می‌شود
+# برای اضافه کردن درس یا فایل جدید، فقط اینجا را ویرایش کنید
+# =================================================================
+DATA = {
+    "term2": {
+        "title": "✅ درس‌های ترم ۲",
+        "buttons": {
+            "physic": "📡 فیزیک پزشکی",
+            "biochem_n": "🧪 بیوشیمی نظری ۲",
+            # ... بقیه درس‌ها را اینجا اضافه کنید
+            "back_home": "🔙 بازگشت به خانه"
+        }
+    },
+    "physic": {
+        "title": "دبیر: دکتر قربانی\nلطفاً یکی از گزینه‌های زیر را برای درس *فیزیک پزشکی* انتخاب کن:",
+        "buttons": {
+            "physic_jozve": "📘 جزوه",
+            "physic_sample": "❓ نمونه سوال",
+            "physic_ppt": "📊 پاور",
+            "back_term2": "🔙 بازگشت به درس‌ها"
+        },
+        "files": {
+            "sample": "BQACAgQAAxkBAAPMaG9LcDPdu9RsvYCRBlMKYPSVIu8AArcWAAKfmcBTDQ_6qcgHnzo2BA",
+            "ppt": [
+                "BQACAgQAAxkBAAO8aG9K7EOHy-mZow2eLOIFk8mNBoEAAtsaAAJg14hRvOuW4dPoIAABNgQ",
+                "BQACAgQAAxkBAAO-aG9K7N6uVgyYIHXINekvqpUcScsAAt0aAAJg14hRz2yQ9tzMWLs2BA",
+                "BQACAgQAAxkBAAO9aG9K7GFz02UAAd9BFS9bdrw_BvYqAALcGgACYNeIUX8iA7I7ENjLNgQ",
+                "BQACAgQAAxkBAAO_aG9K7NDR6jkyHXOx9tOlZHsXcuAAAt4aAAJg14hRMm5pBbZO7uI2BA"
+            ]
+        }
+    },
+    "physic_jozve": {
+        "title": "نوع جزوه را انتخاب کن:",
+        "buttons": {
+            "physic_jozve_main": "📄 جزوه اصلی",
+            "physic_jozve_attach": "📎 جزوه ضمیمه",
+            "back_physic": "🔙 بازگشت به منوی فیزیک"
+        },
+        "files": {
+            "main": "BQACAgQAAxkBAAOMaG86XK3gm-cW4bhkJfFof5vmUcsAAnIfAAKEvWBTYvYB0xEXUrc2BA",
+            "attach": "BQACAgQAAxkBAAOAaG85n1nNFFKCpsVcFXPwH7lzmkgAAlsXAAK9vHhTwAh6kf1fS_82BA"
+        }
+    }
+}
 
 
+# =================================================================
+# Handlers & Functions
+# =================================================================
+
+# ---------- File ID Finder (بدون تغییر) ----------
 @bot.message_handler(content_types=['document', 'video', 'photo', 'audio', 'voice'])
 def get_file_id_single(message):
     file_id = None
     file_type = None
-
     if message.document:
         file_id = message.document.file_id
         file_type = "📄 Document"
@@ -36,158 +79,80 @@ def get_file_id_single(message):
     elif message.voice:
         file_id = message.voice.file_id
         file_type = "🎤 Voice"
-
     if file_id:
-        bot.send_message(
-            message.chat.id, f"{file_type}\n`{file_id}`", parse_mode='Markdown')
-
-# 📎 هندل فایل‌های گروهی
+        bot.send_message(message.chat.id, f"{file_type}\n`{file_id}`", parse_mode='Markdown')
 
 
-@bot.message_handler(content_types=['media_group'])
-def get_file_ids_group(messages):
-    for message in messages:
-        get_file_id_single(message)
-
-# ----------------------------------------
-# 🏠 /start command
-# ----------------------------------------
-
-
-@bot.message_handler(commands=["start"])
+# ---------- Start Command ----------
+@bot.message_handler(commands=['start'])
 def send_welcome(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("📘 ترم 1"),
-               types.KeyboardButton("📗 ترم 2"))
-
-    bot.send_message(
-        message.chat.id,
-        """سلام 👋
-قبل اینکه شروع کنی چند تا نکته رو دقت کن : 
-1. بعضی درس‌ها جزوه‌هاشون فایلی به اسم فایل ضمیمه داره که نکاتی علاوه بر جزوه اصلی توش نوشته شده !
-2. ...
-3. ...
-
-حالا لطفاً ترم مورد نظرتو انتخاب کن:""",
-        reply_markup=markup
-    )
-
-# ----------------------------------------
-# 📗 ترم ۲ - لیست دروس
-# ----------------------------------------
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    btn1 = types.InlineKeyboardButton("📘 ترم ۱ (فعلاً غیرفعال)", callback_data="term1")
+    btn2 = types.InlineKeyboardButton("📗 ترم ۲", callback_data="show_term2")
+    markup.add(btn1, btn2)
+    bot.send_message(message.chat.id, "سلام 👋\nبه ربات جزوه خوش آمدی. لطفاً ترم مورد نظرت را انتخاب کن:", reply_markup=markup)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "📗 ترم 2")
-def show_term2_subjects(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    buttons = [
-        "🧠 علوم تشریح نظری 2", "🦴 علوم تشریح عملی 2",
-        "💓 فیزیولوژی نظری 1", "🧪 بیوشیمی نظری 2",
-        "🧬 ژنتیک", "🧫 بیوشیمی عملی",
-        "🦷 سلامت دهان و جامعه", "📡 فیزیک پزشکی",
-        "📚 زبان عمومی", "🕌 فرهنگ و تمدن اسلام",
-        "☪️ اندیشه اسلامی", "🔙 بازگشت به خانه"
-    ]
-    for b in buttons:
-        markup.add(types.KeyboardButton(b))
+# ---------- Callback Query Handler (قلب ربات جدید شما) ----------
+# این تابع تمام کلیک‌های روی دکمه‌های شیشه‌ای را مدیریت می‌کند
+@bot.callback_query_handler(func=lambda call: True)
+def handle_callback_query(call):
+    chat_id = call.message.chat.id
+    message_id = call.message.message_id
+    callback_data = call.data
 
-    bot.send_message(message.chat.id, "✅ درس‌های ترم 2:", reply_markup=markup)
+    # --- نمایش منوها ---
+    if callback_data.startswith("show_"):
+        menu_key = callback_data.split("_")[1] # e.g., "term2" from "show_term2"
+        menu_data = DATA.get(menu_key)
+        if menu_data:
+            markup = types.InlineKeyboardMarkup(row_width=2)
+            buttons = [types.InlineKeyboardButton(text, callback_data=key) for key, text in menu_data["buttons"].items()]
+            markup.add(*buttons)
+            # ویرایش پیام قبلی به جای ارسال پیام جدید
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text=menu_data["title"],
+                reply_markup=markup,
+                parse_mode="Markdown"
+            )
 
-# ----------------------------------------
-# 📡 فیزیک پزشکی - منو
-# ----------------------------------------
+    # --- ارسال فایل‌ها ---
+    elif callback_data == "physic_sample":
+        bot.send_document(chat_id, DATA["physic"]["files"]["sample"])
+        bot.answer_callback_query(call.id, "نمونه سوال ارسال شد.")
 
+    elif callback_data == "physic_jozve_main":
+        bot.send_document(chat_id, DATA["physic_jozve"]["files"]["main"])
+        bot.answer_callback_query(call.id, "جزوه اصلی ارسال شد.")
+        
+    elif callback_data == "physic_jozve_attach":
+        bot.send_document(chat_id, DATA["physic_jozve"]["files"]["attach"])
+        bot.answer_callback_query(call.id, "جزوه ضمیمه ارسال شد.")
 
-@bot.message_handler(func=lambda msg: msg.text == "📡 فیزیک پزشکی")
-def show_physic_menu(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(
-        types.KeyboardButton("📘 جزوه"),
-        types.KeyboardButton("❓ نمونه سوال"),
-        types.KeyboardButton("📊 پاور"),
-        types.KeyboardButton("🔙 بازگشت به درس‌ها")
-    )
+    elif callback_data == "physic_ppt":
+        bot.answer_callback_query(call.id, "در حال ارسال فایل‌های پاورپوینت...")
+        for file_id in DATA["physic"]["files"]["ppt"]:
+            bot.send_document(chat_id, file_id)
 
-    bot.send_message(
-        message.chat.id,
-        """دبیر : دکتر قربانی
+    # --- مدیریت دکمه‌های بازگشت ---
+    elif callback_data == "back_home":
+        send_welcome(call.message) # منوی اصلی را دوباره نشان می‌دهد
+        bot.delete_message(chat_id, message_id) # پیام قبلی (منوی درس‌ها) را پاک می‌کند
 
-لطفاً یکی از گزینه‌های زیر رو برای درس *فیزیک پزشکی* انتخاب کن 🧪:""",
-        parse_mode="Markdown",
-        reply_markup=markup
-    )
+    elif callback_data == "back_term2":
+        handle_callback_query(type('obj', (object,),{'data': 'show_term2', 'message': call.message}))
 
-# 📘 جزوه اصلی و ضمیمه
+    elif callback_data == "back_physic":
+        handle_callback_query(type('obj', (object,),{'data': 'show_physic', 'message': call.message}))
 
-
-@bot.message_handler(func=lambda msg: msg.text == "📘 جزوه")
-def show_jozve_menu(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(
-        types.KeyboardButton("📄 جزوه اصلی"),
-        types.KeyboardButton("📎 جزوه ضمیمه"),
-        types.KeyboardButton("🔙 بازگشت به منوی فیزیک پزشکی")
-    )
-    bot.send_message(message.chat.id, "نوع جزوه رو انتخاب کن:",
-                     reply_markup=markup)
-
-
-@bot.message_handler(func=lambda msg: msg.text == "📄 جزوه اصلی")
-def send_physic_main_note(message):
-    bot.send_document(
-        message.chat.id, "BQACAgQAAxkBAAOMaG86XK3gm-cW4bhkJfFof5vmUcsAAnIfAAKEvWBTYvYB0xEXUrc2BA")
+    # به تلگرام اطلاع می‌دهد که کلیک دریافت شد
+    bot.answer_callback_query(call.id)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "📎 جزوه ضمیمه")
-def send_physic_attach_note(message):
-    bot.send_document(
-        message.chat.id, "BQACAgQAAxkBAAOAaG85n1nNFFKCpsVcFXPwH7lzmkgAAlsXAAK9vHhTwAh6kf1fS_82BA")
-
-# ❓ نمونه سوال
-
-
-@bot.message_handler(func=lambda msg: msg.text == "❓ نمونه سوال")
-def send_physic_sample_questions(message):
-    bot.send_document(
-        message.chat.id, "BQACAgQAAxkBAAPMaG9LcDPdu9RsvYCRBlMKYPSVIu8AArcWAAKfmcBTDQ_6qcgHnzo2BA")
-
-# 📊 پاورپوینت‌ها
-
-
-@bot.message_handler(func=lambda msg: msg.text == "📊 پاور")
-def send_physic_ppt_files(message):
-    file_ids = [
-        "BQACAgQAAxkBAAO8aG9K7EOHy-mZow2eLOIFk8mNBoEAAtsaAAJg14hRvOuW4dPoIAABNgQ",
-        "BQACAgQAAxkBAAO-aG9K7N6uVgyYIHXINekvqpUcScsAAt0aAAJg14hRz2yQ9tzMWLs2BA",
-        "BQACAgQAAxkBAAO9aG9K7GFz02UAAd9BFS9bdrw_BvYqAALcGgACYNeIUX8iA7I7ENjLNgQ",
-        "BQACAgQAAxkBAAO_aG9K7NDR6jkyHXOx9tOlZHsXcuAAAt4aAAJg14hRMm5pBbZO7uI2BA"
-    ]
-    for fid in file_ids:
-        bot.send_document(message.chat.id, fid)
-
-# 🔙 برگشت به منوها
-
-
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به درس‌ها")
-def back_to_term2_subjects(message):
-    show_term2_subjects(message)
-
-
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به خانه")
-def back_home(message):
-    send_welcome(message)
-
-
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی فیزیک پزشکی")
-def back_to_physic_menu(message):
-    show_physic_menu(message)
-
-
-# ----------------------------------------
-# 🚀 اجرای اصلی ربات
-# ----------------------------------------
-if __name__ == "__main__":
-    bot.remove_webhook()
-    keep_alive()
-    print("✅ keep_alive started. Running bot now...")
-    bot.infinity_polling()
+# =================================================================
+# 🚀 Start Bot
+# =================================================================
+print("Bot is running...")
+bot.infinity_polling()
