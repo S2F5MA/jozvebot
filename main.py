@@ -814,8 +814,8 @@ def show_sayyad_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📚 جزوه جامع" and user_states.get(msg.from_user.id) == 'GENETICS_SAYYAD')
 def send_genetics_sayyad_comprehensive_notes(message):
     file_ids = [
-        "<FILE_ID_1>",  # ← این‌ها رو با file_idهای واقعی جایگزین کن
-        "<FILE_ID_2>"
+        # ← این‌ها رو با file_idهای واقعی جایگزین کن
+        "BQACAgQAAxkBAAIGs2hzTK23pPAj_0D1XiVcmv1o3E6gAAJ_HwAChL1gU2XrNIeNn7EtNgQ",
     ]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
@@ -834,7 +834,9 @@ def show_sayyad_sessions_menu(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "1️⃣ جلسه اول" and user_states.get(msg.from_user.id) == 'GENETICS_SAYYAD_SESSIONS')
 def send_sayyad_session1(message):
-    file_ids = ["<FILE_ID_1>", "<FILE_ID_2>"]  # ← جایگزین با file_idهای واقعی
+    # ← جایگزین با file_idهای واقعی
+    file_ids = [
+        "BQACAgQAAxkBAAIGv2hzTPpMlTaf_x6ZA9NFnn_jxZ9TAAIcHAACv1f5Uqy0I0Zm4ZktNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه اول - استاد صیاد")
@@ -842,7 +844,8 @@ def send_sayyad_session1(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "2️⃣ جلسه دوم" and user_states.get(msg.from_user.id) == 'GENETICS_SAYYAD_SESSIONS')
 def send_sayyad_session2(message):
-    file_ids = ["<FILE_ID_3>", "<FILE_ID_4>"]
+    file_ids = [
+        "BQACAgQAAxkBAAIGwmhzTQ9GxUiS4G0X9MY0SebOpgi8AAIsFwACk-8gUYZD_811Q0dGNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه دوم - استاد صیاد")
@@ -850,7 +853,8 @@ def send_sayyad_session2(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "3️⃣ جلسه سوم" and user_states.get(msg.from_user.id) == 'GENETICS_SAYYAD_SESSIONS')
 def send_sayyad_session3(message):
-    file_ids = ["<FILE_ID_5>", "<FILE_ID_6>"]
+    file_ids = [
+        "BQACAgQAAxkBAAIGx2hzTSfjTW0xUr2oh-k3674F2OrjAAKZHAACiLAQUZkc6PCY2geuNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه سوم - استاد صیاد")
@@ -866,7 +870,9 @@ def show_yasaei_menu(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📚 جزوه جامع" and user_states.get(msg.from_user.id) == 'GENETICS_YASAEI')
 def send_yasaei_full_note(message):
-    file_ids = ["<FILE_ID_1>", "<FILE_ID_2>"]  # ← اینجا فایل‌آیدی‌ها رو بذار
+    # ← اینجا فایل‌آیدی‌ها رو بذار
+    file_ids = [
+        "BQACAgQAAxkBAAIGymhzTaB33D8BUStLukI0ByoQxhvZAAKAHwAChL1gUxdZCdRWh9haNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📚 جزوه جامع - استاد یاسایی")
@@ -884,7 +890,9 @@ def show_yasaei_sessions_menu(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "1️⃣ جلسه اول" and user_states.get(msg.from_user.id) == 'GENETICS_YASAEI_SESSIONS')
 def send_yasaei_session_1(message):
-    file_ids = ["<FILE_ID_1>"]  # فایل‌آیدی‌های جلسه اول
+    # فایل‌آیدی‌های جلسه اول
+    file_ids = [
+        "BQACAgQAAxkBAAIGz2hzTeBzXtjs9wlddni4hW8uFBafAAKaFQACDQxBU2z5WFBkaFuwNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه اول - استاد یاسایی")
@@ -892,7 +900,9 @@ def send_yasaei_session_1(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "2️⃣ جلسه دوم" and user_states.get(msg.from_user.id) == 'GENETICS_YASAEI_SESSIONS')
 def send_yasaei_session_2(message):
-    file_ids = ["<FILE_ID_2>"]  # فایل‌آیدی‌های جلسه دوم
+    # فایل‌آیدی‌های جلسه دوم
+    file_ids = [
+        "BQACAgQAAxkBAAIG2WhzTpZgFj9qScw5bHnqf1ftxE1qAAKkFgACa9GQUWuwVTsOhj0CNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه دوم - استاد یاسایی")
@@ -900,7 +910,9 @@ def send_yasaei_session_2(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "3️⃣ جلسه سوم" and user_states.get(msg.from_user.id) == 'GENETICS_YASAEI_SESSIONS')
 def send_yasaei_session_3(message):
-    file_ids = ["<FILE_ID_3>"]  # فایل‌آیدی‌های جلسه سوم
+    # فایل‌آیدی‌های جلسه سوم
+    file_ids = [
+        "BQACAgQAAxkBAAIG1WhzTjvbx6YYdenFn_dMCOELng7qAAJtHwAChL1gUx821SSDfoibNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه سوم - استاد یاسایی")
@@ -908,7 +920,9 @@ def send_yasaei_session_3(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "4️⃣ جلسه چهارم" and user_states.get(msg.from_user.id) == 'GENETICS_YASAEI_SESSIONS')
 def send_yasaei_session_4(message):
-    file_ids = ["<FILE_ID_4>"]  # فایل‌آیدی‌های جلسه چهارم
+    # فایل‌آیدی‌های جلسه چهارم
+    file_ids = [
+        "BQACAgQAAxkBAAIG1mhzTjtxLI-dS02yAAHqxyGAJvVWbQACbh8AAoS9YFOgl826zLe_qzYE"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📝 جلسه چهارم - استاد یاسایی")
@@ -925,7 +939,8 @@ def show_omrani_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "❓ نمونه‌سوالات" and user_states.get(msg.from_user.id) == 'GENETICS_OMRANI')
 def send_omrani_questions(message):
     # جایگزین با فایل‌آیدی‌های واقعی
-    file_ids = ["<FILE_ID_1>", "<FILE_ID_2>", "<FILE_ID_3>"]
+    file_ids = [
+        "BQACAgQAAxkBAAIG22hzTtFxp-0Tj4CXtS9nZd4UgnhCAAJ-HwAChL1gUykVb1TUTZshNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="❓ نمونه‌سوالات - استاد عمرانی")
@@ -942,7 +957,8 @@ def show_ghaderian_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور" and user_states.get(msg.from_user.id) == 'GENETICS_GHADERIAN')
 def send_ghaderian_powerpoints(message):
     # اینجا فایل‌آیدی‌های پاورپوینت‌ها رو بزار
-    file_ids = ["<FILE_ID_1>", "<FILE_ID_2>", "<FILE_ID_3>"]
+    file_ids = ["BQACAgQAAxkBAAIG3WhzTzLgVYKjAhBuvj7OaGC0K6O1AAJtGgAConcgUQ_7zKM6Uy_QNgQ", "BQACAgQAAxkBAAIG3mhzTzKctv5YHsWTd820jlb86WtfAAJsGgAConcgUe_FGydhVQwgNgQ",
+                "BQACAgQAAxkBAAIG4mhzT0LMjDpg7B3OGn_0X2dId6isAAJ9HwACGo5oUXbozRaUTCvkNgQ", "BQACAgQAAxkBAAIG4WhzT0KEbntf_7oSA3l5i7XUfAwsAAJ8HwACGo5oURbRyuCOmv_gNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📊 پاور - استاد قادریان")
@@ -959,7 +975,8 @@ def show_ghaderian_resources_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'GENETICS_GHADERIAN_RESOURCES')
 def send_ghaderian_references(message):
     # جایگزین فایل‌آیدی‌های رفرنس
-    file_ids = ["<REF_FILE_ID_1>", "<REF_FILE_ID_2>"]
+    file_ids = ["BQACAgQAAxkBAAIG5WhzT5OZ0z6etN2ekhaQt6YgrJPqAAIQFQACa9GAUQ-qmiS0W-ukNgQ",
+                "BQACAgQAAxkBAAIG5mhzT5MxODtHnLXuE0VE4U7dS3w7AAIWFQACa9GAUeCDvd5v06YbNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📘 رفرنس - استاد قادریان")
@@ -997,7 +1014,21 @@ def show_biochemistry_theory_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور" and user_states.get(msg.from_user.id) == 'BIOCHEMISTRY_THEORY')
 def send_biochemistry_powerpoints(message):
     # فایل‌آیدی‌های پاورپوینت
-    file_ids = ["<POWERPOINT_FILE_ID_1>", "<POWERPOINT_FILE_ID_2>"]
+    file_ids = ["BQACAgQAAxkBAAIG6mhzUDPPRfaEc5BXjemgahkHYJpmAAKkHAACiLAQUUJw3AfZBH3mNgQ", "BQACAgQAAxkBAAIG6WhzUDPybCgfyu4el291iNOB8095AAKiHAACiLAQUfqmOpNawN8HNgQ",
+                "BQACAgQAAxkBAAIG62hzUDNCtNF8e4j8uDCT5nq35a24AAKlHAACiLAQUcKg-Sl0cuCONgQ",
+                "BQACAgQAAxkBAAIG7GhzUDOVNr-nXDzdC-tfCplvfZqHAAKmHAACiLAQUVeAPxeAQj6aNgQ",
+                "BQACAgQAAxkBAAIG7WhzUDN3Tt4Ied9dHXeFeT9VATnzAAKnHAACiLAQURyPasZoJfYXNgQ",
+                "BQACAgQAAxkBAAIG7mhzUDMMC0AhiA5BRk7FmgskAlmEAAKpHAACiLAQUYqoj8BtpiuENgQ",
+                "BQACAgQAAxkBAAIG72hzUDNApOsGMtds3iSdtOYPkoOKAAKqHAACiLAQUTLcldB-NWjKNgQ",
+                "BQACAgQAAxkBAAIG8GhzUDMnqtruvjeQOpR57PDJpmrwAAKsHAACiLAQUesG5vC52OBwNgQ",
+                "BQACAgQAAxkBAAIG8WhzUDNWti-AR_x6UF8w8gU9Zse_AAKuHAACiLAQUVSFr8LjlgT3NgQ",
+                "BQACAgQAAxkBAAIG8mhzUDPafOgHZIy5AAE__wFH-EvS6gACrxwAAoiwEFGjEytu4ojPBDYE",
+                "BQACAgQAAxkBAAIG82hzUDNJP2L8MvinwflaCGiJGR8IAAKwHAACiLAQUbtr10luRAFbNgQ",
+                "BQACAgQAAxkBAAIG9GhzUDMOCEldfhD6S1NrNqYybTm3AAKxHAACiLAQUZbWc_U12H_cNgQ",
+                "BQACAgQAAxkBAAIG9WhzUDNg36r4h4NCDcSHcfb_LAgDAAKyHAACiLAQUSca0K7Z7x16NgQ",
+                "BQACAgQAAxkBAAIG9mhzUDOaLhOucCI2geT-zElBCC0_AAKzHAACiLAQUdhY-_mUksePNgQ",
+                "BQACAgQAAxkBAAIG92hzUDOyJ-wP-9oxTQmi3ULcqL0KAAK1HAACiLAQUTvujynCQx4gNgQ",
+                ]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📊 پاور بیوشیمی نظری 2")
@@ -1005,8 +1036,9 @@ def send_biochemistry_powerpoints(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📄 جزوه استاد" and user_states.get(msg.from_user.id) == 'BIOCHEMISTRY_THEORY')
 def send_biochemistry_lecturer_notes(message):
-    file_ids = ["<LECTURE_NOTE_FILE_ID_1>",
-                "<LECTURE_NOTE_FILE_ID_2>"]  # فایل‌آیدی‌های جزوه استاد
+    # فایل‌آیدی‌های جزوه استاد
+    file_ids = [
+        "BQACAgQAAxkBAAIHB2hzUSVYBQ7qiFmocUJAeEYegst2AAKzEwACmyKQUa_FTh1KPYBYNgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📄 جزوه استاد بیوشیمی نظری 2")
@@ -1023,9 +1055,8 @@ def show_biochemistry_practical_menu(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📄 جزوه استاد" and user_states.get(msg.from_user.id) == 'BIOCHEMISTRY_PRACTICAL')
 def send_biochemistry_practical_lecturer_notes(message):
-    file_ids = ["<BIOCHEMISTRY_PRACTICAL_LECTURE_NOTE_FILE_ID_1>",
-                # فایل‌آیدی‌های جزوه استاد بیوشیمی عملی
-                "<BIOCHEMISTRY_PRACTICAL_LECTURE_NOTE_FILE_ID_2>"]
+    file_ids = [
+        "BQACAgQAAxkBAAIHCWhzUU5g4bRNtXxnBfEP7wglJ_6QAAJrFAAC9-CoUWIaSqnlCw54NgQ"]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="📄 جزوه استاد بیوشیمی عملی")
@@ -1045,9 +1076,10 @@ def show_physics_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور" and user_states.get(msg.from_user.id) == 'PHYSICS')
 def send_physics_powers(message):
     file_ids = [
-        "<PHYSICS_POWERPOINT_FILE_ID_1>",
-        "<PHYSICS_POWERPOINT_FILE_ID_2>",
-        # فایل‌آیدی‌های بیشتر پاورپوینت‌ها
+        "BQACAgQAAxkBAAO8aG9K7EOHy-mZow2eLOIFk8mNBoEAAtsaAAJg14hRvOuW4dPoIAABNgQ",
+        "BQACAgQAAxkBAAO9aG9K7GFz02UAAd9BFS9bdrw_BvYqAALcGgACYNeIUX8iA7I7ENjLNgQ",
+        "BQACAgQAAxkBAAO-aG9K7N6uVgyYIHXINekvqpUcScsAAt0aAAJg14hRz2yQ9tzMWLs2BA",
+        "BQACAgQAAxkBAAO_aG9K7NDR6jkyHXOx9tOlZHsXcuAAAt4aAAJg14hRMm5pBbZO7uI2BA"
     ]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
@@ -1057,8 +1089,12 @@ def send_physics_powers(message):
 @bot.message_handler(func=lambda msg: msg.text == "🎤 ویس" and user_states.get(msg.from_user.id) == 'PHYSICS')
 def send_physics_voice_notes(message):
     file_ids = [
-        "<PHYSICS_VOICE_FILE_ID_1>",
-        "<PHYSICS_VOICE_FILE_ID_2>",
+        "CQACAgQAAxkBAAIHE2hzUfN8zirh2fh7iBvSz7cz-5WWAALiGgACYNeIUbtLhGJVfdc3NgQ",
+        "CQACAgQAAxkBAAIHFGhzUfOVGIhOU9_E8-00iiVTuRfoAAL4GgACYNeIUQABwqKYP9_tXDYE",
+        "CQACAgQAAxkBAAIHFWhzUfM37s81NPZVXOhBigpbAYh0AAL6GgACYNeIUbFDO4ahO5JbNgQ",
+        "CQACAgQAAxkBAAIHFmhzUfMrcUqA8ZzD7-lA5QizahdWAAL7GgACYNeIUU-selm0HHlJNgQ",
+        "CQACAgQAAxkBAAIHF2hzUfMesU8y4KLu07cpzK8aDod7AAL8GgACYNeIUQ4LUJeDIs0_NgQ",
+        "CQACAgQAAxkBAAIHGGhzUfOCLjKuQ6c4sri04T9qNPngAAL9GgACYNeIUYjnpG897j9RNgQ"
         # فایل‌آیدی‌های بیشتر ویس‌ها
     ]
     for file_id in file_ids:
@@ -1077,10 +1113,7 @@ def show_physics_resources_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "❓ نمونه سوال" and user_states.get(msg.from_user.id) == 'PHYSICS_RESOURCES')
 def send_physics_sample_questions(message):
     file_ids = [
-        "<PHYSICS_SAMPLE_QUESTION_FILE_ID_1>",
-        "<PHYSICS_SAMPLE_QUESTION_FILE_ID_2>",
-        # فایل‌آیدی‌های بیشتر نمونه سوالات
-    ]
+        "BQACAgQAAxkBAAPMaG9LcDPdu9RsvYCRBlMKYPSVIu8AArcWAAKfmcBTDQ_6qcgHnzo2BA",]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
                           caption="❓ نمونه سوال فیزیک پزشکی")
@@ -1098,8 +1131,7 @@ def show_physics_comprehensive_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "🎓 جزوه ورودی 401" and user_states.get(msg.from_user.id) == 'PHYSICS_COMPREHENSIVE')
 def send_physics_401_notes(message):
     file_ids = [
-        "<PHYSICS_401_NOTE_FILE_ID_1>",
-        "<PHYSICS_401_NOTE_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHIWhzUo102Tb7ajSupnlBZeLiOnS2AAKRFQAChiixUqLFEeZHmxb-NgQ",
         # فایل‌آیدی‌های بیشتر جزوه 401
     ]
     for file_id in file_ids:
@@ -1110,8 +1142,7 @@ def send_physics_401_notes(message):
 @bot.message_handler(func=lambda msg: msg.text == "📎 فایل ضمیمه" and user_states.get(msg.from_user.id) == 'PHYSICS_COMPREHENSIVE')
 def send_physics_attached_files(message):
     file_ids = [
-        "<PHYSICS_ATTACHED_FILE_ID_1>",
-        "<PHYSICS_ATTACHED_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHI2hzUrGbBetV_WKDkVHqpijlFaF9AAJrGAACrD-YU_UYPeCOtD-xNgQ",
         # فایل‌آیدی‌های بیشتر فایل ضمیمه
     ]
     for file_id in file_ids:
@@ -1136,19 +1167,20 @@ def show_physics_sessions_menu(message):
 ] and user_states.get(msg.from_user.id) == 'PHYSICS_SESSIONS')
 def send_physics_session_files(message):
     session_files = {
-        "1️⃣ جلسه اول": ["FILE_ID_1_1", "FILE_ID_1_2"],  # اگر چند فایل دارید
-        "2️⃣ جلسه دوم": ["FILE_ID_2"],
-        "3️⃣ جلسه سوم": ["FILE_ID_3"],
-        "4️⃣ جلسه چهارم": ["FILE_ID_4"],
-        "5️⃣ جلسه پنجم": ["FILE_ID_5"],
-        "6️⃣ جلسه ششم": ["FILE_ID_6"],
-        "7️⃣ جلسه هفتم": ["FILE_ID_7"],
-        "8️⃣ جلسه هشتم": ["FILE_ID_8"],
-        "9️⃣ جلسه نهم": ["FILE_ID_9"],
-        "🔟 جلسه دهم": ["FILE_ID_10"],
-        "1️⃣1️⃣ جلسه یازدهم": ["FILE_ID_11"],
-        "1️⃣2️⃣ جلسه دوازدهم": ["FILE_ID_12"],
-        "1️⃣3️⃣ جلسه سیزدهم": ["FILE_ID_13"],
+        # اگر چند فایل دارید
+        "1️⃣ جلسه اول": ["BQACAgQAAxkBAAIHKGhzUx40mMo_5F6pS_PEydRaL3EnAAJFHwAChL1gUwLp8xbrfV_RNgQ"],
+        "2️⃣ جلسه دوم": ["BQACAgQAAxkBAAIHP2hzU0kQpiDnx-0axfbnB1TZwZbIAALRFQAC_6CIUuv_rlAm79iHNgQ"],
+        "3️⃣ جلسه سوم": ["BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ"],
+        "4️⃣ جلسه چهارم": ["BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ"],
+        "5️⃣ جلسه پنجم": ["BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ"],
+        "6️⃣ جلسه ششم": ["BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ"],
+        "7️⃣ جلسه هفتم": ["BQACAgQAAxkBAAIHLGhzUx77tRN1vN3ajScCbypI0HCcAAJJHwAChL1gU43nnLUq4pA2NgQ"],
+        "8️⃣ جلسه هشتم": ["BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE"],
+        "9️⃣ جلسه نهم": ["BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ"],
+        "🔟 جلسه دهم": ["BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ"],
+        "1️⃣1️⃣ جلسه یازدهم": ["BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE"],
+        "1️⃣2️⃣ جلسه دوازدهم": ["BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ"],
+        "1️⃣3️⃣ جلسه سیزدهم": ["BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ"],
     }
     files = session_files.get(message.text)
     if files:
@@ -1185,9 +1217,9 @@ def send_physiology_cell_powerpoint(message):
 
 
 physiology_cell_powers = [
-    "FILE_ID_POW_1",
-    "FILE_ID_POW_2",
-    "FILE_ID_POW_3",
+    "BQACAgQAAxkBAAIHQWhzVL3ysK8GV6iUZ56fZ3URa4kNAALiFgACVhOpUrmI0GpoyVi3NgQ",
+    "BQACAgQAAxkBAAIHQmhzVL2ENbHrcWaQJWR-aPK3SzTbAALoFgACVhOpUl9Y3FT0UuvANgQ",
+    "BQACAgQAAxkBAAIHQ2hzVL2haSdsLqGRcNYxe-iZ_ah9AALqFgACVhOpUg15P0aaJHH9NgQ",
 ]
 
 
@@ -1201,9 +1233,7 @@ def show_physiology_cell_resources(message):
 
 # فایل ایدی‌های جزوه استاد برای بخش سلول (استاد گشادرو)
 physiology_cell_teacher_notes = [
-    "FILE_ID_JOZVE_1",
-    "FILE_ID_JOZVE_2",
-    "FILE_ID_JOZVE_3",
+    "BQACAgQAAxkBAAIBUGhvrYz8Se4kdQF0mZDsYBr7bOmwAAKBDwAC5btBULqNUX60u1naNgQ",
 ]
 
 
@@ -1223,9 +1253,9 @@ def show_physiology_heart_menu(message):
 
 # فایل ایدی‌های پاور برای بخش قلب (استاد زردوز)
 physiology_heart_powerpoints = [
-    "FILE_ID_POWERPOINT_1",
-    "FILE_ID_POWERPOINT_2",
-    "FILE_ID_POWERPOINT_3",
+    "BQACAgQAAxkBAAIHSWhzVWLZsnU2jUJVVh338t64hMRyAAKwGgAC7ZJhUBT9VDEUBMkVNgQ",
+    "BQACAgQAAxkBAAIHSmhzVWLDa1Sm6BrJi53wMNZbws8ZAAKxGgAC7ZJhUHGHPauLGelYNgQ",
+    "BQACAgQAAxkBAAIHS2hzVWJuV0O37gHCq795GcrQfjWzAAKyGgAC7ZJhUChZR-FFynh6NgQ",
 ]
 
 
@@ -1244,7 +1274,7 @@ def show_physiology_heart_resources(message):
 
 
 # فایل ایدی جزوه جامع قلب
-physiology_heart_comprehensive_note_file_id = "FILE_ID_JOZVE_JAME_HEART"
+physiology_heart_comprehensive_note_file_id = "BQACAgQAAxkBAAIHT2hzVeGdA1QRvpPwSXc_ccIvGkYgAAJsGAACrD-YU7PnYMxABEgmNgQ"
 
 
 @bot.message_handler(func=lambda msg: msg.text == "📚 جزوه جامع" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_HEART_RESOURCES')
@@ -1265,9 +1295,9 @@ def show_zardouz_sessions_menu(message):
 
 # فایل ایدی جزوات جلسات قلب (استاد زردوز)
 physiology_heart_session_files = {
-    "1️⃣ جلسه اول": "FILE_ID_SESSION_1_HEART",
-    "2️⃣ جلسه دوم": "FILE_ID_SESSION_2_HEART",
-    "3️⃣ جلسه سوم": "FILE_ID_SESSION_3_HEART",
+    "1️⃣ جلسه اول": "BQACAgQAAxkBAAIHUWhzVjOVLNBrPLJYrMFnY3bAatzFAAJcGQACTAoAAVDGPKzNqzkNlTYE",
+    "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIHU2hzVkZXcliyyeRD3jirEfWzchgaAALpGgACTAoQUGDfhPN-onNMNgQ",
+    "3️⃣ جلسه سوم": "BQACAgQAAxkBAAIHVWhzVlyjJYR7aCk-wqtH1DHuixzpAALGGAACljpwUCdeZe0BjIbSNgQ",
 }
 
 
@@ -1291,9 +1321,10 @@ def show_physiology_digestion_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_DIGESTION')
 def send_physiology_digestion_power_files(message):
     file_ids = [
-        "<PHYSIOLOGY_DIGESTION_POWER_FILE_ID_1>",
-        "<PHYSIOLOGY_DIGESTION_POWER_FILE_ID_2>",
-        "<PHYSIOLOGY_DIGESTION_POWER_FILE_ID_3>",
+        "BQACAgQAAxkBAAIHV2hzVqNgVKxtPOdqPFYhtXwTjdOdAAJDGwACWg7YUPZGTKXvfcl4NgQ",
+        "BQACAgQAAxkBAAIHWWhzVs7SxM0ZWbgt3G7f1v7bn5w-AALNFgACk-8YUVDUKJIX0G4pNgQ",
+        "BQACAgQAAxkBAAIHW2hzVtck--yYTanJacs_hPilHukeAAIbHQACEDBBUUKF73hExQ5wNgQ",
+        "BQACAgQAAxkBAAIHXWhzVu-bsng-_EOtjYT52YduF680AAKeGgACeFzpUSD8Xlu8KZ6xNgQ"
         # فایل آیدی‌های بیشتر پاور گوارش
     ]
     for file_id in file_ids:
@@ -1312,9 +1343,7 @@ def show_physiology_digestion_resources(message):
 @bot.message_handler(func=lambda msg: msg.text == "📚 جزوه جامع" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_DIGESTION_RESOURCES')
 def send_physiology_digestion_comprehensive_files(message):
     file_ids = [
-        "<PHYSIOLOGY_DIGESTION_COMPREHENSIVE_FILE_ID_1>",
-        "<PHYSIOLOGY_DIGESTION_COMPREHENSIVE_FILE_ID_2>",
-        "<PHYSIOLOGY_DIGESTION_COMPREHENSIVE_FILE_ID_3>",
+        "BQACAgQAAxkBAAIHX2hzVzwcW5zOPI4ZtGo6PtOr2DXQAAJ1GAACrD-YU1N-DcnoNSfgNgQ",
         # فایل آیدی‌های بیشتر جزوه جامع گوارش
     ]
     for file_id in file_ids:
@@ -1335,8 +1364,7 @@ def show_ghasemi_sessions_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "1️⃣ جلسه اول" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_DIGESTION_SESSIONS')
 def send_ghasemi_session1_files(message):
     file_ids = [
-        "<PHYSIOLOGY_DIGESTION_SESSION1_FILE_ID_1>",
-        "<PHYSIOLOGY_DIGESTION_SESSION1_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHYWhzV3LwV53d3Tdf5Awyix0FsNR3AAI5HAACpdr5UDQxsWzfX7siNgQ"
         # فایل آیدی‌های بیشتر جلسه اول گوارش
     ]
     for file_id in file_ids:
@@ -1347,8 +1375,7 @@ def send_ghasemi_session1_files(message):
 @bot.message_handler(func=lambda msg: msg.text == "2️⃣ جلسه دوم" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_DIGESTION_SESSIONS')
 def send_ghasemi_session2_files(message):
     file_ids = [
-        "<PHYSIOLOGY_DIGESTION_SESSION2_FILE_ID_1>",
-        "<PHYSIOLOGY_DIGESTION_SESSION2_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHY2hzV32mX1Ai5TmdfA18ZPqoP5CtAAICFwAC0mk4UcbL1IX4A7spNgQ"
         # فایل آیدی‌های بیشتر جلسه دوم گوارش
     ]
     for file_id in file_ids:
@@ -1359,8 +1386,7 @@ def send_ghasemi_session2_files(message):
 @bot.message_handler(func=lambda msg: msg.text == "3️⃣ جلسه سوم" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_DIGESTION_SESSIONS')
 def send_ghasemi_session3_files(message):
     file_ids = [
-        "<PHYSIOLOGY_DIGESTION_SESSION3_FILE_ID_1>",
-        "<PHYSIOLOGY_DIGESTION_SESSION3_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHZWhzV4bp8WCADMFDWYNEW6yx3gMIAALOHAACFC1ZUeUrxJn5ZR7INgQ"
         # فایل آیدی‌های بیشتر جلسه سوم گوارش
     ]
     for file_id in file_ids:
@@ -1371,8 +1397,7 @@ def send_ghasemi_session3_files(message):
 @bot.message_handler(func=lambda msg: msg.text == "4️⃣ جلسه چهارم" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_DIGESTION_SESSIONS')
 def send_ghasemi_session4_files(message):
     file_ids = [
-        "<PHYSIOLOGY_DIGESTION_SESSION4_FILE_ID_1>",
-        "<PHYSIOLOGY_DIGESTION_SESSION4_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHZ2hzV-CbdFOvTszbLwqf6y6d-SIAA2AYAAKsP5hTovGxYRPQQnQ2BA"
         # فایل آیدی‌های بیشتر جلسه چهارم گوارش
     ]
     for file_id in file_ids:
@@ -1391,8 +1416,7 @@ def show_physiology_circulation_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_CIRCULATION')
 def send_circulation_powerpoint_files(message):
     file_ids = [
-        "<PHYSIOLOGY_CIRCULATION_POWERPOINT_FILE_ID_1>",
-        "<PHYSIOLOGY_CIRCULATION_POWERPOINT_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHaWhzWFp3j8G0Ccn6e8Bf1CiWzXlzAAIxGgACEDBRUZY0w8xp5JyaNgQ"
         # فایل آیدی‌های بیشتر پاور گردش خون (استاد حسین‌مردی)
     ]
     for file_id in file_ids:
@@ -1412,8 +1436,7 @@ def show_physiology_circulation_resources(message):
 @bot.message_handler(func=lambda msg: msg.text == "📚 جزوه جامع" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_CIRCULATION_RESOURCES')
 def send_circulation_comprehensive_notes(message):
     file_ids = [
-        "<PHYSIOLOGY_CIRCULATION_COMPREHENSIVE_NOTE_FILE_ID_1>",
-        "<PHYSIOLOGY_CIRCULATION_COMPREHENSIVE_NOTE_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHa2hzWLdu7YdFC-O3VRBm49rT0U5VAAJ2GAACrD-YUwljm18WC6eDNgQ"
         # فایل آیدی‌های بیشتر جزوه جامع گردش خون (استاد حسین‌مردی)
     ]
     for file_id in file_ids:
@@ -1434,8 +1457,7 @@ def show_hosseinmardi_sessions_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "1️⃣ جلسه اول" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_CIRCULATION_SESSIONS')
 def send_hosseinmardi_session_1(message):
     file_ids = [
-        "<PHYSIOLOGY_CIRCULATION_SESSION_1_FILE_ID_1>",
-        "<PHYSIOLOGY_CIRCULATION_SESSION_1_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHcGhzWQpa0XR0KAYOt0oW2hSBHW-lAAJeGAACrD-YU_6329JQ_XEhNgQ"
         # فایل آیدی‌های بیشتر جلسه اول گردش خون (استاد حسین‌مردی)
     ]
     for file_id in file_ids:
@@ -1446,8 +1468,7 @@ def send_hosseinmardi_session_1(message):
 @bot.message_handler(func=lambda msg: msg.text == "2️⃣ جلسه دوم" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_CIRCULATION_SESSIONS')
 def send_hosseinmardi_session_2(message):
     file_ids = [
-        "<PHYSIOLOGY_CIRCULATION_SESSION_2_FILE_ID_1>",
-        "<PHYSIOLOGY_CIRCULATION_SESSION_2_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHb2hzWQqfs-aaFzF55YIXtz2ge12HAAJdGAACrD-YU8HXiw8j3evUNgQ",
         # فایل آیدی‌های بیشتر جلسه دوم گردش خون (استاد حسین‌مردی)
     ]
     for file_id in file_ids:
@@ -1458,8 +1479,7 @@ def send_hosseinmardi_session_2(message):
 @bot.message_handler(func=lambda msg: msg.text == "3️⃣ جلسه سوم" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_CIRCULATION_SESSIONS')
 def send_hosseinmardi_session_3(message):
     file_ids = [
-        "<PHYSIOLOGY_CIRCULATION_SESSION_3_FILE_ID_1>",
-        "<PHYSIOLOGY_CIRCULATION_SESSION_3_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHcWhzWQqEIpCSWf6L7XO39vzhe05XAAJzGAACrD-YU_ECVUQAAU76YjYE",
         # فایل آیدی‌های بیشتر جلسه سوم گردش خون (استاد حسین‌مردی)
     ]
     for file_id in file_ids:
@@ -1470,8 +1490,7 @@ def send_hosseinmardi_session_3(message):
 @bot.message_handler(func=lambda msg: msg.text == "4️⃣ جلسه چهارم" and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_CIRCULATION_SESSIONS')
 def send_hosseinmardi_session_4(message):
     file_ids = [
-        "<PHYSIOLOGY_CIRCULATION_SESSION_4_FILE_ID_1>",
-        "<PHYSIOLOGY_CIRCULATION_SESSION_4_FILE_ID_2>",
+        "BQACAgQAAxkBAAIHcmhzWQqFp5cZRkjb3YKp8F3WAmy_AAJhGAACrD-YU2EhV9dmZ5eNNgQ"
         # فایل آیدی‌های بیشتر جلسه چهارم گردش خون (استاد حسین‌مردی)
     ]
     for file_id in file_ids:
