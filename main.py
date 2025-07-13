@@ -603,17 +603,66 @@ def show_anatomy_practical_video_sessions(message):
     "1️⃣1️⃣ جلسه یازدهم"])
 def send_anatomy_practical_video(message):
     video_file_ids = {
-        "1️⃣ جلسه اول": "<VIDEO_FILE_ID_1>",
-        "2️⃣ جلسه دوم": "<VIDEO_FILE_ID_2>",
-        "3️⃣ جلسه سوم": "<VIDEO_FILE_ID_3>",
-        "4️⃣ جلسه چهارم": "<VIDEO_FILE_ID_4>",
-        "5️⃣ جلسه پنجم": "<VIDEO_FILE_ID_5>",
-        "6️⃣ جلسه ششم": "<VIDEO_FILE_ID_6>",
-        "7️⃣ جلسه هفتم": "<VIDEO_FILE_ID_7>",
-        "8️⃣ جلسه هشتم": "<VIDEO_FILE_ID_8>",
-        "9️⃣ جلسه نهم": "<VIDEO_FILE_ID_9>",
-        "🔟 جلسه دهم": "<VIDEO_FILE_ID_10>",
-        "1️⃣1️⃣ جلسه یازدهم": "<VIDEO_FILE_ID_11>",
+        "1️⃣ جلسه اول": ["BAACAgQAAxkBAAIFsWhzPROXvZz9AfSFphIrqwRidoG9AAJcGgACLwmwUT5LN7n4H4liNgQ", "BAACAgQAAxkBAAIFsmhzPRM_UtHJThFhSXK5tJhfMTwPAALhHwACLwmoUSkuJAxmmhSZNgQ", "BAACAgQAAxkBAAIFs2hzPRO40R7J9YxdrzfVP7yheV43AAJ1HgACLwmoUbPHcPBXOTiWNgQ"],
+        "2️⃣ جلسه دوم": ["BAACAgQAAxkBAAIFt2hzPlxUGtq6z46bDMvQv7dwOc6CAAJpGQAClh7QUfwggS9WV34cNgQ", "BAACAgQAAxkBAAIFuGhzPlykmwN35zthFIrq-ALmK74xAAJqGQAClh7QUaK6a1JBuHk8NgQ",
+                         "BAACAgQAAxkBAAIFuWhzPlxkKKRBb8jPZ4YadT2cqN_qAAJrGQAClh7QUXkfkCQi5kkINgQ",
+                         "BAACAgQAAxkBAAIFumhzPlzhia98QDqYZJXL4Bq-ip0jAAJtGQAClh7QUYsuwGiQgixGNgQ",
+                         "BAACAgQAAxkBAAIFu2hzPlz6N8xmlG5J-XUZOjVe9iLeAAJuGQAClh7QUUisMknR_NgnNgQ",
+                         "BAACAgQAAxkBAAIFvGhzPlzwrnxDCzTix_SVOnWVyC9cAAJvGQAClh7QURInqx6ZmuQlNgQ",
+                         "BAACAgQAAxkBAAIFvWhzPlzJX_Jt61-UqOHxJqA2N9oRAAJwGQAClh7QUSvVVN8B8uTVNgQ",
+                         "BAACAgQAAxkBAAIFvmhzPlwCq0SSFNj0EVv357SCqO6fAAJxGQAClh7QUXPGVn5G3dFsNgQ",
+                         "BAACAgQAAxkBAAIFv2hzPlwlrbf2MgsiKJ5E8A5Vgw28AAJyGQAClh7QUalS6r0kswABETYE",
+                         "BAACAgQAAxkBAAIFwGhzPlzoKW7kNR22717DecvyNy5MAAJzGQAClh7QUfiPmcXzvkZWNgQ",
+                         "BAACAgQAAxkBAAIFwWhzPlwNJd578-L_QGd46TCNMfFiAAJ0GQAClh7QUZZD2u_WtBYXNgQ",
+                         "BAACAgQAAxkBAAIFwmhzPlx_LlPDEB396fRLY0_earinAAJ1GQAClh7QUd6VCWRCbUpqNgQ",
+                         "BAACAgQAAxkBAAIFw2hzPlyxgX_EYYReUL_m54vyvw0PAAJ2GQAClh7QURySwwZMLtvoNgQ",
+                         "BAACAgQAAxkBAAIFxGhzPlx_fk4pPDyyA36-bClfLILtAAJ3GQAClh7QUVrBcSCVtnnGNgQ",
+                         "BAACAgQAAxkBAAIFxWhzPly0tkieboYC2O74YH8LzTinAAJ4GQAClh7QUYaWbu2ng0FgNgQ",
+                         "BAACAgQAAxkBAAIFxmhzPlzlR5n7BxdGwQJ9h4OQatx2AAJ5GQAClh7QUaizlWciKgFvNgQ",
+                         ],
+        "3️⃣ جلسه سوم": ["BAACAgQAAxkBAAIF2GhzP5qC8ZBU6whTDkVzGRwDuuXwAAKBFQACWBs5UpeXuY2QP_dWNgQ", "BAACAgQAAxkBAAIF12hzP5om1s66PASxMDNRPJHO8oc-AAKAFQACWBs5UsuV0jXyfS21NgQ",
+                         "BAACAgQAAxkBAAIF2WhzP5qUFliMCeGOLn_IIQKhIMdYAAKDFQACWBs5UpawamcUL33XNgQ",
+                         "BAACAgQAAxkBAAIF2mhzP5p9Ls6BOc2_l6eE2MRw5UQ1AAKFFQACWBs5UkJHwSUVV7G2NgQ",
+                         "BAACAgQAAxkBAAIF22hzP5qYB9TmcQZ6R4JQJ3gNjiPNAAKJFQACWBs5UmPzEzjRNFw2NgQ",
+                         "BAACAgQAAxkBAAIF3GhzP5qzoWyV3sblEWuBhTu5OqzCAAKLFQACWBs5Ug5H1eL9tW0hNgQ",
+                         "BAACAgQAAxkBAAIF3WhzP5o1SFlaXtzBsM06PqRpFvYLAAKMFQACWBs5UkhSP33K8ySmNgQ",
+                         "BAACAgQAAxkBAAIF3mhzP5rh50pUsz3hII79_ijeq5KUAALSHQACMtNAUuXUFshPrrmfNgQ",
+                         "BAACAgQAAxkBAAIF32hzP5pj2-j-OtJkr63a9cmJE7x3AALVHQACMtNAUrmGHFVj1pj3NgQ",
+                         "BAACAgQAAxkBAAIF4GhzP5rleQLs2DOZ66gqxykPQsN2AALWHQACMtNAUqq8Hr-HZI3TNgQ",
+                         "BAACAgQAAxkBAAIF4WhzP5pM8xtE7yRj9z4l5a0lnt-kAAL7HQACMtNAUh5aV504ia8FNgQ", "BAACAgQAAxkBAAIF4mhzP5o0K3Epyg61HSO1E0Gpo8olAAL8HQACMtNAUrcJQHDCpVmRNgQ"],
+        "4️⃣ جلسه چهارم": ["BAACAgQAAxkBAAIF8WhzQC-UBDx3-g64Xb3KHn9oS-hyAAK1FAACEKaAUlUdmO9yuap0NgQ", "BAACAgQAAxkBAAIF8mhzQC8bLSbudYopv2tS3rc9SqeLAAJgGQACIriBUqRv1AfVhWRVNgQ",
+                           "BAACAgQAAxkBAAIF82hzQC8HwsPdbQ1TeR0WVkQ9W18tAAJ1GQACIriBUjnhmS1hGgRpNgQ",
+                           "BAACAgQAAxkBAAIF9GhzQC8Ew_bWaF7a39Ir8rxZLl2AAAJ3GQACIriBUmSiZnG8WWSDNgQ",
+                           "BAACAgQAAxkBAAIF9WhzQC_y5zQyvg3VCAgE9A74Q37-AAJ8GQACIriBUk7rOsxaWlR8NgQ"
+                           ],
+        "5️⃣ جلسه پنجم": ["BAACAgQAAxkBAAIF_GhzQMcNlolOTQGtEMMwhe_T66YoAAIsFgACjheQU31HCXT6N_0bNgQ",
+                          "BAACAgQAAxkBAAIF-2hzQMeADjLNIOBDUJnEXp35S27aAAIvFgACjheQU7rGrJ9mfYIsNgQ",
+                          "BAACAgQAAxkBAAIF_WhzQMfET59ABTnPVYyWKA_9wYnIAAIzFgACjheQUzPlyx5g81PiNgQ",
+                          "BAACAgQAAxkBAAIF_mhzQMcrba_FwamIx0KXdX890NZPAAL3GQAC4-WQU5RGl-J00SxvNgQ"],
+        "6️⃣ جلسه ششم": ["BAACAgQAAxkBAAIGBGhzQSZKtSwz9XcN70t-vtcH6KxoAALyGgAC27XwU5wU--OCsBoKNgQ",
+                         "BAACAgQAAxkBAAIGA2hzQSamrMEk6rmv4ofiJ-CuZL3QAALuGgAC27XwU5866GlXcD-VNgQ",
+                         "BAACAgQAAxkBAAIGBWhzQSa4CO2CpTkum4gZEac1WYaTAAL0GgAC27XwU_Z3acXGwIIeNgQ",
+                         "BAACAgQAAxkBAAIGBmhzQSY2_ugjOZb6s9l2GjXZusYKAAL3GgAC27XwUzuAh_tp93JGNgQ"],
+        "7️⃣ جلسه هفتم": ["BAACAgQAAxkBAAIGC2hzQX40K56KitSYJLp-Cm1YHa8FAAKxHQACnvlAUONoBXA6N5hDNgQ",
+                          "BAACAgQAAxkBAAIGDGhzQX54Sbk2DloOCsT4xa8E-7fpAAK2HQACnvlAUFNMvZDcY0tQNgQ",
+                          "BAACAgQAAxkBAAIGDWhzQX6DerE8_26PaF8Zbpp2dbycAAK7HQACnvlAUHBqoAdvI36SNgQ",
+                          "BAACAgQAAxkBAAIGDmhzQX7fD5if9I1wssbLm4s6lX2nAALBHQACnvlAUDliw7hXTZ_pNgQ",
+                          ],
+        "8️⃣ جلسه هشتم": ["BAACAgQAAxkBAAIGE2hzQeiqcYp0h1SvlW-F_DSLullFAAIRFgACVHuIUBxmIJ_YHncHNgQ",
+                          "BAACAgQAAxkBAAIGFGhzQeiGdlAdAWQjcbnQE7YpbM0JAAIUFgACVHuIUBMh2tH70b1yNgQ",
+                          "BAACAgQAAxkBAAIGFWhzQehoiFAoz_hX9gzRUenfXxcPAAIiFgACVHuIUN6ceH4hMt5yNgQ",
+                          "BAACAgQAAxkBAAIGFmhzQegmuxJqTq1asNBNF8n8xi-nAAIsFgACVHuIUDE0GCJmqMXgNgQ",
+                          "BAACAgQAAxkBAAIGF2hzQegkfqlq5VJEekOdbZ5PXCZFAAI1FgACVHuIUKgf1rBD5FCWNgQ"],
+        "9️⃣ جلسه نهم": ["BAACAgQAAxkBAAIGHWhzQjM2ppwr-dZGW-BIq3VrkMoJAALkGAACRY_RUJqhCtZBbIhNNgQ",
+                         "BAACAgQAAxkBAAIGHmhzQjPs1gIbvBCIQeC9FffBMEjYAALqGAACRY_RUPWda7PKtZZtNgQ",
+                         "BAACAgQAAxkBAAIGH2hzQjMZnL7lVKxXJ4q77om2hCBwAALsGAACRY_RUCZFqiNT9OrsNgQ",
+                         "BAACAgQAAxkBAAIGIGhzQjOtZge20qfDL0g0SfB-m9rtAALtGAACRY_RUEcRVSqfnQszNgQ"],
+        "🔟 جلسه دهم": ["BAACAgQAAxkBAAIGJWhzQnHfDJJdcdRvtJYJuQOEFZonAAL2FQACoiMYUcNYokZLKlGuNgQ",
+                       "BAACAgQAAxkBAAIGJmhzQnF_0plsL0qZiHF4n6yFJTpdAAIBFgACoiMYUaZZ_A86sLlZNgQ",
+                       "BAACAgQAAxkBAAIGJ2hzQnEsjOB6EGQ2RkoUBlr7Af73AAIDFgACoiMYUYoE30sT0YzWNgQ"],
+        "1️⃣1️⃣ جلسه یازدهم": ["BAACAgQAAxkBAAIGK2hzQqcg9hMNe0eKcr2INEnamKT3AAJRHAACHx6oUYMrCY-y8l6-NgQ",
+                               "BAACAgQAAxkBAAIGLGhzQqcXYYZJfr_AHUMbt1xcWraNAAJSHAACHx6oUQNnUxiM2MSdNgQ",
+                               "BAACAgQAAxkBAAIGLWhzQqcJyftcTUTxWF1-oGmL5SW5AAJTHAACHx6oUVvv_FU5XbUJNgQ"],
     }
     selected = message.text
     file_id = video_file_ids.get(selected)
@@ -645,8 +694,8 @@ def show_anatomy_practical_comprehensive_menu(message):
 @bot.message_handler(func=lambda msg: msg.text in ["🎓 جزوه 401", "🎓 جزوه 403"] and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL_COMPREHENSIVE')
 def send_anatomy_practical_comprehensive_file(message):
     file_ids = {
-        "🎓 جزوه 401": "<FILE_ID_401>",
-        "🎓 جزوه 403": "<FILE_ID_403>"
+        "🎓 جزوه 401": "BQACAgQAAxkBAAIGMWhzQxcgrM1w7Qgu7EAePXF_3QJ7AALBFwACaDQZUsDIDLK84BO0NgQ",
+        "🎓 جزوه 403": "BQACAgQAAxkBAAIGM2hzQzj-f3dbIUFJQNE1JRBxLMPUAAKtFgAC0xwgUvhgX6PSmT4jNgQ"
     }
     file_id = file_ids.get(message.text)
     if file_id:
@@ -673,17 +722,17 @@ def show_anatomy_practical_sessions_menu(message):
 ] and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL_SESSIONS')
 def send_anatomy_practical_session_file(message):
     file_ids = {
-        "1️⃣ جلسه اول": "<FILE_ID_SESSION_1>",
-        "2️⃣ جلسه دوم": "<FILE_ID_SESSION_2>",
-        "3️⃣ جلسه سوم": "<FILE_ID_SESSION_3>",
-        "4️⃣ جلسه چهارم": "<FILE_ID_SESSION_4>",
-        "5️⃣ جلسه پنجم": "<FILE_ID_SESSION_5>",
-        "6️⃣ جلسه ششم": "<FILE_ID_SESSION_6>",
-        "7️⃣ جلسه هفتم": "<FILE_ID_SESSION_7>",
-        "8️⃣ جلسه هشتم": "<FILE_ID_SESSION_8>",
-        "9️⃣ جلسه نهم": "<FILE_ID_SESSION_9>",
-        "🔟 جلسه دهم": "<FILE_ID_SESSION_10>",
-        "1️⃣1️⃣ جلسه یازدهم": "<FILE_ID_SESSION_11>"
+        "1️⃣ جلسه اول": "BQACAgQAAxkBAAIGNmhzQ5HmavGiDt4AAenVb3YBGdD-ewACnxYAAtMcIFIKflw81sUKYzYE",
+        "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIGNWhzQ5GWU1vAy3N29XFnB7O0GH0aAAKeFgAC0xwgUvKuglwojPfRNgQ",
+        "3️⃣ جلسه سوم": "BQACAgQAAxkBAAIGN2hzQ5GuPPhFx3xMLJGJ6Ti0fSpdAAKgFgAC0xwgUi7WuRnUx7NSNgQ",
+        "4️⃣ جلسه چهارم": "BQACAgQAAxkBAAIGOGhzQ5HibhfzJzrx9ubuthDafp3IAAKhFgAC0xwgUkn0fG-memHONgQ",
+        "5️⃣ جلسه پنجم": "BQACAgQAAxkBAAIGOWhzQ5H6YfxcAhzPtukJRK04WwfoAAKiFgAC0xwgUhEtbzokMznJNgQ",
+        "6️⃣ جلسه ششم": "BQACAgQAAxkBAAIGOmhzQ5H7U72xUPc1PkTxBPyZrjNSAAKjFgAC0xwgUvefDPFaCxesNgQ",
+        "7️⃣ جلسه هفتم": "BQACAgQAAxkBAAIGO2hzQ5GCh0Cod-GRRggCtrHlORTEAAKkFgAC0xwgUg5cRJ1t50XmNgQ",
+        "8️⃣ جلسه هشتم": "BQACAgQAAxkBAAIGPGhzQ5FamC0gQvh7PQuuWLd9ilhGAAKlFgAC0xwgUmucZyHy2ydSNgQ",
+        "9️⃣ جلسه نهم": "BQACAgQAAxkBAAIGPWhzQ5HWtUFYTUNfE1-UXDtE1O4qAAKmFgAC0xwgUsg7xaKPG8TBNgQ",
+        "🔟 جلسه دهم": "BQACAgQAAxkBAAIGPmhzQ5EAAd8qeoaoXiAOpm9k8rRULAACpxYAAtMcIFJ2HT_O6qnjxjYE",
+        "1️⃣1️⃣ جلسه یازدهم": "BQACAgQAAxkBAAIGP2hzQ5GcswTbVx5f1NHGMWwglwABygACrBYAAtMcIFKLStroo4-ZvDYE"
     }
     file_id = file_ids.get(message.text)
     if file_id:
@@ -723,9 +772,8 @@ def show_histology_practical_resources_menu(message):
 def send_histology_practical_general_notes(message):
     # لیست چند فایل جزوه کلی
     file_ids = [
-        "<FILE_ID_1>",  # ← این‌ها رو با file_id واقعی جایگزین کن
-        "<FILE_ID_2>",
-        "<FILE_ID_3>"
+        # ← این‌ها رو با file_id واقعی جایگزین کن
+        "BQACAgQAAxkBAAIGS2hzRDbxx5MU35sBG5wO0yjhBiRMAAKuFgAC0xwgUtooriJJ0mRLNgQ",
     ]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
@@ -736,8 +784,7 @@ def send_histology_practical_general_notes(message):
 def send_histology_practical_first_session_notes(message):
     # لیست چند فایل جزوه جلسه اول
     file_ids = [
-        "<FILE_ID_4>",
-        "<FILE_ID_5>"
+        "BQACAgQAAxkBAAIGTWhzRGjVHdqFYAFQD2Lmodo_HZePAAKqFgAC0xwgUhryjl64_OGSNgQ",
     ]
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id,
