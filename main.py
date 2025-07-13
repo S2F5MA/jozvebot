@@ -160,9 +160,9 @@ def show_term2_subjects(message):
 def show_oral_health_professor_menu(message):
     user_states[message.from_user.id] = 'ORAL_HEALTH_PROFESSOR'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("👨‍🏫 استاد بخشنده"),
+    markup.add(types.KeyboardButton("👩‍🏫 استاد بخشنده"),
                types.KeyboardButton("🔙 بازگشت به دروس"))
-    bot.send_message(message.chat.id, "لطفاً انتخاب کن:", reply_markup=markup)
+    bot.send_message(message.chat.id, "کدوم استاد؟ 🤔", reply_markup=markup)
 
 
 @bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد بخشنده" and user_states.get(msg.from_user.id) == 'ORAL_HEALTH_PROFESSOR')
@@ -171,7 +171,7 @@ def show_professor_files_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(types.KeyboardButton("📘 رفرنس"), types.KeyboardButton(
         "📊 پاور"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
-    bot.send_message(message.chat.id, "کدوم فایل رو می‌خوای؟",
+    bot.send_message(message.chat.id, "کدوم؟ 🤔",
                      reply_markup=markup)
 
 
@@ -223,8 +223,8 @@ def show_anatomy_menu(message):
 def show_anatomy_theory_section(message):
     user_states[message.from_user.id] = 'ANATOMY_THEORY'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("🦴 آناتومی (استاد نوروزیان )"), types.KeyboardButton("🔬 بافت‌شناسی (استاد منصوری )"),
-               types.KeyboardButton("👶 جنین‌شناسی (استاد کرمیان )"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
+    markup.add(types.KeyboardButton("🦴 آناتومی (استاد نوروزیان)"), types.KeyboardButton("🔬 بافت‌شناسی (استاد منصوری)"),
+               types.KeyboardButton("👶 جنین‌شناسی (استاد کرمیان)"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
     bot.send_message(message.chat.id, "کدوم مبحث؟ 🤔", reply_markup=markup)
 
 
@@ -533,7 +533,7 @@ def send_histology_chapter_summaries(message):
         bot.send_document(message.chat.id, file_id)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "👶 جنین‌شناسی (استاد کرمیان )" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY')
+@bot.message_handler(func=lambda msg: msg.text == "👶 جنین‌شناسی (استاد کرمیان)" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY')
 def show_embryology_section_menu(message):
     user_states[message.from_user.id] = 'EMBRYOLOGY_SECTION'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -578,7 +578,7 @@ def show_anatomy_practical_section(message):
     bot.send_message(message.chat.id, "کدوم مبحث؟ 🤔", reply_markup=markup)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی ( استاد سلطانی )" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL')
+@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی (استاد سلطانی)" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL')
 def show_anatomy_practical_subsection(message):
     user_states[message.from_user.id] = 'ANATOMY_PRACTICAL_SUB'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
