@@ -603,7 +603,7 @@ def show_anatomy_practical_video_sessions(message):
     "1️⃣1️⃣ جلسه یازدهم"])
 def send_anatomy_practical_video(message):
     video_file_ids = {
-        "1️⃣ جلسه اول": ["BAACAgQAAxkBAAIFsWhzPROXvZz9AfSFphIrqwRidoG9AAJcGgACLwmwUT5LN7n4H4liNgQ", "BAACAgQAAxkBAAIFsmhzPRM_UtHJThFhSXK5tJhfMTwPAALhHwACLwmoUSkuJAxmmhSZNgQ", "BAACAgQAAxkBAAIFs2hzPRO40R7J9YxdrzfVP7yheV43AAJ1HgACLwmoUbPHcPBXOTiWNgQ"],
+        "1️⃣ جلسه اول": ["BAACAgQAAxkBAAIFsWhzPROXvZz9AfSFphIrqwRidoG9AAJcGgACLwmwUT5LN7n4H4liNgQ"],
         "2️⃣ جلسه دوم": ["BAACAgQAAxkBAAIFt2hzPlxUGtq6z46bDMvQv7dwOc6CAAJpGQAClh7QUfwggS9WV34cNgQ", "BAACAgQAAxkBAAIFuGhzPlykmwN35zthFIrq-ALmK74xAAJqGQAClh7QUaK6a1JBuHk8NgQ",
                          "BAACAgQAAxkBAAIFuWhzPlxkKKRBb8jPZ4YadT2cqN_qAAJrGQAClh7QUXkfkCQi5kkINgQ",
                          "BAACAgQAAxkBAAIFumhzPlzhia98QDqYZJXL4Bq-ip0jAAJtGQAClh7QUYsuwGiQgixGNgQ",
