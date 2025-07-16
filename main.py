@@ -658,7 +658,7 @@ def send_embryology_references(message):
 def show_anatomy_practical_section(message):
     user_states[message.from_user.id] = 'ANATOMY_PRACTICAL'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("🦴 آناتومی ( استاد سلطانی )"), types.KeyboardButton(
+    markup.add(types.KeyboardButton("🦴 آناتومی (استاد سلطانی)"), types.KeyboardButton(
         "🔬 بافت‌شناسی (استاد  )"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
     bot.send_message(message.chat.id, "کدوم مبحث؟ 🤔", reply_markup=markup)
 
