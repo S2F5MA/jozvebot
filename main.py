@@ -752,7 +752,8 @@ def send_anatomy_practical_video(message):
     selected = message.text
     file_id = video_file_ids.get(selected)
     if file_id:
-        bot.send_video(message.chat.id, file_id)
+       print("🔍 file_id is:", file_id)
+       bot.send_video(message.chat.id, file_id)
     else:
         bot.send_message(
             message.chat.id, "❗ فایل ویدیویی این جلسه موجود نیست.")
