@@ -4,6 +4,8 @@ import os
 import threading
 from flask import Flask
 import time
+import json
+import atexit
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,8 +20,34 @@ if TOKEN is None:
 bot = telebot.TeleBot(TOKEN)
 ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID", None)
 
-# دیکشنری برای ذخیره حالت کاربران
-user_states = {}
+# ===============================================================
+# بخش ۲: مدیریت حالت کاربران به صورت پایدار 🧠
+# ===============================================================
+
+STATE_FILE = "user_states.json"
+
+# بارگذاری حالت‌ها از فایل (اگر وجود داشته باشد)
+if os.path.exists(STATE_FILE):
+    with open(STATE_FILE, 'r') as f:
+        user_states = json.load(f)
+else:
+    user_states = {}
+
+# تابع ذخیره‌سازی در فایل
+def save_user_states():
+    with open(STATE_FILE, 'w') as f:
+        json.dump(user_states, f)
+
+# ذخیره هنگام خروج از برنامه
+atexit.register(save_user_states)
+
+# ذخیره دوره‌ای هر 30 ثانیه
+def auto_save_loop():
+    while True:
+        time.sleep(30)
+        save_user_states()
+
+threading.Thread(target=auto_save_loop, daemon=True).start()
 
 # ===============================================================
 # بخش ۲: کد مربوط به بیدار نگه داشتن ربات (Keep-Alive) ⏰
@@ -1724,24 +1752,25 @@ def handle_unknown_text(message):
 # بخش ۵: اجرای نهایی ربات 🚀
 # ===============================================================
 
-
 if __name__ == "__main__":
-    print(" Starting keep-alive server...")
+    print("🟢 Starting keep-alive server...")
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.start()
 
     bot.remove_webhook()
-    print(" Bot server started. Running polling...")
+    print("🤖 Bot server started. Running polling...")
 
     while True:
         try:
             bot.infinity_polling(timeout=10, long_polling_timeout=2)
         except Exception as e:
-            print(f"Error in polling: {e}")
+            print(f"❌ Error in polling: {e}")
+            # ذخیره وضعیت کاربران قبل از ری‌استارت یا توقف
+            save_user_states()
             if ADMIN_CHAT_ID:
                 try:
                     bot.send_message(
-                        ADMIN_CHAT_ID, f"⚠️ خطا در اجرای ربات: {e}")
+                        ADMIN_CHAT_ID, f"⚠️ خطا در اجرای ربات:\n{e}")
                 except Exception as e_send:
                     print(f"Could not send error message to admin: {e_send}")
             time.sleep(15)
