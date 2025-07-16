@@ -1244,12 +1244,6 @@ def show_physics_sessions_menu(message):
     markup.add(*[types.KeyboardButton(b) for b in buttons])
     bot.send_message(message.chat.id, "کدوم جلسه؟ 🤔", reply_markup=markup)
 
-@bot.message_handler(func=lambda msg: True)
-def debug_all_messages(message):
-    user_id = message.from_user.id
-    print(f"Message from {user_id}: {repr(message.text)}")
-    bot.send_message(message.chat.id, f"DEBUG دریافت شد:\n{repr(message.text)}")
-
 
 @bot.message_handler(func=lambda msg: msg.text in [
     "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم",
