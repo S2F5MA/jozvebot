@@ -1275,6 +1275,12 @@ def send_physics_session_files(message):
     else:
         bot.send_message(message.chat.id, "فایلی برای این جلسه وجود ندارد.")
 
+@bot.message_handler(func=lambda msg: True)
+def debug_all_messages(message):
+    print(repr(message.text))  # چاپ دقیق رشته
+    bot.send_message(message.chat.id, f"دریافت شد: {repr(message.text)}")
+
+
 # --- هندلرهای درس فیزیولوژی 1 ---
 
 
