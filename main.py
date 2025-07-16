@@ -1632,7 +1632,7 @@ def show_islamic_culture_menu(message):
                types.KeyboardButton("🔙 بازگشت به دروس"))
     bot.send_message(message.chat.id, "کدوم منبع؟ 🤔", reply_markup=markup)
 
-# --- هندلرهای بازگشت (نسخه اصلاح شده و کامل) ---
+# --- TERM 2 هندلرهای بازگشت ---
 
 
 @bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به دروس" and user_states.get(msg.from_user.id) in ['ORAL_HEALTH_PROFESSOR', 'PHYSICS', 'ANATOMY', 'BIOCHEMISTRY', 'GENETICS_MENU', 'PHYSIOLOGY_MENU', 'ISLAMIC_THOUGHT_MENU', 'ISLAMIC_CULTURE_MENU'])
