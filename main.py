@@ -1735,7 +1735,7 @@ if __name__ == "__main__":
 
     while True:
         try:
-            bot.infinity_polling(timeout=20, long_polling_timeout=10)
+            bot.infinity_polling(timeout=10, long_polling_timeout=2)
         except Exception as e:
             print(f"Error in polling: {e}")
             if ADMIN_CHAT_ID:
