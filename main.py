@@ -1253,19 +1253,19 @@ def show_physics_sessions_menu(message):
 def send_physics_session_files(message):
     session_files = {
         # اگر چند فایل دارید
-        "1️⃣ جلسه اول": ["BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA"],
-        "2️⃣ جلسه دوم": ["BQACAgQAAxkBAAIHP2hzU0kQpiDnx-0axfbnB1TZwZbIAALRFQAC_6CIUuv_rlAm79iHNgQ"],
-        "3️⃣ جلسه سوم": ["BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ"],
-        "4️⃣ جلسه چهارم": ["BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ"],
-        "5️⃣ جلسه پنجم": ["BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ"],
-        "6️⃣ جلسه ششم": ["BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ"],
-        "7️⃣ جلسه هفتم": ["BQACAgQAAxkBAAIHLGhzUx77tRN1vN3ajScCbypI0HCcAAJJHwAChL1gU43nnLUq4pA2NgQ"],
-        "8️⃣ جلسه هشتم": ["BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE"],
-        "9️⃣ جلسه نهم": ["BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ"],
-        "🔟 جلسه دهم": ["BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ"],
-        "1️⃣1️⃣ جلسه یازدهم": ["BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE"],
-        "2️⃣1️⃣ جلسه دوازدهم": ["BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ"],
-        "3️⃣1️⃣ جلسه سیزدهم": ["BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ"],
+        "1️⃣ جلسه اول":"BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA",
+        "2️⃣ جلسه دوم":"BQACAgQAAxkBAAIHP2hzU0kQpiDnx-0axfbnB1TZwZbIAALRFQAC_6CIUuv_rlAm79iHNgQ",
+        "3️⃣ جلسه سوم":"BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ",
+        "4️⃣ جلسه چهارم":"BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ",
+        "5️⃣ جلسه پنجم":"BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ",
+        "6️⃣ جلسه ششم":"BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ",
+        "7️⃣ جلسه هفتم":"BQACAgQAAxkBAAIHLGhzUx77tRN1vN3ajScCbypI0HCcAAJJHwAChL1gU43nnLUq4pA2Ng",
+        "8️⃣ جلسه هشتم":"BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE",
+        "9️⃣ جلسه نهم":"BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ",
+        "🔟 جلسه دهم":"BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ",
+        "1️⃣1️⃣ جلسه یازدهم":"BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE",
+        "2️⃣1️⃣ جلسه دوازدهم":"BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ",
+        "3️⃣1️⃣ جلسه سیزدهم":"BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ",
     }
     
     for session_name in session_files:
