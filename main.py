@@ -1268,15 +1268,12 @@ def send_physics_session_files(message):
         "3️⃣1️⃣ جلسه سیزدهم":"BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ",
     }
     
-    for session_name in session_files:
-        if message.text.strip() == session_name.strip():
-            files = session_files[session_name]
-            for file_id in files:
-                bot.send_document(message.chat.id, file_id)
-            return
-    
-    # اگر پیدا نشد
-    bot.send_message(message.chat.id, "فایلی برای این جلسه پیدا نشد یا نام جلسه اشتباه است.")
+    files = session_files.get(message.text)
+    if files:
+        for file_id in files:
+            bot.send_document(message.chat.id, file_id)
+    else:
+        bot.send_message(message.chat.id, "فایلی برای این جلسه وجود ندارد.") 
 
 # --- هندلرهای درس فیزیولوژی 1 ---
 
