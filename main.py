@@ -199,23 +199,16 @@ def send_file_ids(message):
 # بخش 5 : تنظیمات منوها
 # ===============================================================
 
-emoji_to_number = {
-    "1️⃣": "1", "2️⃣": "2", "3️⃣": "3", "4️⃣": "4", "5️⃣": "5",
-    "6️⃣": "6", "7️⃣": "7", "8️⃣": "8", "9️⃣": "9", "🔟": "10",
-    
-    "1️⃣1️⃣": "11", "1️⃣2️⃣": "12", "1️⃣3️⃣": "13", "1️⃣4️⃣": "14", "1️⃣5️⃣": "15",
-    "1️⃣6️⃣": "16", "1️⃣7️⃣": "17", "1️⃣8️⃣": "18", "1️⃣9️⃣": "19",
-    
-    "2️⃣0️⃣": "20", "2️⃣1️⃣": "21", "2️⃣2️⃣": "22", "2️⃣3️⃣": "23", "2️⃣4️⃣": "24", "2️⃣5️⃣": "25"
-}
-def normalize_text(text):
-    # تبدیل اموجی‌های خاص به عدد
-    for emoji, number in emoji_to_number.items():
-        text = text.replace(emoji, f"جلسه {number}")
-    
-    # حذف فاصله‌های اضافی و صفر‌عرض
-    text = re.sub(r"[\u200c\u200b\s]+", " ", text).strip()
-    return text
+def normalize_emoji(text):
+    emoji_to_number = {
+        "1️⃣": "1", "2️⃣": "2", "3️⃣": "3", "4️⃣": "4", "5️⃣": "5",
+        "6️⃣": "6", "7️⃣": "7", "8️⃣": "8", "9️⃣": "9", "🔟": "10",
+        "1️⃣1️⃣": "11", "1️⃣2️⃣": "12", "1️⃣3️⃣": "13", "1️⃣4️⃣": "14", "1️⃣5️⃣": "15",
+        "1️⃣6️⃣": "16", "1️⃣7️⃣": "17", "1️⃣8️⃣": "18", "1️⃣9️⃣": "19",
+        "2️⃣0️⃣": "20", "2️⃣1️⃣": "21", "2️⃣2️⃣": "22", "2️⃣3️⃣": "23", "2️⃣4️⃣": "24", "2️⃣5️⃣": "25"
+    }
+    return emoji_to_number.get(text.strip(), None)
+
 
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
@@ -1271,24 +1264,24 @@ def show_physics_sessions_menu(message):
 def send_physics_session_files(message):
     session_files = {
         # اگر چند فایل دارید
-        "1 جلسه اول": ["BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA"],
-        "2 جلسه دوم": ["BQACAgQAAxkBAAIMYmh3bBxMcvfgsvxrZpIUYNOKrF3zAALYGAAC8I25UT96xYPdMzvYNgQ"],
-        "3 جلسه سوم": ["BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ"],
-        "4 جلسه چهارم": ["BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ"],
-        "5 جلسه پنجم": ["BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ"],
-        "6 جلسه ششم": ["BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ"],
-        "7 جلسه هفتم": ["BQACAgQAAxkBAAIHLGhzUx77tRN1vN3ajScCbypI0HCcAAJJHwAChL1gU43nnLUq4pA2NgQ"],
-        "8 جلسه هشتم": ["BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE"],
-        "9 جلسه نهم": ["BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ"],
-        "10 جلسه دهم": ["BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ"],
-        "11 جلسه یازدهم": ["BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE"],
-        "12 جلسه دوازدهم": ["BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ"],
-        "13 جلسه سیزدهم": ["BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ"],
+        "1": ["BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA"],
+        "2": ["BQACAgQAAxkBAAIMYmh3bBxMcvfgsvxrZpIUYNOKrF3zAALYGAAC8I25UT96xYPdMzvYNgQ"],
+        "3": ["BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ"],
+        "4": ["BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ"],
+        "5": ["BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ"],
+        "6": ["BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ"],
+        "7": ["BQACAgQAAxkBAAIHLGhzUx77tRN1vN3ajScCbypI0HCcAAJJHwAChL1gU43nnLUq4pA2NgQ"],
+        "8": ["BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE"],
+        "9": ["BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ"],
+        "10": ["BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ"],
+        "11": ["BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE"],
+        "12": ["BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ"],
+        "13": ["BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ"],
     }
     
-    files = session_files.get(message.text)
-    if files:
-        for file_id in files:
+    session_number = normalize_emoji(message.text)
+    if session_number and session_number in session_files:
+        for file_id in session_files[session_number]:
             bot.send_document(message.chat.id, file_id)
     else:
         bot.send_message(message.chat.id, "فایلی برای این جلسه وجود ندارد.")
