@@ -1254,7 +1254,7 @@ def send_physics_session_files(message):
     session_files = {
         # اگر چند فایل دارید
         "1️⃣ جلسه اول": ["BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA"],
-        "2️⃣ جلسه دوم": ["BQACAgQAAxkBAAIHP2hzU0kQpiDnx-0axfbnB1TZwZbIAALRFQAC_6CIUuv_rlAm79iHNgQ"],
+        "2️⃣ جلسه دوم": ["BQACAgQAAxkBAAIMYmh3bBxMcvfgsvxrZpIUYNOKrF3zAALYGAAC8I25UT96xYPdMzvYNgQ"],
         "3️⃣ جلسه سوم": ["BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ"],
         "4️⃣ جلسه چهارم": ["BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ"],
         "5️⃣ جلسه پنجم": ["BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ"],
