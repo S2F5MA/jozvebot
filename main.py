@@ -34,18 +34,24 @@ else:
     user_states = {}
 
 # تابع ذخیره‌سازی در فایل
+
+
 def save_user_states():
     with open(STATE_FILE, 'w') as f:
         json.dump(user_states, f)
+
 
 # ذخیره هنگام خروج از برنامه
 atexit.register(save_user_states)
 
 # ذخیره دوره‌ای هر 30 ثانیه
+
+
 def auto_save_loop():
     while True:
         time.sleep(30)
         save_user_states()
+
 
 threading.Thread(target=auto_save_loop, daemon=True).start()
 
@@ -131,27 +137,66 @@ def handle_media(message):
         handle_single_file(message)
 
 # ===============================================================
-# بخش ۴: تمام هندلرهای ربات 🤖
+# بخش 4 : مدیریت فایل آیدی ها
 # ===============================================================
 
 
-@bot.message_handler(content_types=['document', 'video', 'photo', 'audio', 'voice'])
+# دیکشنری برای نگهداری فایل‌ها
+user_files = {}
+
+
+@bot.message_handler(commands=['get_ids'])
 def handle_single_file(message):
-    file_id, file_type = (None, None)
+    chat_id = message.chat.id
+    user_files[chat_id] = []
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("✅ پایان دریافت فایل‌ها")
+    bot.send_message(
+        chat_id, "📥 حالا فایل‌هاتو بفرست. وقتی تموم شد روی «پایان دریافت فایل‌ها» بزن.", reply_markup=markup)
+
+
+@bot.message_handler(content_types=['document', 'video', 'audio', 'voice', 'photo'])
+def save_file_id(message):
+    chat_id = message.chat.id
+    if chat_id not in user_files:
+        return  # اگر هنوز دستور get_ids نداده بودن، هیچی ذخیره نکن
+
+    file_id = None
+
     if message.document:
-        file_id, file_type = message.document.file_id, "📄 Document"
+        file_id = message.document.file_id
     elif message.video:
-        file_id, file_type = message.video.file_id, "🎬 Video"
-    elif message.photo:
-        file_id, file_type = message.photo[-1].file_id, "🖼️ Photo"
+        file_id = message.video.file_id
     elif message.audio:
-        file_id, file_type = message.audio.file_id, "🎵 Audio"
+        file_id = message.audio.file_id
     elif message.voice:
-        file_id, file_type = message.voice.file_id, "🎤 Voice"
+        file_id = message.voice.file_id
+    elif message.photo:
+        file_id = message.photo[-1].file_id
 
     if file_id:
-        bot.send_message(
-            message.chat.id, f"{file_type}\n`{file_id}`", parse_mode='Markdown')
+        user_files[chat_id].append(file_id)
+
+
+@bot.message_handler(func=lambda m: m.text == "✅ پایان دریافت فایل‌ها")
+def send_file_ids(message):
+    chat_id = message.chat.id
+    files = user_files.get(chat_id, [])
+
+    if files:
+        formatted = ",\n".join(f'"{fid}"' for fid in files)
+        bot.send_message(chat_id, f"📎 فایل آیدی‌ها (برای کد):\n\n{formatted}")
+    else:
+        bot.send_message(chat_id, "⚠️ هیچ فایلی دریافت نشد.")
+
+    user_files[chat_id] = []
+    bot.send_message(chat_id, "✅ عملیات تمام شد.",
+                     reply_markup=types.ReplyKeyboardRemove())
+
+
+# ===============================================================
+# بخش 5 : تنظیمات منوها
+# ===============================================================
 
 
 @bot.message_handler(commands=["start"])
@@ -1751,6 +1796,7 @@ def handle_unknown_text(message):
 # ===============================================================
 # بخش ۵: اجرای نهایی ربات 🚀
 # ===============================================================
+
 
 if __name__ == "__main__":
     print("🟢 Starting keep-alive server...")
