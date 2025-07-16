@@ -251,7 +251,7 @@ def show_oral_health_professor_menu(message):
     bot.send_message(message.chat.id, "کدوم استاد؟ 🤔", reply_markup=markup)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد بخشنده" and user_states.get(msg.from_user.id) == 'ORAL_HEALTH_PROFESSOR')
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد بخشنده" and user_states.get(msg.from_user.id) == 'ORAL_HEALTH_PROFESSOR')
 def show_professor_files_menu(message):
     user_states[message.from_user.id] = 'ORAL_HEALTH_FILES'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
