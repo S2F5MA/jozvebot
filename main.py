@@ -210,12 +210,25 @@ def send_welcome(message):
 حالا لطفاً ترم مورد نظرت رو انتخاب کن:""", reply_markup=markup)
 
 
+# ---------------------------------------------------------------
+# ===============================================================
+# TERM 1
+# ===============================================================
+# ---------------------------------------------------------------
+
 @bot.message_handler(func=lambda msg: msg.text == "📘 ترم 1")
 def show_term1_subjects(message):
     user_states[message.from_user.id] = 'TERM_1'
     bot.send_message(
         message.chat.id, "⚠️ منابع ترم ۱ هنوز آماده نشده‌اند. لطفاً بعداً بررسی کنید.")
     send_welcome(message)
+
+
+# ---------------------------------------------------------------
+# ===============================================================
+# TERM 2
+# ===============================================================
+# ---------------------------------------------------------------
 
 
 @bot.message_handler(func=lambda msg: msg.text == "📗 ترم 2")
@@ -244,8 +257,7 @@ def show_professor_files_menu(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(types.KeyboardButton("📘 رفرنس"), types.KeyboardButton(
         "📊 پاور"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
-    bot.send_message(message.chat.id, "کدوم؟ 🤔",
-                     reply_markup=markup)
+    bot.send_message(message.chat.id, "کدوم؟ 🤔", reply_markup=markup)
 
 
 @bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'ORAL_HEALTH_FILES')
@@ -1799,18 +1811,18 @@ def handle_unknown_text(message):
 
 
 if __name__ == "__main__":
-    print("🟢 Starting keep-alive server...")
+    print("Starting keep-alive server...")
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.start()
 
     bot.remove_webhook()
-    print("🤖 Bot server started. Running polling...")
+    print("Bot server started. Running polling...")
 
     while True:
         try:
             bot.infinity_polling(timeout=10, long_polling_timeout=2)
         except Exception as e:
-            print(f"❌ Error in polling: {e}")
+            print(f" Error in polling: {e}")
             # ذخیره وضعیت کاربران قبل از ری‌استارت یا توقف
             save_user_states()
             if ADMIN_CHAT_ID:
