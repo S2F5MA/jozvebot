@@ -1240,7 +1240,7 @@ def show_physics_sessions_menu(message):
     user_states[message.from_user.id] = 'PHYSICS_SESSIONS'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
     buttons = ["1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم", "6️⃣ جلسه ششم", "7️⃣ جلسه هفتم", "8️⃣ جلسه هشتم",
-               "9️⃣ جلسه نهم", "🔟 جلسه دهم", "1️⃣1️⃣ جلسه یازدهم", "1️⃣2️⃣ جلسه دوازدهم", "1️⃣3️⃣ جلسه سیزدهم", "🔙 بازگشت به منابع فیزیک پزشکی"]
+               "9️⃣ جلسه نهم", "🔟 جلسه دهم", "1️⃣1️⃣ جلسه یازدهم", "2️⃣1️⃣ جلسه دوازدهم", "3️⃣1️⃣ جلسه سیزدهم", "🔙 بازگشت به منابع فیزیک پزشکی"]
     markup.add(*[types.KeyboardButton(b) for b in buttons])
     bot.send_message(message.chat.id, "کدوم جلسه؟ 🤔", reply_markup=markup)
 
@@ -1248,7 +1248,7 @@ def show_physics_sessions_menu(message):
 @bot.message_handler(func=lambda msg: msg.text in [
     "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم",
     "6️⃣ جلسه ششم", "7️⃣ جلسه هفتم", "8️⃣ جلسه هشتم", "9️⃣ جلسه نهم", "🔟 جلسه دهم",
-    "1️⃣1️⃣ جلسه یازدهم", "1️⃣2️⃣ جلسه دوازدهم", "1️⃣3️⃣ جلسه سیزدهم"
+    "1️⃣1️⃣ جلسه یازدهم", "2️⃣1️⃣ جلسه دوازدهم", "3️⃣1️⃣ جلسه سیزدهم"
 ] and user_states.get(msg.from_user.id) == 'PHYSICS_SESSIONS')
 def send_physics_session_files(message):
     session_files = {
@@ -1264,9 +1264,10 @@ def send_physics_session_files(message):
         "9️⃣ جلسه نهم": ["BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ"],
         "🔟 جلسه دهم": ["BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ"],
         "1️⃣1️⃣ جلسه یازدهم": ["BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE"],
-        "1️⃣2️⃣ جلسه دوازدهم": ["BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ"],
-        "1️⃣3️⃣ جلسه سیزدهم": ["BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ"],
+        "2️⃣1️⃣ جلسه دوازدهم": ["BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ"],
+        "3️⃣1️⃣ جلسه سیزدهم": ["BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ"],
     }
+    
     files = session_files.get(message.text)
     if files:
         for file_id in files:
