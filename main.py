@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+import atexit
 import telebot
 from telebot import types
 import os
@@ -6,8 +8,9 @@ from flask import Flask
 import time
 import json
 import re
-import atexit
-from dotenv import load_dotenv
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 load_dotenv()
 
 # ===============================================================
@@ -98,56 +101,15 @@ def run_flask():
 # ===============================================================
 
 
+user_files = {}
 media_groups = {}
 media_group_timers = {}
 
-
-def process_media_group(group_id):
-    messages_to_process = media_groups.pop(group_id, [])
-    media_group_timers.pop(group_id, None)
-
-    if not messages_to_process:
-        return
-
-    messages_to_process.sort(key=lambda m: m.message_id)
-    chat_id = messages_to_process[0].chat.id
-    bot.send_message(
-        chat_id, f"یک گروه مدیا با {len(messages_to_process)} فایل دریافت شد. در حال پردازش...")
-
-    for message in messages_to_process:
-        handle_single_file(message)
-
-
-@bot.message_handler(content_types=['photo', 'video'])
-def handle_media(message):
-    if message.media_group_id:
-        group_id = message.media_group_id
-
-        if group_id not in media_groups:
-            media_groups[group_id] = []
-
-        media_groups[group_id].append(message)
-
-        if group_id in media_group_timers:
-            media_group_timers[group_id].cancel()
-
-        timer = threading.Timer(2.0, process_media_group, args=[group_id])
-        media_group_timers[group_id] = timer
-        timer.start()
-    else:
-        handle_single_file(message)
-
-# ===============================================================
-# بخش 4 : مدیریت فایل آیدی ها
-# ===============================================================
-
-
-# دیکشنری برای نگهداری فایل‌ها
-user_files = {}
+# شروع دریافت فایل
 
 
 @bot.message_handler(commands=['get_ids'])
-def handle_single_file(message):
+def handle_get_ids(message):
     chat_id = message.chat.id
     user_files[chat_id] = []
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -156,11 +118,11 @@ def handle_single_file(message):
         chat_id, "📥 حالا فایل‌هاتو بفرست. وقتی تموم شد روی «پایان دریافت فایل‌ها» بزن.", reply_markup=markup)
 
 
-@bot.message_handler(content_types=['document', 'video', 'audio', 'voice', 'photo'])
+# ذخیره فایل آیدی
 def save_file_id(message):
     chat_id = message.chat.id
     if chat_id not in user_files:
-        return  # اگر هنوز دستور get_ids نداده بودن، هیچی ذخیره نکن
+        return
 
     file_id = None
 
@@ -179,6 +141,44 @@ def save_file_id(message):
         user_files[chat_id].append(file_id)
 
 
+# هندلر کلی برای همه‌ی فایل‌ها + media groups
+@bot.message_handler(content_types=['document', 'video', 'audio', 'voice', 'photo'])
+def handle_all_files(message):
+    if message.media_group_id and message.content_type in ['photo', 'video']:
+        group_id = message.media_group_id
+
+        if group_id not in media_groups:
+            media_groups[group_id] = []
+
+        media_groups[group_id].append(message)
+
+        if group_id in media_group_timers:
+            media_group_timers[group_id].cancel()
+
+        timer = threading.Timer(2.0, process_media_group, args=[group_id])
+        media_group_timers[group_id] = timer
+        timer.start()
+    else:
+        save_file_id(message)
+
+
+def process_media_group(group_id):
+    messages_to_process = media_groups.pop(group_id, [])
+    media_group_timers.pop(group_id, None)
+
+    if not messages_to_process:
+        return
+
+    messages_to_process.sort(key=lambda m: m.message_id)
+    chat_id = messages_to_process[0].chat.id
+    bot.send_message(
+        chat_id, f"📎 یک گروه مدیا با {len(messages_to_process)} فایل دریافت شد.")
+
+    for message in messages_to_process:
+        save_file_id(message)
+
+
+# پایان دریافت فایل‌ها
 @bot.message_handler(func=lambda m: m.text == "✅ پایان دریافت فایل‌ها")
 def send_file_ids(message):
     chat_id = message.chat.id
@@ -196,7 +196,7 @@ def send_file_ids(message):
 
 
 # ===============================================================
-# بخش 5 : تنظیمات منوها
+# بخش 4 : تنظیمات منوها
 # ===============================================================
 
 @bot.message_handler(commands=["start"])
@@ -206,9 +206,12 @@ def send_welcome(message):
     markup.add(types.KeyboardButton("📘 ترم 1"),
                types.KeyboardButton("📗 ترم 2"))
     bot.send_message(message.chat.id, """سلام 👋
-قبل اینکه شروع کنی، اینو بگم: برای هر درس، ما دو نوع فایل داریم: "جزوه اصلی" و "فایل ضمیمه". فایل ضمیمه شامل نکات و مطالبی است که در طول کلاس مطرح شده‌اند و در جزوه اصلی موجود نیستند.
-حالا لطفاً ترم مورد نظرت رو انتخاب کن:""", reply_markup=markup)
-
+قبل اینکه شروع کنی، اینو بگم: 
+برای بعضی درس‌ها، ما دو نوع فایل داریم 
+"جزوه اصلی" و "فایل ضمیمه". 
+جزوه اصلی جزوه‌ایه که از ترم‌های گذشته ادیت خورده.
+فایل ضمیمه شامل نکات و مطالبیه که در طول کلاس مضاف بر جزوه اصلی مطرح شده‌ و در جزوه اصلی موجود نیستن.
+حالا لطفاً ترم مورد نظرت رو انتخاب کن 🙌 :""", reply_markup=markup)
 
 # ---------------------------------------------------------------
 # ===============================================================
@@ -307,19 +310,69 @@ def show_anatomy_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "🧠 نظری" and user_states.get(msg.from_user.id) == 'ANATOMY')
 def show_anatomy_theory_section(message):
     user_states[message.from_user.id] = 'ANATOMY_THEORY'
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     markup.add(types.KeyboardButton("🦴 آناتومی (استاد نوروزیان)"), types.KeyboardButton("🔬 بافت‌شناسی (استاد منصوری)"),
                types.KeyboardButton("👶 جنین‌شناسی (استاد کرمیان)"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
     bot.send_message(message.chat.id, "کدوم مبحث؟ 🤔", reply_markup=markup)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی (استاد نوروزیان )" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY')
+@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی (استاد نوروزیان)" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY')
 def show_anatomy_section_menu(message):
     user_states[message.from_user.id] = 'ANATOMY_SECTION'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
     markup.add(types.KeyboardButton("📚 منابع مطالعاتی"), types.KeyboardButton(
         "🎬 ویدیو"), types.KeyboardButton("📊 پاور"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
     bot.send_message(message.chat.id, "کدوم؟ 🤔", reply_markup=markup)
+
+
+@bot.message_handler(func=lambda msg: msg.text == "🎬 ویدیو" and user_states.get(msg.from_user.id) == 'ANATOMY_SECTION')
+def send_anatomy_videos_norouzian(message):
+    user_states[message.from_user.id] = 'ANATOMY_VIDEO_NOROUZIAN'
+
+    video_file_ids = ["BAACAgQAAxkBAAIPwGh4-yWOfAdQMKYrUqvs9krrK3UpAALwGQAC6xvYUYin0-wt__ZgNgQ",
+                      "BAACAgQAAxkBAAIPwWh4-yUZiTi1v2zAl2VSXTXJagAB_AAC8RkAAusb2FHlGwhVSkbUkjYE",
+                      "BAACAgQAAxkBAAIPwmh4-yVag0Vfws-gaDrtR2__3RDtAALzGQAC6xvYUUi4g8XlVldpNgQ",
+                      "BAACAgQAAxkBAAIPw2h4-yWM717k6iVrheZwLQR1tJ0kAAL1GQAC6xvYUTdaRAUeEXzCNgQ",
+                      "BAACAgQAAxkBAAIPxGh4-yVTRjvC3ROEwqggjlB4MDj4AAL3GQAC6xvYUVeGcNuTJLzeNgQ",
+                      "BAACAgQAAxkBAAIPxWh4-yXvVNsZkZhqWcvrde0enjWDAAL4GQAC6xvYUY8ntMDh7OQ8NgQ",
+                      "BAACAgQAAxkBAAIPxmh4-yWsYDIp7NdAXvmNBWmJYXAjAAL6GQAC6xvYUeFdS8maICB1NgQ",
+                      "BAACAgQAAxkBAAIPx2h4-yUUL8Tr1Syh2C9d_Rr9H0TLAAL-GQAC6xvYUdPr2U_n0E-fNgQ",
+                      "BAACAgQAAxkBAAIPyGh4-yW56Dub5d0Of6mPaOWmSH-yAAMaAALrG9hRFovhT6nH5J42BA",
+                      "BAACAgQAAxkBAAIPyWh4-yWsTFhSr1Ldzney_xXRiGRZAAICGgAC6xvYUfsYRrtEyvb4NgQ",
+                      "BAACAgQAAxkBAAIPy2h4-zljm6H-pQFIYR9s0NMAAa3hCAACBRoAAusb2FE0gvNmid3PhzYE",
+                      "BAACAgQAAxkBAAIPzGh4-zma78ih0V-rD9y7UZo5QILrAAISGgAC6xvYUQ0nD9QXMHNNNgQ",
+                      "BAACAgQAAxkBAAIPzWh4-zlrZNK2NCHSN2s7dpZtQSiZAAIWGgAC6xvYUcBBpKEmFPIDNgQ",
+                      "BAACAgQAAxkBAAIPzmh4-zlSFPRv7h0ChsenhYjDikGrAAIeGgAC6xvYUahjZdVDHwypNgQ",
+                      "BAACAgQAAxkBAAIPz2h4-zk4t3rXv-8a5npBQeechWMyAAIhGgAC6xvYUd7RbKUmPomqNgQ",
+                      "BAACAgQAAxkBAAIP0Gh4-zmwP13HxpL48Z1St7TmUhJ1AAImGgAC6xvYUSMTyPdn163NNgQ",
+                      "BAACAgQAAxkBAAIP0Wh4-zkeWYoQL_3C87n-qsEwiILDAAIrGgAC6xvYUa2LwupsAn6fNgQ",
+                      "BAACAgQAAxkBAAIP0mh4-znrX_MV_vHyHo4YLI7GCBKTAAIxGgAC6xvYUbE9j7YQiEIYNgQ",
+                      "BAACAgQAAxkBAAIP02h4-zlpzTtdN2_d_D6Iyfp3aKvZAAI0GgAC6xvYUdYbM5K7UEkONgQ",
+                      "BAACAgQAAxkBAAIP1Gh4-zllF5FV5hr_0iLPkiv2gs-LAAI2GgAC6xvYUYdg20PzCEWqNgQ",
+                      "BAACAgQAAxkBAAIP1mh4-0k84Z9Aq18-XfxO8JsNa3XVAAI3GgAC6xvYUQO4ssBsoZshNgQ",
+                      "BAACAgQAAxkBAAIP12h4-0mJGDvCCAVXTD9M17RgEZXQAAI4GgAC6xvYUfk0fPjCzL-rNgQ",
+                      "BAACAgQAAxkBAAIP2Gh4-0mzQjegZCSfbR6dO7daAAHJzAACOhoAAusb2FEUexHnCYWNoTYE",
+                      "BAACAgQAAxkBAAIP2Wh4-0miK2lEJuIxOKISILRypIiKAAI8GgAC6xvYUS2STy2zIwABUzYE",
+                      "BAACAgQAAxkBAAIP2mh4-0m3CioM2KSuQARG4dpbJ6zDAAI9GgAC6xvYUcjRrgVJSjVNNgQ",
+                      "BAACAgQAAxkBAAIP22h4-0kU246dYRs0AAH_g9p0aZt5RAACQRoAAusb2FHrwImUYhRVezYE",
+                      "BAACAgQAAxkBAAIP3Gh4-0lW4zVV3xgcI-on48lErh3_AAJFGgAC6xvYUWfk0whwmA-kNgQ",
+                      "BAACAgQAAxkBAAIP3Wh4-0meoaE-aZKPZVx54PQ5nM_4AAJKGgAC6xvYUe6DhsvB1rCMNgQ",
+                      "BAACAgQAAxkBAAIP3mh4-0nIJSF1VvgJG8VqJzKIBziDAAJYGgAC6xvYUfC-CIyvErKdNgQ",
+                      "BAACAgQAAxkBAAIP32h4-0mEm4Pim5qTCXzya7-wwWimAAJZGgAC6xvYUWTkcYSAZbcJNgQ",
+                      "BAACAgQAAxkBAAIP4Wh4-1g-gzp2s9joS0bJDI9Wm5OzAAJbGgAC6xvYUYRfKCq7JNKlNgQ",
+                      "BAACAgQAAxkBAAIP4mh4-1g0UBWgdQdyMrqO3KmuURTrAAJfGgAC6xvYUfQYi-CaHLyxNgQ",
+                      "BAACAgQAAxkBAAIP42h4-1giimTOHx4OnRqDMFq0Smc4AAJlGgAC6xvYUSnRNM5lEsC4NgQ",
+                      "BAACAgQAAxkBAAIP5Gh4-1ifCkcygfSslcWWj8Zr3c4sAAJzGgAC6xvYUZ1x03Vq-G_8NgQ",
+                      "BAACAgQAAxkBAAIP5Wh4-1iwGXYxI-EcJijcAYedxrAPAAKDGgAC6xvYUfjsVU0tWDSANgQ",
+                      "BAACAgQAAxkBAAIP5mh4-1jDnz2SvrDNe4pm89f8v0PcAAKMGgAC6xvYUQqnT-Babn37NgQ",
+                      "BAACAgQAAxkBAAIP52h4-1ivnYF2W-KDAAGSSKrXwdsrVwAClRoAAusb2FFMTbYJQ_QCUjYE",
+                      "BAACAgQAAxkBAAIP6Gh4-1jHwdFVqhK3VAZrLl2zQNM2AAKXGgAC6xvYUWaSkZ1g8Jv-NgQ",
+                      "BAACAgQAAxkBAAIP6Wh4-1j3D0Bf8ElGA0Iz4UCfvQf1AAKaGgAC6xvYUdpsQbi_jiI1NgQ"
+                      ]
+
+    bot.send_message(message.chat.id, "ویدیوهای استاد نوروزیان 👇")
+    for file_id in video_file_ids:
+        bot.send_video(message.chat.id, file_id)
 
 
 @bot.message_handler(func=lambda msg: msg.text == "📊 پاور" and user_states.get(msg.from_user.id) == 'ANATOMY_SECTION')
@@ -468,7 +521,7 @@ def show_anatomy_theory_sessions_menu(message):
     buttons = [
         "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم",
         "6️⃣ جلسه ششم", "7️⃣ جلسه هفتم", "8️⃣ جلسه هشتم", "9️⃣ جلسه نهم", "🔟 جلسه دهم",
-        "1️⃣1️⃣ جلسه یازدهم", "1️⃣2️⃣ جلسه دوازدهم", "1️⃣3️⃣ جلسه سیزدهم", "1️⃣4️⃣ جلسه چهاردهم", "1️⃣5️⃣ جلسه پانزدهم",
+        "1️⃣1️⃣ جلسه یازدهم", "2️⃣1️⃣ جلسه دوازدهم", "3️⃣1️⃣ جلسه سیزدهم", "4️⃣1️⃣ جلسه چهاردهم", "5️⃣1️⃣ جلسه پانزدهم",
         "🔙 بازگشت به منوی قبلی"
     ]
     markup.add(*[types.KeyboardButton(b) for b in buttons])
@@ -510,7 +563,7 @@ def session5(message): send_anatomy_session_file(message, "پنجم", [
 
 @bot.message_handler(func=lambda msg: msg.text == "6️⃣ جلسه ششم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
 def session6(message): send_anatomy_session_file(message, "ششم", [
-    "BQACAgQAAxkBAAIE42hzNz9pqvgeEUeVCj9i9cM6GCd_AAKCGAACHI05UgHKpz6ITYV2NgQ"])
+    "BQACAgQAAxkBAAIQsWh5FGzVauw_nP3ujlDNj9-1YtPPAAJNGAACrD-YUyjOzeMyZYBbNgQ"])
 
 
 @bot.message_handler(func=lambda msg: msg.text == "7️⃣ جلسه هفتم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
@@ -538,27 +591,27 @@ def session11(message): send_anatomy_session_file(message, "یازدهم", [
     "BQACAgQAAxkBAAIE9WhzN2o-WatGYF1WVPdEeuGFzOhyAAKLGAACHI05UsAFbOYlq0HjNgQ", "BQACAgQAAxkBAAIE9mhzN2pZUGtvUuknrcEWSd7nkG1_AAKMGAACHI05Ur8dNu-o-uFiNgQ"])
 
 
-@bot.message_handler(func=lambda msg: msg.text == "1️⃣2️⃣ جلسه دوازدهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
+@bot.message_handler(func=lambda msg: msg.text == "2️⃣1️⃣ جلسه دوازدهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
 def session12(message): send_anatomy_session_file(message, "دوازدهم", [
-    "BQACAgQAAxkBAAIE-WhzN8Y_YtdKYzC_3qhQIBG2BVx6AAKOGAACHI05Ui4zTZ4zFHV6NgQ"])
+    "BQACAgQAAxkBAAIQgGh4_UhZ5Vzd86v9UfYjtMLCosH0AAJTGAACrD-YU2428orYw62eNgQ"])
 
 
-@bot.message_handler(func=lambda msg: msg.text == "1️⃣3️⃣ جلسه سیزدهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
+@bot.message_handler(func=lambda msg: msg.text == "3️⃣1️⃣ جلسه سیزدهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
 def session13(message): send_anatomy_session_file(message, "سیزدهم", [
     "BQACAgQAAxkBAAIE_GhzN85wDBZjjp91lK0AAZFs6cxoMgACkBgAAhyNOVLSwlck7xyXfzYE", "BQACAgQAAxkBAAIE-2hzN86TOUg7ipEOqKmmzrlPyQdXAAKPGAACHI05UjrqWaEXEl1zNgQ"])
 
 
-@bot.message_handler(func=lambda msg: msg.text == "1️⃣4️⃣ جلسه چهاردهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
+@bot.message_handler(func=lambda msg: msg.text == "4️⃣1️⃣ جلسه چهاردهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
 def session14(message): send_anatomy_session_file(message, "چهاردهم", [
     "BQACAgQAAxkBAAIE_2hzOFu6HlbViUy1OXunBNcom8AQAAKRGAACHI05Uj1IzE8UnEveNgQ", "BQACAgQAAxkBAAIFAAFoczhbleKEFw68aKn0YsgxUf441QACkhgAAhyNOVIVyxwoUDbF6jYE"])
 
 
-@bot.message_handler(func=lambda msg: msg.text == "1️⃣5️⃣ جلسه پانزدهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
+@bot.message_handler(func=lambda msg: msg.text == "5️⃣1️⃣ جلسه پانزدهم" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY_SESSIONS')
 def session15(message): send_anatomy_session_file(message, "پانزدهم", [
     "BQACAgQAAxkBAAIFBGhzOGNmoXnksq_kqqTXbKX0bCpyAAKUGAACHI05UlfZOqOB4z7BNgQ", "BQACAgQAAxkBAAIFA2hzOGMDWgNuMOeGRpbAyrxLbMVpAAKTGAACHI05UpgU1TVIMfF_NgQ"])
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🔬 بافت‌شناسی (استاد منصوری )" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY')
+@bot.message_handler(func=lambda msg: msg.text == "🔬 بافت‌شناسی (استاد منصوری)" and user_states.get(msg.from_user.id) == 'ANATOMY_THEORY')
 def show_histology_section_menu(message):
     user_states[message.from_user.id] = 'HISTOLOGY_SECTION'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -642,9 +695,7 @@ def send_embryology_prof_notes(message):
 @bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'EMBRYOLOGY_SECTION')
 def send_embryology_references(message):
     reference_file_ids = [
-        "<EMBRYO_REF_FILE_ID_1>",
-        "<EMBRYO_REF_FILE_ID_2>",
-        # ادامه بده در صورت نیاز
+        "BQACAgQAAxkBAAIREGh5Fo7QvvuQvbqPAiEJvdDSOyHNAAILCgAChPHwUdrdu_-wZakoNgQ"
     ]
     bot.send_message(message.chat.id, "📘 رفرنس‌های پیشنهادی برای جنین‌شناسی:")
 
@@ -657,10 +708,47 @@ def send_embryology_references(message):
 @bot.message_handler(func=lambda msg: msg.text == "🦴 عملی" and user_states.get(msg.from_user.id) == 'ANATOMY')
 def show_anatomy_practical_section(message):
     user_states[message.from_user.id] = 'ANATOMY_PRACTICAL'
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("🦴 آناتومی (استاد سلطانی)"), types.KeyboardButton(
-        "🔬 بافت‌شناسی (استاد  )"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی (استاد سلطانی)"),
+        types.KeyboardButton("🦴 آناتومی (استاد نوروزیان)"),
+        types.KeyboardButton("🔬 بافت‌شناسی (استاد روحانی)"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
     bot.send_message(message.chat.id, "کدوم مبحث؟ 🤔", reply_markup=markup)
+
+
+@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی (استاد نوروزیان)" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL')
+def send_practical_anatomy_norouzian_videos(message):
+    user_states[message.from_user.id] = 'ANATOMY_PRACTICAL_NOROUZIAN'
+
+    video_file_ids = [
+        "BAACAgQAAxkBAAIRpGh5IF4XBj4imeMdAxcWykbhKfiaAALnFQACKxTgUS4KAW0yfsWlNgQ",
+        "BAACAgQAAxkBAAIRpWh5IF47dwhlHGXP0G99tGYqzyiFAALsFQACKxTgUfn83i0AASUn-jYE",
+        "BAACAgQAAxkBAAIRpmh5IF47NT6RzEzlWuXSokwcqEHQAALuFQACKxTgUbX6LbclnSt2NgQ",
+        "BAACAgQAAxkBAAIRp2h5IF5d-v7pP1DYTe2892BPbIERAALvFQACKxTgUcmTK-Yk-rBbNgQ",
+        "BAACAgQAAxkBAAIRqGh5IF7jUmefKQct1nWtFBIFD7NXAALyFQACKxTgUZIqqDMi09lfNgQ",
+        "BAACAgQAAxkBAAIRqWh5IF7JnS-kDNDn9uhbuZe8acY9AAL1FQACKxTgUV-M-L-dRQaeNgQ",
+        "BAACAgQAAxkBAAIRqmh5IF7Yq5CRy0J0G_sOrg39uo4FAAL3FQACKxTgUblTDanYaHCzNgQ",
+        "BAACAgQAAxkBAAIRq2h5IF4fm-m8KN1DzXZoCdtrV1qrAAL4FQACKxTgUeNWXW5W4hONNgQ",
+        "BAACAgQAAxkBAAIRrGh5IF7NntQYP6RkHg8rRNAoI-WIAAL7FQACKxTgUd8V4Ad_FpyCNgQ",
+        "BAACAgQAAxkBAAIRrWh5IF7mM8bOJd7MzHj6KFuXfPvQAAL9FQACKxTgUaj1xcRZyRLgNgQ",
+        "BAACAgQAAxkBAAIRrmh5IF50afC4oaFktT3hBfy__AAB1QACBxYAAisU4FER08Z8pVFuyjYE",
+        "BAACAgQAAxkBAAIRr2h5IF5BtA5Hf7BL-o_QOsbfLeCrAAIMFgACKxTgUfCI9mcsNOkWNgQ",
+        "BAACAgQAAxkBAAIRsGh5IF7e3XcKXmPw-yk1v7BOhvCmAAIQFgACKxTgUW2l5utEXBmlNgQ",
+        "BAACAgQAAxkBAAIRsWh5IF7j3ffM7Jp1Fi8nM64hv4hYAAIXFgACKxTgUWKiVngwLMqKNgQ",
+        "BAACAgQAAxkBAAIRsmh5IF5OSj5RXVceNHPPBkE9n3Z5AAIZFgACKxTgUTWpwjrHj4AVNgQ",
+        "BAACAgQAAxkBAAIRs2h5IF43B97_PcYOpUSmvgoeqYWZAAIcFgACKxTgUc02fvBtOpgGNgQ",
+        "BAACAgQAAxkBAAIRtGh5IF7of-p8VF_9p6Pz08YgwMmEAAIoFgACKxTgUeLqd4U-TUi8NgQ",
+        "BAACAgQAAxkBAAIRtWh5IF7LCjhAO1eNK3DXQvAtwINVAAJBFgACKxTgUVoJ9ui2HZjGNgQ",
+        "BAACAgQAAxkBAAIRtmh5IF5HmEA3I8jLm-5UKVqib3OHAAJMFgACKxTgUTNj42FuyTxQNgQ",
+        "BAACAgQAAxkBAAIRt2h5IF7OYqf_0ttptGHNUemP6-pJAAJZFgACKxTgUWijlu_b3TptNgQ",
+        "BAACAgQAAxkBAAIRuGh5IF5z_VHby1M_n1ZIaY8QB7kZAAJdFgACKxTgUfdm2gfYi7N_NgQ"
+    ]
+
+    bot.send_message(message.chat.id, "ویدیوهای عملی استاد نوروزیان 👇")
+    for file_id in video_file_ids:
+        bot.send_video(message.chat.id, file_id)
 
 
 @bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی (استاد سلطانی)" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL')
@@ -685,10 +773,12 @@ def show_anatomy_practical_video_sessions(message):
 @bot.message_handler(func=lambda msg: msg.text in [
     "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم",
     "6️⃣ جلسه ششم", "7️⃣ جلسه هفتم", "8️⃣ جلسه هشتم", "9️⃣ جلسه نهم", "🔟 جلسه دهم",
-    "1️⃣1️⃣ جلسه یازدهم"])
+    "1️⃣1️⃣ جلسه یازدهم"] and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL_VIDEO_SESSIONS')
 def send_anatomy_practical_video(message):
     video_file_ids = {
-        "1️⃣ جلسه اول": ["BAACAgQAAxkBAAIFsWhzPROXvZz9AfSFphIrqwRidoG9AAJcGgACLwmwUT5LN7n4H4liNgQ"],
+        "1️⃣ جلسه اول": ["BAACAgQAAxkBAAIFsWhzPROXvZz9AfSFphIrqwRidoG9AAJcGgACLwmwUT5LN7n4H4liNgQ",
+                         "BAACAgQAAxkBAAINo2h3hKVXA6bJHbYvS_l7mXJ8eYFHAALhHwACLwmoUSkuJAxmmhSZNgQ",
+                         "BAACAgQAAxkBAAINpGh3hKXNs4CYCG5ESA4Y1wG2bX0SAAJ1HgACLwmoUbPHcPBXOTiWNgQ"],
         "2️⃣ جلسه دوم": ["BAACAgQAAxkBAAIFt2hzPlxUGtq6z46bDMvQv7dwOc6CAAJpGQAClh7QUfwggS9WV34cNgQ", "BAACAgQAAxkBAAIFuGhzPlykmwN35zthFIrq-ALmK74xAAJqGQAClh7QUaK6a1JBuHk8NgQ",
                          "BAACAgQAAxkBAAIFuWhzPlxkKKRBb8jPZ4YadT2cqN_qAAJrGQAClh7QUXkfkCQi5kkINgQ",
                          "BAACAgQAAxkBAAIFumhzPlzhia98QDqYZJXL4Bq-ip0jAAJtGQAClh7QUYsuwGiQgixGNgQ",
@@ -749,14 +839,12 @@ def send_anatomy_practical_video(message):
                                "BAACAgQAAxkBAAIGLGhzQqcXYYZJfr_AHUMbt1xcWraNAAJSHAACHx6oUQNnUxiM2MSdNgQ",
                                "BAACAgQAAxkBAAIGLWhzQqcJyftcTUTxWF1-oGmL5SW5AAJTHAACHx6oUVvv_FU5XbUJNgQ"],
     }
-    selected = message.text
-    file_id = video_file_ids.get(selected)
-    if file_id:
-       print("🔍 file_id is:", file_id)
-       bot.send_video(message.chat.id, file_id)
+    session_videos = video_file_ids.get(message.text)
+    if session_videos:
+        for video_id in session_videos:
+            bot.send_video(message.chat.id, video_id)
     else:
-        bot.send_message(
-            message.chat.id, "❗ فایل ویدیویی این جلسه موجود نیست.")
+        bot.send_message(message.chat.id, "ویدیویی برای این جلسه یافت نشد.")
 
 
 @bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL_SUB')
@@ -808,8 +896,8 @@ def show_anatomy_practical_sessions_menu(message):
 ] and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL_SESSIONS')
 def send_anatomy_practical_session_file(message):
     file_ids = {
-        "1️⃣ جلسه اول": "BQACAgQAAxkBAAIGNmhzQ5HmavGiDt4AAenVb3YBGdD-ewACnxYAAtMcIFIKflw81sUKYzYE",
-        "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIGNWhzQ5GWU1vAy3N29XFnB7O0GH0aAAKeFgAC0xwgUvKuglwojPfRNgQ",
+        "1️⃣ جلسه اول": "BQACAgQAAxkBAAIGNWhzQ5GWU1vAy3N29XFnB7O0GH0aAAKeFgAC0xwgUvKuglwojPfRNgQ",
+        "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIGNmhzQ5HmavGiDt4AAenVb3YBGdD-ewACnxYAAtMcIFIKflw81sUKYzYE",
         "3️⃣ جلسه سوم": "BQACAgQAAxkBAAIGN2hzQ5GuPPhFx3xMLJGJ6Ti0fSpdAAKgFgAC0xwgUi7WuRnUx7NSNgQ",
         "4️⃣ جلسه چهارم": "BQACAgQAAxkBAAIGOGhzQ5HibhfzJzrx9ubuthDafp3IAAKhFgAC0xwgUkn0fG-memHONgQ",
         "5️⃣ جلسه پنجم": "BQACAgQAAxkBAAIGOWhzQ5H6YfxcAhzPtukJRK04WwfoAAKiFgAC0xwgUhEtbzokMznJNgQ",
@@ -828,7 +916,7 @@ def send_anatomy_practical_session_file(message):
             message.chat.id, "❗ فایل این جلسه هنوز بارگذاری نشده.")
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🔬 بافت‌شناسی (استاد  )" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL')
+@bot.message_handler(func=lambda msg: msg.text == "🔬 بافت‌شناسی (استاد روحانی)" and user_states.get(msg.from_user.id) == 'ANATOMY_PRACTICAL')
 def show_histology_practical_subsection(message):
     user_states[message.from_user.id] = 'HISTOLOGY_PRACTICAL_SUB'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -840,9 +928,13 @@ def show_histology_practical_subsection(message):
 @bot.message_handler(func=lambda msg: msg.text == "🎬 ویدیو" and user_states.get(msg.from_user.id) == 'HISTOLOGY_PRACTICAL_SUB')
 def send_histology_practical_video(message):
     user_states[message.from_user.id] = 'HISTOLOGY_PRACTICAL_VIDEO'
-    file_id = "<FILE_ID_Video_Histology_Practical>"  # ← اینجا آی‌دی ویدیو رو قرار بده
-    bot.send_video(message.chat.id, file_id,
-                   caption="🎥 ویدیوی بافت‌شناسی عملی (استاد)")
+    baft2_video = ["BAACAgQAAxkBAAIRaWh5GYJppEPnB0dkyfoODZUJJXlBAALVGQAC7ZJxUD6g0MR5G8v4NgQ",
+                   "BAACAgQAAxkBAAIRamh5GYIgrfAuIhy6nGklO0yqJV-CAALZGQAC7ZJxUBmr9Sabj-9fNgQ"]
+    bot.send_message(
+        message.chat.id, "🎥 ویدیوی بافت‌شناسی عملی (استاد روحانی)")
+
+    for file_id in baft2_video:
+        bot.send_video(message.chat.id, file_id)
 
 
 @bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی" and user_states.get(msg.from_user.id) == 'HISTOLOGY_PRACTICAL_SUB')
@@ -1254,27 +1346,26 @@ def show_physics_sessions_menu(message):
 def send_physics_session_files(message):
     session_files = {
         # اگر چند فایل دارید
-        "1️⃣ جلسه اول":"BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA",
-        "2️⃣ جلسه دوم":"BQACAgQAAxkBAAIHP2hzU0kQpiDnx-0axfbnB1TZwZbIAALRFQAC_6CIUuv_rlAm79iHNgQ",
-        "3️⃣ جلسه سوم":"BQACAgQAAxkBAAIHJ2hzUx7tBhaifcrkZSAjqROENxuZAAJEHwAChL1gU1ncKVEZVR_gNgQ",
-        "4️⃣ جلسه چهارم":"BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ",
-        "5️⃣ جلسه پنجم":"BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ",
-        "6️⃣ جلسه ششم":"BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ",
-        "7️⃣ جلسه هفتم":"BQACAgQAAxkBAAIHLGhzUx77tRN1vN3ajScCbypI0HCcAAJJHwAChL1gU43nnLUq4pA2Ng",
-        "8️⃣ جلسه هشتم":"BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE",
-        "9️⃣ جلسه نهم":"BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ",
-        "🔟 جلسه دهم":"BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ",
-        "1️⃣1️⃣ جلسه یازدهم":"BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE",
-        "2️⃣1️⃣ جلسه دوازدهم":"BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ",
-        "3️⃣1️⃣ جلسه سیزدهم":"BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ",
+        "1️⃣ جلسه اول": "BQACAgQAAxkBAAIL2Gh3ZT_LlDNZdfzy1ZIfhZBuG6EAA0QfAAKEvWBTWdwpURlVH-A2BA",
+        "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIHP2hzU0kQpiDnx-0axfbnB1TZwZbIAALRFQAC_6CIUuv_rlAm79iHNgQ",
+        "3️⃣ جلسه سوم": "BQACAgQAAxkBAAIL5Wh3ZXqEkvk2Psy4u2w8X3TslrCxAAJFHwAChL1gUwLp8xbrfV_RNgQ",
+        "4️⃣ جلسه چهارم": "BQACAgQAAxkBAAIHKWhzUx5D7s29iJ4I1BWXQyeYPlHaAAJGHwAChL1gU9wqjayux49ONgQ",
+        "5️⃣ جلسه پنجم": "BQACAgQAAxkBAAIHKmhzUx7fsxL4NtCQA-s4qyVfyNJgAAJHHwAChL1gU9yHox6yLv9JNgQ",
+        "6️⃣ جلسه ششم": "BQACAgQAAxkBAAIHK2hzUx6rnGj34AE1bpcY2QsFV9YqAAJIHwAChL1gU6RMEtT-Qm1ZNgQ",
+        "7️⃣ جلسه هفتم": "BQACAgQAAxkBAAIL6Wh3ZXrU_66flbXPtxlT7dj7a_NPAAJJHwAChL1gU43nnLUq4pA2NgQ",
+        "8️⃣ جلسه هشتم": "BQACAgQAAxkBAAIHLWhzUx7JziYEkORe8TWEg6ipSYlXAAJKHwAChL1gUwABM-g8pnmY0TYE",
+        "9️⃣ جلسه نهم": "BQACAgQAAxkBAAIHLmhzUx6-NIaqJD83HRGyt5k5lrIPAAJLHwAChL1gU2e0WBib8nYVNgQ",
+        "🔟 جلسه دهم": "BQACAgQAAxkBAAIHL2hzUx7BXT91Syxbg9E1RGAxvZJTAAJMHwAChL1gU0TgP1FumLFSNgQ",
+        "1️⃣1️⃣ جلسه یازدهم": "BQACAgQAAxkBAAIHMGhzUx7dP9khEoPgoAABu145zVERYQACTR8AAoS9YFMCSlBlDRuatzYE",
+        "2️⃣1️⃣ جلسه دوازدهم": "BQACAgQAAxkBAAIHMWhzUx5Ik8dcbIwrsK_wsn6J3o4MAAJOHwAChL1gUyhjTX89d8W9NgQ",
+        "3️⃣1️⃣ جلسه سیزدهم": "BQACAgQAAxkBAAIHMmhzUx4IUCiKF2Wy_xbxts6RGcpsAAJPHwAChL1gU992MuBbFk2sNgQ",
     }
-    
+
     files = session_files.get(message.text)
     if files:
-        for file_id in files:
-            bot.send_document(message.chat.id, file_id)
+        bot.send_document(message.chat.id, files)
     else:
-        bot.send_message(message.chat.id, "فایلی برای این جلسه وجود ندارد.") 
+        bot.send_message(message.chat.id, "فایلی برای این جلسه وجود ندارد.")
 
 # --- هندلرهای درس فیزیولوژی 1 ---
 
@@ -1282,7 +1373,7 @@ def send_physics_session_files(message):
 @bot.message_handler(func=lambda msg: msg.text == "💓 فیزیولوژی 1" and user_states.get(msg.from_user.id) == 'TERM_2')
 def show_physiology_menu(message):
     user_states[message.from_user.id] = 'PHYSIOLOGY_MENU'
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     buttons = ["🔬 سلول (استاد گشادرو)", "❤️ قلب (استاد زردوز)",
                "🍔 گوارش (استاد قاسمی)", "🩸 گردش خون (استاد حسین‌مردی)", "🔙 بازگشت به دروس"]
     markup.add(*[types.KeyboardButton(b) for b in buttons])
@@ -1381,18 +1472,23 @@ def show_zardouz_sessions_menu(message):
 
 
 # فایل ایدی جزوات جلسات قلب (استاد زردوز)
-physiology_heart_session_files = {
-    "1️⃣ جلسه اول": "BQACAgQAAxkBAAIHUWhzVjOVLNBrPLJYrMFnY3bAatzFAAJcGQACTAoAAVDGPKzNqzkNlTYE",
-    "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIHU2hzVkZXcliyyeRD3jirEfWzchgaAALpGgACTAoQUGDfhPN-onNMNgQ",
-    "3️⃣ جلسه سوم": "BQACAgQAAxkBAAIHVWhzVlyjJYR7aCk-wqtH1DHuixzpAALGGAACljpwUCdeZe0BjIbSNgQ",
-}
-
-
-@bot.message_handler(func=lambda msg: msg.text in physiology_heart_session_files and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_HEART_SESSIONS')
+@bot.message_handler(func=lambda msg: msg.text in ["1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم"] and user_states.get(msg.from_user.id) == 'PHYSIOLOGY_HEART_SESSIONS')
 def send_physiology_heart_session_file(message):
+    physiology_heart_session_files = {
+        "1️⃣ جلسه اول": "BQACAgQAAxkBAAIHUWhzVjOVLNBrPLJYrMFnY3bAatzFAAJcGQACTAoAAVDGPKzNqzkNlTYE",
+        "2️⃣ جلسه دوم": "BQACAgQAAxkBAAIHU2hzVkZXcliyyeRD3jirEfWzchgaAALpGgACTAoQUGDfhPN-onNMNgQ",
+        "3️⃣ جلسه سوم": "BQACAgQAAxkBAAIHVWhzVlyjJYR7aCk-wqtH1DHuixzpAALGGAACljpwUCdeZe0BjIbSNgQ",
+    }
+    captions = {
+        "1️⃣ جلسه اول": "جزوه جلسه اول",
+        "2️⃣ جلسه دوم": "جزوه جلسه دوم",
+        "3️⃣ جلسه سوم": "جزوه جلسه سوم"
+    }
+
+    caption = captions.get(message.text, "جزوه جلسه")
     file_id = physiology_heart_session_files.get(message.text)
     if file_id:
-        bot.send_document(message.chat.id, file_id)
+        bot.send_document(message.chat.id, file_id, caption=caption)
     else:
         bot.send_message(message.chat.id, "متأسفانه این جلسه فایل ندارد.")
 
@@ -1597,34 +1693,109 @@ def show_islamic_thought_menu(message):
 
 
 @bot.message_handler(func=lambda msg: msg.text == "🧕 بانوان" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_MENU')
-def show_islamic_thought_women_menu(message):
-    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_WOMEN'
+def show_islamic_thought_women_professors_menu(message):
+    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_WOMEN_PROFESSORS'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("📘 رفرنس"), types.KeyboardButton("📚 جزوه جامع"), types.KeyboardButton(
-        "📝 جزوات جلسه به جلسه"), types.KeyboardButton("🔙 بازگشت به منوی اندیشه"))
-    bot.send_message(message.chat.id, "کدوم منبع؟ 🤔", reply_markup=markup)
+    markup.add(types.KeyboardButton("👨‍🏫 استاد میثاقی"), types.KeyboardButton("🔙 بازگشت به منوی قبلی"))
+    bot.send_message(message.chat.id, "استاد مورد نظر رو انتخاب کن:", reply_markup=markup)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "📝 جزوات جلسه به جلسه" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN')
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد میثاقی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_PROFESSORS')
+def show_islamic_thought_women_misaghi_menu(message):
+    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_WOMEN_MISAGHI'
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📘 رفرنس"),
+        types.KeyboardButton("📚 جزوه جامع"),
+        types.KeyboardButton("📝 جزوات جلسه به جلسه"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+    bot.send_message(message.chat.id, "کدوم منبع رو می‌خوای؟ 🤔", reply_markup=markup)
+
+@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_MISAGHI')
+def send_islamic_women_misaghi_reference(message):
+    file_id = "BQACAgQAAxkBAAITcmh5044_tfXUlxn1DHaxOA80jDdmAAJ6HwAChL1gU0L2TliQPu1xNgQ"
+    bot.send_document(message.chat.id, file_id)
+
+
+@bot.message_handler(func=lambda msg: msg.text == "📚 جزوه جامع" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_MISAGHI')
+def send_islamic_women_misaghi_summary(message):
+    file_id = "BQACAgQAAxkBAAITc2h505y-3deLs69br7jUU8rwUffDAALWHwAChL1gU4A_t1Xc_VQ2NgQ"
+    bot.send_document(message.chat.id, file_id)
+
+
+@bot.message_handler(func=lambda msg: msg.text == "📝 جزوات جلسه به جلسه" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_MISAGHI')
 def show_islamic_thought_women_sessions_menu(message):
-    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_WOMEN_SESSIONS'
+    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_WOMEN_MISAGHI_SESSIONS'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
     buttons = ["1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم", "6️⃣ جلسه ششم",
                "7️⃣ جلسه هفتم", "8️⃣ جلسه هشتم", "9️⃣ جلسه نهم", "🔟 جلسه دهم", "1️⃣1️⃣ جلسه یازدهم", "🔙 بازگشت به منوی قبلی"]
     markup.add(*[types.KeyboardButton(b) for b in buttons])
     bot.send_message(message.chat.id, "کدوم جلسه؟ 🤔", reply_markup=markup)
 
+@bot.message_handler(func=lambda msg: msg.text in [
+    "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "5️⃣ جلسه پنجم",
+    "6️⃣ جلسه ششم", "7️⃣ جلسه هفتم", "8️⃣ جلسه هشتم", "9️⃣ جلسه نهم", "🔟 جلسه دهم", "1️⃣1️⃣ جلسه یازدهم"
+] and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_MISAGHI_SESSIONS')
+def send_islamic_women_session_file(message):
+    session_files = {
+        "1️⃣ جلسه اول": "BQACAgQAAxkBAAITVWh50lpNX8Y7ECd7MVDb7cmAyFfEAAK1HwAChL1gU0jJdCELIzGXNgQ",
+        "2️⃣ جلسه دوم": "BQACAgQAAxkBAAITVmh50lrY4vtW_ZsXrLfNkvTmIwWwAAK4HwAChL1gU7lL_34Y3SgaNgQ",
+        "3️⃣ جلسه سوم": "BQACAgQAAxkBAAITV2h50lrVwez-GZat42dHtvUsUnYOAAK8HwAChL1gU_mR1B-4FwXWNgQ",
+        "4️⃣ جلسه چهارم": "BQACAgQAAxkBAAITWGh50loJbODHLwhN0PKhQ7oSuiZ3AAK9HwAChL1gUyNWPhSYs63PNgQ",
+        "5️⃣ جلسه پنجم": "BQACAgQAAxkBAAITWWh50lr4HgyXQnLJFjSxIRUx_7V5AAK-HwAChL1gU3_upAyQohTMNgQ",
+        "6️⃣ جلسه ششم": "BQACAgQAAxkBAAITWmh50loQhqGnmNyGFdwzry5ZnjhdAALAHwAChL1gU96jhiyFanuKNgQ",
+        "7️⃣ جلسه هفتم": "BQACAgQAAxkBAAITW2h50lqIaoBRu-4pwH43qCk7wqKUAALBHwAChL1gU-ntrScG-7_QNgQ",
+        "8️⃣ جلسه هشتم": "BQACAgQAAxkBAAITXGh50lolPv76zI-yRz6eS8KKvnqnAALCHwAChL1gU2GJgu1huxHJNgQ",
+        "9️⃣ جلسه نهم": "BQACAgQAAxkBAAITXWh50lqLSb5TwK16vSKz7FVKSVXGAALDHwAChL1gU65kmmbdF-coNgQ",
+        "🔟 جلسه دهم": "BQACAgQAAxkBAAITXmh50lrfLBFE5uBAzGwvECh0VWUUAALGHwAChL1gU0ytyjIUgaWVNgQ",
+        "1️⃣1️⃣ جلسه یازدهم": "BQACAgQAAxkBAAITX2h50lqVNa674DACZsPT67EUsG-NAALIHwAChL1gUx5R_hz3-W8FNgQ"
+    }
+
+    file_id = session_files.get(message.text)
+    if file_id:
+        bot.send_document(message.chat.id, file_id)
+    else:
+        bot.send_message(message.chat.id, "فعلاً فایلی برای این جلسه تعریف نشده 😕")
+
 
 @bot.message_handler(func=lambda msg: msg.text == "🧔 آقایان" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_MENU')
-def show_islamic_thought_men_menu(message):
-    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_MEN'
+def show_islamic_thought_men_professors_menu(message):
+    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_MEN_PROFESSORS'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    markup.add(types.KeyboardButton("❓ نمونه سوالات"),
-               types.KeyboardButton("🔙 بازگشت به منوی اندیشه"))
-    bot.send_message(message.chat.id, "کدوم منبع؟ 🤔", reply_markup=markup)
+    markup.add(
+        types.KeyboardButton("👨‍🏫 استاد اخوی"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+    bot.send_message(message.chat.id, "استاد مورد نظر رو انتخاب کن:", reply_markup=markup)
+
+
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد اخوی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_MEN_PROFESSORS')
+def show_islamic_thought_men_menu(message):
+    user_states[message.from_user.id] = 'ISLAMIC_THOUGHT_MEN_AKHAVI'
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+    markup.add(
+        types.KeyboardButton("❓ نمونه سوالات"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+    bot.send_message(message.chat.id, "کدوم منبع رو می‌خوای؟ 🤔", reply_markup=markup)
+
+@bot.message_handler(func=lambda msg: msg.text == "❓ نمونه سوالات" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_MEN_AKHAVI')
+def send_islamic_men_akhavi_questions(message):
+    question_files = [
+        "FILE_ID_1",  # 👈 فایل آیدی نمونه سوال اول
+        "FILE_ID_2",  # 👈 فایل آیدی نمونه سوال دوم
+        # ...
+    ]
+
+    if question_files:
+        for file_id in question_files:
+            bot.send_document(message.chat.id, file_id)
+    else:
+        bot.send_message(message.chat.id, "فعلاً نمونه سوالی برای این بخش ثبت نشده ❌")
+
 
 # --- هندلرهای درس فرهنگ و تمدن اسلام ---
-
 
 @bot.message_handler(func=lambda msg: msg.text == "📜 فرهنگ و تمدن اسلام" and user_states.get(msg.from_user.id) == 'TERM_2')
 def show_islamic_culture_menu(message):
@@ -1633,6 +1804,17 @@ def show_islamic_culture_menu(message):
     markup.add(types.KeyboardButton("❓ نمونه سوالات"),
                types.KeyboardButton("🔙 بازگشت به دروس"))
     bot.send_message(message.chat.id, "کدوم منبع؟ 🤔", reply_markup=markup)
+
+@bot.message_handler(func=lambda msg: msg.text == "❓ نمونه سوالات" and user_states.get(msg.from_user.id) == 'ISLAMIC_CULTURE_MENU')
+def send_islamic_culture_questions(message):
+    question_files = ["BQACAgQAAxkBAAITuGh51q4mMa185XmBNkqvPK42HQvgAAKhGAACHI05Ujhf6rwjRbmMNgQ"
+    ]
+
+    if question_files:
+        for file_id in question_files:
+            bot.send_document(message.chat.id, file_id)
+    else:
+        bot.send_message(message.chat.id, "فعلاً نمونه سوالی برای این درس ثبت نشده ❌")
 
 # --- TERM 2 هندلرهای بازگشت ---
 
@@ -1644,7 +1826,13 @@ def back_to_term2_subjects(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به خانه")
 def back_home(message):
-    send_welcome(message)
+    user_states[message.from_user.id] = 'HOME'
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📘 ترم 1"),
+        types.KeyboardButton("📗 ترم 2")
+    )
+    bot.send_message(message.chat.id, "ترم مورد نظرتو انتخاب کن 🏠", reply_markup=markup)
 
 # بازگشت‌های سلامت دهان و جامعه
 
@@ -1788,30 +1976,37 @@ def back_to_physiology_circulation_menu(message):
 
 # بازگشت‌های اندیشه اسلامی
 
-
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی اندیشه" and user_states.get(msg.from_user.id) in ['ISLAMIC_THOUGHT_WOMEN', 'ISLAMIC_THOUGHT_MEN'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['ISLAMIC_THOUGHT_WOMEN_MISAGHI', 'ISLAMIC_THOUGHT_MEN_PROFESSORS'])
 def back_to_islamic_thought_menu(message):
     show_islamic_thought_menu(message)
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_SESSIONS')
-def back_to_islamic_thought_women_menu(message):
-    show_islamic_thought_women_menu(message)
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_MISAGHI')
+def back_to_islamic_thought_women_professors_menu(message):
+    show_islamic_thought_women_professors_menu(message)
 
-# --- هندلر عمومی برای پیام‌های نامعتبر ---
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_WOMEN_MISAGHI_SESSIONS')
+def back_islamic_thought_women_misaghi_menu(message):
+    show_islamic_thought_women_misaghi_menu(message)
 
-
-@bot.message_handler(content_types=['text'])
-def handle_unknown_text(message):
-    bot.send_message(
-        message.chat.id, "⚠️ دستور نامعتبر! لطفاً از دکمه‌های منو استفاده کنید. بازگشت به منوی اصلی...")
-    send_welcome(message)
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_MEN_AKHAVI')
+def back_islamic_thought_men_professors_menu(message):
+    show_islamic_thought_men_professors_menu(message)
 
 # ===============================================================
 # بخش ۵: اجرای نهایی ربات 🚀
 # ===============================================================
 
+# --- هندلر عمومی برای پیام‌های نامعتبر ---
 
+@bot.message_handler(content_types=['text'])
+def handle_unknown_text(message):
+    # فقط پیام هشدار بفرست، بدون تغییر وضعیت یا بازگشت به منوی اصلی
+    bot.send_message(
+        message.chat.id, """دوست عزیز ! پیامت توسط بات شناسایی نشد ⚠️
+لطفا دوباره درخواستت رو ارسال کن ♻️
+اگه باز هم به مشکل خوردی روی /start بزن ✅""")
+    
 if __name__ == "__main__":
     print("Starting keep-alive server...")
     flask_thread = threading.Thread(target=run_flask)
