@@ -1,5 +1,4 @@
 from dotenv import load_dotenv
-from flask import Flask, request
 import atexit
 import telebot
 from telebot import types
@@ -63,6 +62,39 @@ threading.Thread(target=auto_save_loop, daemon=True).start()
 # ===============================================================
 # بخش ۲: کد مربوط به بیدار نگه داشتن ربات (Keep-Alive) ⏰
 # ===============================================================
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def keep_alive_page():
+    return "Bot is alive!"
+
+
+def run_flask():
+    port = int(os.environ.get("PORT", 8080))
+    if os.getenv("ENV") == "production":
+        from gunicorn.app.base import BaseApplication
+
+        class FlaskApplication(BaseApplication):
+            def __init__(self, app, options=None):
+                self.options = options or {}
+                self.application = app
+                super().__init__()
+
+            def load_config(self):
+                for key, value in self.options.items():
+                    self.cfg.set(key.lower(), value)
+
+            def load(self):
+                return self.application
+        options = {
+            "bind": f"0.0.0.0:{port}",
+            "workers": 1,
+        }
+        FlaskApplication(app, options).run()
+    else:
+        app.run(host="0.0.0.0", port=port)
 
 
 # ==============================================================
@@ -1976,26 +2008,30 @@ def handle_unknown_text(message):
 لطفا دوباره درخواستت رو ارسال کن ♻️
 اگه باز هم به مشکل خوردی روی /start بزن ✅""")
 
-app = Flask(__name__)
-
-@app.route('/')
-def keep_alive_page():
-    return "Bot is alive!"
-    
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    content_type = request.headers.get("content-type", "")
-    if "application/json" in content_type:
-        print("Received a message from Telegram!")  # تست لاگ
-        json_str = request.get_data().decode("utf-8")
-        update = telebot.types.Update.de_json(json_str)
-        bot.process_new_updates([update])
-        return "OK", 200
-    else:
-        print(f"Unsupported content type: {content_type}")  # لاگ خطا
-        return "Unsupported Media Type", 415
-
-    
 if __name__ == "__main__":
-    print("Starting local Flask server...")
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    print("Starting keep-alive server...")
+
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.start()
+
+    bot.remove_webhook()
+    print("Bot server started. Running polling...")
+
+    while True:
+        try:
+            bot.infinity_polling(timeout=10, long_polling_timeout=2)
+        except Exception as e:
+            print(f"Error in polling: {e}")
+
+            save_user_states()
+
+            if ADMIN_CHAT_ID:
+                try:
+                    bot.send_message(
+                        ADMIN_CHAT_ID,
+                        f"⚠️ خطا در اجرای ربات:\n{e}"
+                    )
+                except Exception as e_send:
+                    print(f"Could not send error message to admin: {e_send}")
+
+            time.sleep(15)
