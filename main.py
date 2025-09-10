@@ -64,11 +64,6 @@ threading.Thread(target=auto_save_loop, daemon=True).start()
 # بخش ۲: کد مربوط به بیدار نگه داشتن ربات (Keep-Alive) ⏰
 # ===============================================================
 
-app = Flask(__name__)
-
-@app.route('/')
-def keep_alive_page():
-    return "Bot is alive!"
 
 # ==============================================================
 # بخش ۳: مدیریت گروه‌های مدیا
@@ -1980,6 +1975,12 @@ def handle_unknown_text(message):
         message.chat.id, """دوست عزیز ! پیامت توسط بات شناسایی نشد ⚠️
 لطفا دوباره درخواستت رو ارسال کن ♻️
 اگه باز هم به مشکل خوردی روی /start بزن ✅""")
+
+app = Flask(__name__)
+
+@app.route('/')
+def keep_alive_page():
+    return "Bot is alive!"
     
 @app.route("/webhook", methods=["POST"])
 def webhook():
