@@ -2009,9 +2009,11 @@ def handle_unknown_text(message):
 اگه باز هم به مشکل خوردی روی /start بزن ✅""")
 
 if __name__ == "__main__":
+    import threading, time
+
     print("Starting keep-alive server...")
 
-    flask_thread = threading.Thread(target=run_flask)
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
     flask_thread.start()
 
     bot.remove_webhook()
@@ -2023,8 +2025,10 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Error in polling: {e}")
 
+            # ذخیره وضعیت کاربران
             save_user_states()
 
+            # ارسال پیام به ادمین
             if ADMIN_CHAT_ID:
                 try:
                     bot.send_message(
@@ -2034,4 +2038,4 @@ if __name__ == "__main__":
                 except Exception as e_send:
                     print(f"Could not send error message to admin: {e_send}")
 
-            time.sleep(15)
+            time.sleep(10)
