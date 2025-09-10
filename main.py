@@ -64,8 +64,6 @@ threading.Thread(target=auto_save_loop, daemon=True).start()
 # بخش ۲: کد مربوط به بیدار نگه داشتن ربات (Keep-Alive) ⏰
 # ===============================================================
 
-from flask import Flask
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -74,15 +72,18 @@ def keep_alive_page():
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    if request.headers.get("content-type") == "application/json":
+    content_type = request.headers.get("content-type", "")
+    if "application/json" in content_type:
+        print("Received a message from Telegram!")  # تست لاگ
         json_str = request.get_data().decode("utf-8")
         update = telebot.types.Update.de_json(json_str)
         bot.process_new_updates([update])
         return "OK", 200
     else:
+        print(f"Unsupported content type: {content_type}")  # لاگ خطا
         return "Unsupported Media Type", 415
 
-# ===============================================================
+# ==============================================================
 # بخش ۳: مدیریت گروه‌های مدیا
 # ===============================================================
 
