@@ -70,19 +70,6 @@ app = Flask(__name__)
 def keep_alive_page():
     return "Bot is alive!"
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    content_type = request.headers.get("content-type", "")
-    if "application/json" in content_type:
-        print("Received a message from Telegram!")  # تست لاگ
-        json_str = request.get_data().decode("utf-8")
-        update = telebot.types.Update.de_json(json_str)
-        bot.process_new_updates([update])
-        return "OK", 200
-    else:
-        print(f"Unsupported content type: {content_type}")  # لاگ خطا
-        return "Unsupported Media Type", 415
-
 # ==============================================================
 # بخش ۳: مدیریت گروه‌های مدیا
 # ===============================================================
@@ -1993,6 +1980,20 @@ def handle_unknown_text(message):
         message.chat.id, """دوست عزیز ! پیامت توسط بات شناسایی نشد ⚠️
 لطفا دوباره درخواستت رو ارسال کن ♻️
 اگه باز هم به مشکل خوردی روی /start بزن ✅""")
+    
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    content_type = request.headers.get("content-type", "")
+    if "application/json" in content_type:
+        print("Received a message from Telegram!")  # تست لاگ
+        json_str = request.get_data().decode("utf-8")
+        update = telebot.types.Update.de_json(json_str)
+        bot.process_new_updates([update])
+        return "OK", 200
+    else:
+        print(f"Unsupported content type: {content_type}")  # لاگ خطا
+        return "Unsupported Media Type", 415
+
     
 if __name__ == "__main__":
     print("Starting local Flask server...")
