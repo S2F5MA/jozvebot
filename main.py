@@ -441,7 +441,7 @@ def send_oloomtash_1naz_baft_mansoori_power(message):
 
     for file_id in file_ids:
         bot.send_document(message.chat.id, file_id)
-        bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
+    bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
 
 @bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori')
 def oloomtash_1naz_baft_mansoori_manba(message):
@@ -470,16 +470,16 @@ def show_oloomtash_1naz_baft_mansoori_manba_jozve(message):
 @bot.message_handler(func=lambda msg: msg.text in [
     "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم"] and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori_manba_jozve')
 def send_oloomtash_1naz_baft_mansoori_manba_jozve(message):
-    video_file_ids = {
+    file_ids = {
         "1️⃣ جلسه اول": ["BQACAgQAAxkBAAJCOmjoHOQPbx8uku6Fzgy2stNFlzZVAAIMGAAC2_qxUJkc9JzFGMG8NgQ"],
         "2️⃣ جلسه دوم": ["BQACAgQAAxkBAAJCO2joHOQ-BDHXJ0d6dppTnKfE1wRfAAK0GQACT8UAAVFteb5FZSz6pTYE"],
         "3️⃣ جلسه سوم": ["BQACAgQAAxkBAAJCPGjoHOTycRIvYQMohj4BXoWMMVAOAAIDGgACScdRUTUjTMtmpnZONgQ"],
         "4️⃣ جلسه چهارم": ["BQACAgQAAxkBAAJCPWjoHOT5tCiWzjst9TV84__6Fn1CAAKbFgACCIAxUrrdiK807eurNgQ"]
     }
-    session_videos = video_file_ids.get(message.text)
-    if session_videos:
-        for video_id in session_videos:
-            bot.send_video(message.chat.id, video_id)
+    session_files = file_ids.get(message.text)
+    if session_files:
+        for file_ids in session_files:
+            bot.send_document(message.chat.id, file_ids)
     else:
         bot.send_message(message.chat.id, "ویدیویی برای این جلسه یافت نشد.")
 
