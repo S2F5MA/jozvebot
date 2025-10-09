@@ -265,7 +265,7 @@ def oloomtash_1_menu(message):
     )
 
 # 🧠 بخش نظری
-@bot.message_handler(func=lambda msg: msg.text == "🧠 نظری")
+@bot.message_handler(func=lambda msg: msg.text == "🧠 نظری" and user_states.get(msg.from_user.id) == 'oloomtash_1')
 def oloomtash_1naz_menu(message):
     user_states[message.from_user.id] = 'oloomtash_1naz'
 
@@ -284,7 +284,7 @@ def oloomtash_1naz_menu(message):
     )
 
 # 🦴 آناتومی نظری
-@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی")
+@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz')
 def oloomtash_1naz_anatomy(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy'
 
@@ -301,7 +301,7 @@ def oloomtash_1naz_anatomy(message):
     )
 
 # 👨‍🏫 آناتومی نظری - استاد فراهانی
-@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد فراهانی")
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد فراهانی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy')
 def oloomtash_1naz_anatomy_farhanni(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni'
 
@@ -318,7 +318,7 @@ def oloomtash_1naz_anatomy_farhanni(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "📑 پاور")
+@bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni')
 def send_oloomtash_1naz_anatomy_farhanni_power(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_power'
 
@@ -342,7 +342,7 @@ def send_oloomtash_1naz_anatomy_farhanni_power(message):
     bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
 
 
-@bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی")
+@bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni')
 def oloomtash_1naz_anatomy_farhanni_manba(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_manba'
 
@@ -359,7 +359,7 @@ def oloomtash_1naz_anatomy_farhanni_manba(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "📄 جزوات جامع")
+@bot.message_handler(func=lambda msg: msg.text == "📄 جزوات جامع" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba')
 def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_manba_jozve'
 
@@ -375,7 +375,7 @@ def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
     )
 
 # 📄 جزوه 99 - ارسال فایل با file_id
-@bot.message_handler(func=lambda msg: msg.text == "📄 جزوه 99")
+@bot.message_handler(func=lambda msg: msg.text == "📄 جزوه 99" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba_jozve')
 def send_oloomtash_1naz_anatomy_farhanni_jozve99(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_jozve99'
 
@@ -383,7 +383,7 @@ def send_oloomtash_1naz_anatomy_farhanni_jozve99(message):
 
     bot.send_document(message.chat.id, file_id, caption="📘 جزوه 99 - استاد فراهانی")
 
-@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس")
+@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba')
 def send_oloomtash_1naz_anatomy_farhanni_ref(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_ref'
 
@@ -398,7 +398,7 @@ def send_oloomtash_1naz_anatomy_farhanni_ref(message):
     bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
 
 # 🧫 بافت‌شناسی نظری - استاد منصوری
-@bot.message_handler(func=lambda msg: msg.text == "🧫 بافت‌شناسی")
+@bot.message_handler(func=lambda msg: msg.text == "🧫 بافت‌شناسی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz')
 def oloomtash_1naz_baft(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft'
 
@@ -414,7 +414,7 @@ def oloomtash_1naz_baft(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد منصوری")
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد منصوری" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft')
 def oloomtash_1naz_baft_mansoori(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori'
 
@@ -430,7 +430,7 @@ def oloomtash_1naz_baft_mansoori(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "📑 پاور")
+@bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori')
 def send_oloomtash_1naz_baft_mansoori_power(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_power'
 
@@ -443,7 +443,7 @@ def send_oloomtash_1naz_baft_mansoori_power(message):
         bot.send_document(message.chat.id, file_id)
         bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
 
-@bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی")
+@bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori')
 def oloomtash_1naz_baft_mansoori_manba(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_manba'
 
@@ -483,7 +483,7 @@ def send_oloomtash_1naz_baft_mansoori_manba_jozve(message):
     else:
         bot.send_message(message.chat.id, "ویدیویی برای این جلسه یافت نشد.")
 
-@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس")
+@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori_manba')
 def send_oloomtash_1naz_baft_mansoori_manba_ref(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_manba_ref'
 
@@ -501,7 +501,7 @@ def send_oloomtash_1naz_baft_mansoori_manba_ref(message):
 
 
 # 👶 جنین‌شناسی نظری - استاد راعی
-@bot.message_handler(func=lambda msg: msg.text == "👶 جنین‌شناسی")
+@bot.message_handler(func=lambda msg: msg.text == "👶 جنین‌شناسی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz')
 def oloomtash_1naz_janin(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_janin'
 
@@ -517,7 +517,7 @@ def oloomtash_1naz_janin(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد راعی")
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد راعی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_janin')
 def oloomtash_1naz_janin_raei(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_janin_raei'
 
@@ -532,7 +532,7 @@ def oloomtash_1naz_janin_raei(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "📑 پاور")
+@bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_janin_raei')
 def send_oloomtash_1naz_janin_raei_power(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_janin_raei_power'
 
@@ -551,14 +551,14 @@ def send_oloomtash_1naz_janin_raei_power(message):
 
 
 # 🩻 بخش عملی
-@bot.message_handler(func=lambda msg: msg.text == "🩻 عملی")
+@bot.message_handler(func=lambda msg: msg.text == "🩻 عملی" and user_states.get(msg.from_user.id) == 'oloomtash_1')
 def anatomy1_practical_menu(message):
     user_states[message.from_user.id] = 'oloomtash_1amal'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("🦴 آناتومی (عملی)"),
-        types.KeyboardButton("🧫 بافت‌شناسی (عملی)"),
+        types.KeyboardButton("🦴 آناتومی"),
+        types.KeyboardButton("🧫 بافت‌شناسی"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
@@ -567,6 +567,21 @@ def anatomy1_practical_menu(message):
         "کدوم؟ 🤔",
         reply_markup=markup
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ---------------------------------------------------------------
