@@ -233,7 +233,7 @@ def show_term1_subjects(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("🔹 علم تشریح 1"),
+        types.KeyboardButton("🔹 علوم تشریح 1"),
         types.KeyboardButton("🔹 بیوشیمی نظری 1"),
         types.KeyboardButton("🔹 ادبیات"),
         types.KeyboardButton("🔹 روانشناسی"),
@@ -243,12 +243,12 @@ def show_term1_subjects(message):
 
     bot.send_message(
         message.chat.id,
-        "📚 لطفاً یکی از درس‌های ترم ۱ را انتخاب کن:",
+        "📚 لطفاً یکی از درس‌های ترم ۱ رو انتخاب کن:",
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "🔹 علم تشریح 1")
-def anatomy1_menu(message):
+@bot.message_handler(func=lambda msg: msg.text == "🔹 علوم تشریح 1")
+def oloomtash_1_menu(message):
     user_states[message.from_user.id] = 'oloomtash_1'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -260,13 +260,13 @@ def anatomy1_menu(message):
 
     bot.send_message(
         message.chat.id,
-        "📖 لطفاً بخش مورد نظرت رو انتخاب کن:",
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
 
 # 🧠 بخش نظری
 @bot.message_handler(func=lambda msg: msg.text == "🧠 نظری")
-def anatomy1_theory_menu(message):
+def oloomtash_1naz_menu(message):
     user_states[message.from_user.id] = 'oloomtash_1naz'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -274,89 +274,280 @@ def anatomy1_theory_menu(message):
         types.KeyboardButton("🦴 آناتومی"),
         types.KeyboardButton("🧫 بافت‌شناسی"),
         types.KeyboardButton("👶 جنین‌شناسی"),
-        types.KeyboardButton("🔙 بازگشت به علوم تشریح 1")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
     bot.send_message(
         message.chat.id,
-        "📚 لطفاً زیر‌بخش نظری مورد نظر رو انتخاب کن:",
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
 
 # 🦴 آناتومی نظری
 @bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی")
-def anatomy1_theory_anatomy(message):
+def oloomtash_1naz_anatomy(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
         types.KeyboardButton("👨‍🏫 استاد فراهانی"),
-        types.KeyboardButton("🔙 بازگشت به علوم تشریح نظری 1")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
     bot.send_message(
         message.chat.id,
-        "📘 بخش آناتومی نظری انتخاب شد.\nلطفاً استاد مورد نظر را انتخاب کن:",
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
 
 # 👨‍🏫 آناتومی نظری - استاد فراهانی
 @bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد فراهانی")
-def anatomy1_theory_farhanni(message):
+def oloomtash_1naz_anatomy_farhanni(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
         types.KeyboardButton("📑 پاور"),
         types.KeyboardButton("📚 منابع مطالعاتی"),
-        types.KeyboardButton("🔙 بازگشت به آناتومی نظری")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
     bot.send_message(
         message.chat.id,
-        "👨‍🏫 استاد فراهانی انتخاب شد.\nلطفاً یکی از گزینه‌های زیر را انتخاب کن:",
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "📑 پاور")
+def send_oloomtash_1naz_anatomy_farhanni_power(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_power'
+
+    file_ids = [
+        "BQACAgQAAxkBAAJCI2joCqcjjLT2NKgPqYrmYP5GbubnAAIKFQAChODYUeU2rp8qEPMnNgQ",
+"BQACAgQAAxkBAAJCJGjoCqcwvPT2BLAWizP54OY14u7OAAINFQAChODYUVC7tgwxSXRjNgQ",
+"BQACAgQAAxkBAAJCJWjoCqdmxw_p85Gg8mvxhcSjS9-mAAJYFwACgAv5URz3AcparWdbNgQ",
+"BQACAgQAAxkBAAJCJmjoCqfjEVBB-RIMSGuxFB1pCldBAAIWGgACgy4oUqg187oQepHWNgQ",
+"BQACAgQAAxkBAAJCJ2joCqfUJhBz0-u52wyIanJdzQlsAAKEFAAC6HJJUitjeEBd5710NgQ",
+"BQACAgQAAxkBAAJCKGjoCqdPqedW1MpJzbKiK5cmnMHnAAI3GQACYGPAUuOLD8AAAZdq6zYE",
+"BQACAgQAAxkBAAJCKWjoCqcHuOJlaQGrRCaXITLZyrDfAAJYFgACNerBU6r2b8cpYlRxNgQ",
+"BQACAgQAAxkBAAJCKmjoCqflJkCV3aRCeVnenJ2T1qpzAAIWFgAC37LZUwoZ42QX4WA-NgQ",
+"BQACAgQAAxkBAAJCK2joCqc9AhRI-DB1s8dEUNfCY9p2AAImJwACcagoUD2xAvaXVJkyNgQ",
+"BQACAgQAAxkBAAJCLGjoCqcLI0-NpY7J77LI13VlHN7LAAInJwACcagoUGPCg7WghViJNgQ",
+"BQACAgQAAxkBAAJCLWjoCqfCFpT5OBtM1FKOW5d9xRNgAAI3FwAC70PYUD-JlaROvK7sNgQ"
+    ]
+
+    for file_id in file_ids:
+        bot.send_document(message.chat.id, file_id)
+
+    bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی")
+def oloomtash_1naz_anatomy_farhanni_manba(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_manba'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📄 جزوات جامع"),
+        types.KeyboardButton("📘 رفرنس"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+    )
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
 
 
+@bot.message_handler(func=lambda msg: msg.text == "📄 جزوات جامع")
+def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_manba_jozve'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📄 جزوه 99"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+    )
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+# 📄 جزوه 99 - ارسال فایل با file_id
+@bot.message_handler(func=lambda msg: msg.text == "📄 جزوه 99")
+def send_oloomtash_1naz_anatomy_farhanni_jozve99(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_jozve99'
+
+    file_id = "BQACAgQAAxkBAAJCHWjn-rUvKVKRqhJ5ag_-oE-kEn-oAAIXCgACdxsQURtpL-AQh7t_NgQ" 
+
+    bot.send_document(message.chat.id, file_id, caption="📘 جزوه 99 - استاد فراهانی")
+
+@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس")
+def send_oloomtash_1naz_anatomy_farhanni_ref(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_ref'
+
+    file_ids = [
+        "BQACAgQAAxkBAAJCM2joGG0eXTzfoDjdJ_Kx4Fcfy33iAAKrFwACYTZIUZqDPVB85Qw9NgQ",
+        "BQACAgQAAxkBAAJCNGjoGG042n6KDd23dcGZza-Gf_OCAAKtFwACYTZIUWD7weS8ZMM5NgQ"
+    ]
+
+    for file_id in file_ids:
+        bot.send_document(message.chat.id, file_id)
+
+    bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
 
 # 🧫 بافت‌شناسی نظری - استاد منصوری
 @bot.message_handler(func=lambda msg: msg.text == "🧫 بافت‌شناسی")
-def anatomy1_theory_histology(message):
+def oloomtash_1naz_baft(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
         types.KeyboardButton("👩‍🏫 استاد منصوری"),
-        types.KeyboardButton("🔙 بازگشت به علوم تشریح نظری 1")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
     bot.send_message(
         message.chat.id,
-        "📗 بخش بافت‌شناسی نظری انتخاب شد.\nلطفاً استاد مورد نظر را انتخاب کن:",
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
+
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد منصوری")
+def oloomtash_1naz_baft_mansoori(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📑 پاور"),
+        types.KeyboardButton("📚 منابع مطالعاتی"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+    )
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "📑 پاور")
+def send_oloomtash_1naz_baft_mansoori_power(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_power'
+
+    file_ids = [
+        "BQACAgQAAxkBAAJCS2joHoWBaEVfYxvtFwFb4tNpEO0pAALpHAACzVAxUrxDz9II0mSuNgQ",
+        "BQACAgQAAxkBAAJCTGjoHoXJtXo5xDJwMP3T3s-ymjMnAAJoFgACOHOoUcFCX1I-LQeNNgQ"
+    ]
+
+    for file_id in file_ids:
+        bot.send_document(message.chat.id, file_id)
+        bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
+
+@bot.message_handler(func=lambda msg: msg.text == "📚 منابع مطالعاتی")
+def oloomtash_1naz_baft_mansoori_manba(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_manba'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📑 جزوات جلسه به جلسه"),
+        types.KeyboardButton("📘 رفرنس"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+    )
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "📑 جزوات جلسه به جلسه" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori_manba')
+def show_oloomtash_1naz_baft_mansoori_manba_jozve(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_manba_jozve'
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
+    buttons = ["1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "🔙 بازگشت به منوی قبلی"]
+    markup.add(*[types.KeyboardButton(b) for b in buttons])
+    bot.send_message(message.chat.id, "کدوم جلسه؟ 🤔", reply_markup=markup)
+
+@bot.message_handler(func=lambda msg: msg.text in [
+    "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم"] and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori_manba_jozve')
+def send_oloomtash_1naz_baft_mansoori_manba_jozve(message):
+    video_file_ids = {
+        "1️⃣ جلسه اول": ["BQACAgQAAxkBAAJCOmjoHOQPbx8uku6Fzgy2stNFlzZVAAIMGAAC2_qxUJkc9JzFGMG8NgQ"],
+        "2️⃣ جلسه دوم": ["BQACAgQAAxkBAAJCO2joHOQ-BDHXJ0d6dppTnKfE1wRfAAK0GQACT8UAAVFteb5FZSz6pTYE"],
+        "3️⃣ جلسه سوم": ["BQACAgQAAxkBAAJCPGjoHOTycRIvYQMohj4BXoWMMVAOAAIDGgACScdRUTUjTMtmpnZONgQ"],
+        "4️⃣ جلسه چهارم": ["BQACAgQAAxkBAAJCPWjoHOT5tCiWzjst9TV84__6Fn1CAAKbFgACCIAxUrrdiK807eurNgQ"]
+    }
+    session_videos = video_file_ids.get(message.text)
+    if session_videos:
+        for video_id in session_videos:
+            bot.send_video(message.chat.id, video_id)
+    else:
+        bot.send_message(message.chat.id, "ویدیویی برای این جلسه یافت نشد.")
+
+@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس")
+def send_oloomtash_1naz_baft_mansoori_manba_ref(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_manba_ref'
+
+    file_ids = [
+        "BQACAgQAAxkBAAJCQ2joHcYURzyL6qLZgGWuSsVz82hSAAJcDwACesKgUcY2hI5ezC9UNgQ",
+"BQACAgQAAxkBAAJCRGjoHcb0UqHIWHYiVtTnyeghOLgYAAJRBgACFrMxU04aoXutPgN_NgQ",
+"BQACAgQAAxkBAAJCRWjoHcaCcchA7FWb45aSoRFc6f9PAAKEDAACh9fhUlA2dtotpJp-NgQ"
+    ]
+
+    for file_id in file_ids:
+        bot.send_document(message.chat.id, file_id)
+
+    bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
+
 
 
 # 👶 جنین‌شناسی نظری - استاد راعی
 @bot.message_handler(func=lambda msg: msg.text == "👶 جنین‌شناسی")
-def anatomy1_theory_embryology(message):
+def oloomtash_1naz_janin(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_janin'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
         types.KeyboardButton("👨‍🏫 استاد راعی"),
-        types.KeyboardButton("🔙 بازگشت به علوم تشریح نظری 1")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
     bot.send_message(
         message.chat.id,
-        "📙 بخش جنین‌شناسی نظری انتخاب شد.\nلطفاً استاد مورد نظر را انتخاب کن:",
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
 
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد راعی")
+def oloomtash_1naz_janin_raei(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_janin_raei'
 
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📑 پاور"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+    )
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
 
+@bot.message_handler(func=lambda msg: msg.text == "📑 پاور")
+def send_oloomtash_1naz_janin_raei_power(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_janin_raei_power'
+
+    file_ids = ["BQACAgQAAxkBAAJCYGjoINlkUAyvj8Rq-vVwl6h3ws1aAALpGQACqMOxURqF6w8yTWQYNgQ",
+"BQACAgQAAxkBAAJCYWjoINnFt7ot1IeLuu4iLLJ5KYuuAALhGQACqMOxUWZLpT9cDkpSNgQ",
+"BQACAgQAAxkBAAJCYmjoINm-eP61aHilqD31bbT-6ezLAALeGQACqMOxUS3-hnzi1GMGNgQ",
+"BQACAgQAAxkBAAJCY2joINk0VXLwEXg_1kkpJHtwv69JAALfGQACqMOxUXnRYwTRYXtWNgQ",
+"BQACAgQAAxkBAAJCZGjoINnlBtcYEVJM-bPOHZ6OhSaTAALgGQACqMOxUa3vJqkZ5gylNgQ",
+"BQACAgQAAxkBAAJCZWjoINmMHkBiqUAxH-UoZX1vd_3ZAAIKGQAC0wqQUIO5MkiVudYiNgQ",
+"BQACAgQAAxkBAAJCZmjoINnEve3nG8Rz_K9CJmn8y94sAAI9GwACJ_HYUDvtCIUk63RSNgQ"    
+    ]
+
+    for file_id in file_ids:
+        bot.send_document(message.chat.id, file_id)
+        bot.send_message(message.chat.id, "✅ همه فایل‌های رفرنس ارسال شدند.")
 
 
 # 🩻 بخش عملی
@@ -368,12 +559,12 @@ def anatomy1_practical_menu(message):
     markup.add(
         types.KeyboardButton("🦴 آناتومی (عملی)"),
         types.KeyboardButton("🧫 بافت‌شناسی (عملی)"),
-        types.KeyboardButton("🔙 بازگشت به علوم تشریح 1")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
     )
 
     bot.send_message(
         message.chat.id,
-        "🧪 لطفاً زیر‌بخش عملی مورد نظر رو انتخاب کن:",
+        "کدوم؟ 🤔",
         reply_markup=markup
     )
 
