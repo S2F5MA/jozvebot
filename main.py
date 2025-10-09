@@ -203,16 +203,23 @@ def send_file_ids(message):
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
     user_states[message.from_user.id] = 'HOME'
+
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(types.KeyboardButton("📘 ترم 1"),
-               types.KeyboardButton("📗 ترم 2"))
+    markup.add(
+        types.KeyboardButton("📘 ترم 1"),
+        types.KeyboardButton("📗 ترم 2"),
+        types.KeyboardButton("📙 ترم 3"),
+        types.KeyboardButton("📕 ترم 4")
+    )
+
     bot.send_message(message.chat.id, """سلام 👋
 قبل اینکه شروع کنی، اینو بگم: 
-برای بعضی درس‌ها، ما دو نوع فایل داریم 
-"جزوه اصلی" و "فایل ضمیمه". 
+برای بعضی درس‌ها، ما دو نوع فایل داریم:
+"جزوه اصلی" و "فایل ضمیمه".
 جزوه اصلی جزوه‌ایه که از ترم‌های گذشته ادیت خورده.
 فایل ضمیمه شامل نکات و مطالبیه که در طول کلاس مضاف بر جزوه اصلی مطرح شده‌ و در جزوه اصلی موجود نیستن.
 حالا لطفاً ترم مورد نظرت رو انتخاب کن 🙌 :""", reply_markup=markup)
+
 
 # ---------------------------------------------------------------
 # ===============================================================
@@ -223,9 +230,152 @@ def send_welcome(message):
 @bot.message_handler(func=lambda msg: msg.text == "📘 ترم 1")
 def show_term1_subjects(message):
     user_states[message.from_user.id] = 'TERM_1'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🔹 علم تشریح 1"),
+        types.KeyboardButton("🔹 بیوشیمی نظری 1"),
+        types.KeyboardButton("🔹 ادبیات"),
+        types.KeyboardButton("🔹 روانشناسی"),
+        types.KeyboardButton("🔹 تفسیر"),
+        types.KeyboardButton("🔙 بازگشت به منوی اصلی")
+    )
+
     bot.send_message(
-        message.chat.id, "⚠️ منابع ترم ۱ هنوز آماده نشده‌اند. لطفاً بعداً بررسی کنید.")
-    send_welcome(message)
+        message.chat.id,
+        "📚 لطفاً یکی از درس‌های ترم ۱ را انتخاب کن:",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🔹 علم تشریح 1")
+def anatomy1_menu(message):
+    user_states[message.from_user.id] = 'oloomtash_1'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🧠 نظری"),
+        types.KeyboardButton("🩻 عملی"),
+        types.KeyboardButton("🔙 بازگشت به ترم 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "📖 لطفاً بخش مورد نظرت رو انتخاب کن:",
+        reply_markup=markup
+    )
+
+# 🧠 بخش نظری
+@bot.message_handler(func=lambda msg: msg.text == "🧠 نظری")
+def anatomy1_theory_menu(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی"),
+        types.KeyboardButton("🧫 بافت‌شناسی"),
+        types.KeyboardButton("👶 جنین‌شناسی"),
+        types.KeyboardButton("🔙 بازگشت به علوم تشریح 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "📚 لطفاً زیر‌بخش نظری مورد نظر رو انتخاب کن:",
+        reply_markup=markup
+    )
+
+# 🦴 آناتومی نظری
+@bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی")
+def anatomy1_theory_anatomy(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(
+        types.KeyboardButton("👨‍🏫 استاد فراهانی"),
+        types.KeyboardButton("🔙 بازگشت به علوم تشریح نظری 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "📘 بخش آناتومی نظری انتخاب شد.\nلطفاً استاد مورد نظر را انتخاب کن:",
+        reply_markup=markup
+    )
+
+# 👨‍🏫 آناتومی نظری - استاد فراهانی
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد فراهانی")
+def anatomy1_theory_farhanni(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("📑 پاور"),
+        types.KeyboardButton("📚 منابع مطالعاتی"),
+        types.KeyboardButton("🔙 بازگشت به آناتومی نظری")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "👨‍🏫 استاد فراهانی انتخاب شد.\nلطفاً یکی از گزینه‌های زیر را انتخاب کن:",
+        reply_markup=markup
+    )
+
+
+
+# 🧫 بافت‌شناسی نظری - استاد منصوری
+@bot.message_handler(func=lambda msg: msg.text == "🧫 بافت‌شناسی")
+def anatomy1_theory_histology(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_baft'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(
+        types.KeyboardButton("👩‍🏫 استاد منصوری"),
+        types.KeyboardButton("🔙 بازگشت به علوم تشریح نظری 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "📗 بخش بافت‌شناسی نظری انتخاب شد.\nلطفاً استاد مورد نظر را انتخاب کن:",
+        reply_markup=markup
+    )
+
+
+# 👶 جنین‌شناسی نظری - استاد راعی
+@bot.message_handler(func=lambda msg: msg.text == "👶 جنین‌شناسی")
+def anatomy1_theory_embryology(message):
+    user_states[message.from_user.id] = 'oloomtash_1naz_janin'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(
+        types.KeyboardButton("👨‍🏫 استاد راعی"),
+        types.KeyboardButton("🔙 بازگشت به علوم تشریح نظری 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "📙 بخش جنین‌شناسی نظری انتخاب شد.\nلطفاً استاد مورد نظر را انتخاب کن:",
+        reply_markup=markup
+    )
+
+
+
+
+
+# 🩻 بخش عملی
+@bot.message_handler(func=lambda msg: msg.text == "🩻 عملی")
+def anatomy1_practical_menu(message):
+    user_states[message.from_user.id] = 'oloomtash_1amal'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی (عملی)"),
+        types.KeyboardButton("🧫 بافت‌شناسی (عملی)"),
+        types.KeyboardButton("🔙 بازگشت به علوم تشریح 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "🧪 لطفاً زیر‌بخش عملی مورد نظر رو انتخاب کن:",
+        reply_markup=markup
+    )
 
 
 # ---------------------------------------------------------------
