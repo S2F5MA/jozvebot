@@ -238,7 +238,7 @@ def show_term1_subjects(message):
         types.KeyboardButton("🔹 ادبیات"),
         types.KeyboardButton("🔹 روانشناسی"),
         types.KeyboardButton("🔹 تفسیر"),
-        types.KeyboardButton("🔙 بازگشت به منوی اصلی")
+        types.KeyboardButton("🔙 بازگشت به خانه")
     )
 
     bot.send_message(
@@ -248,7 +248,7 @@ def show_term1_subjects(message):
     )
 
 @bot.message_handler(func=lambda msg: msg.text == "🔹 علوم تشریح 1")
-def oloomtash_1_menu(message):
+def oloomtash_1(message):
     user_states[message.from_user.id] = 'oloomtash_1'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -266,7 +266,7 @@ def oloomtash_1_menu(message):
 
 # 🧠 بخش نظری
 @bot.message_handler(func=lambda msg: msg.text == "🧠 نظری" and user_states.get(msg.from_user.id) == 'oloomtash_1')
-def oloomtash_1naz_menu(message):
+def oloomtash_1naz(message):
     user_states[message.from_user.id] = 'oloomtash_1naz'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -299,6 +299,7 @@ def oloomtash_1naz_anatomy(message):
         "کدوم؟ 🤔",
         reply_markup=markup
     )
+
 
 # 👨‍🏫 آناتومی نظری - استاد فراهانی
 @bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد فراهانی" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy')
@@ -359,6 +360,7 @@ def oloomtash_1naz_anatomy_farhanni_manba(message):
     )
 
 
+
 @bot.message_handler(func=lambda msg: msg.text == "📄 جزوات جامع" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba')
 def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_manba_jozve'
@@ -373,6 +375,7 @@ def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
         "کدوم؟ 🤔",
         reply_markup=markup
     )
+
 
 # 📄 جزوه 99 - ارسال فایل با file_id
 @bot.message_handler(func=lambda msg: msg.text == "📄 جزوه 99" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba_jozve')
@@ -413,6 +416,7 @@ def oloomtash_1naz_baft(message):
         "کدوم؟ 🤔",
         reply_markup=markup
     )
+
 
 @bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد منصوری" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft')
 def oloomtash_1naz_baft_mansoori(message):
@@ -466,6 +470,7 @@ def show_oloomtash_1naz_baft_mansoori_manba_jozve(message):
     buttons = ["1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم", "🔙 بازگشت به منوی قبلی"]
     markup.add(*[types.KeyboardButton(b) for b in buttons])
     bot.send_message(message.chat.id, "کدوم جلسه؟ 🤔", reply_markup=markup)
+
 
 @bot.message_handler(func=lambda msg: msg.text in [
     "1️⃣ جلسه اول", "2️⃣ جلسه دوم", "3️⃣ جلسه سوم", "4️⃣ جلسه چهارم"] and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori_manba_jozve')
@@ -532,6 +537,7 @@ def oloomtash_1naz_janin_raei(message):
         reply_markup=markup
     )
 
+
 @bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_janin_raei')
 def send_oloomtash_1naz_janin_raei_power(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_janin_raei_power'
@@ -567,7 +573,6 @@ def oloomtash_1amal(message):
         "کدوم؟ 🤔",
         reply_markup=markup
     )
-
 
 @bot.message_handler(func=lambda msg: msg.text == "🦴 آناتومی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal')
 def oloomtash_1amal_anatomy(message):
@@ -695,22 +700,6 @@ def send_oloomtash_1amal_anatomy_farahani_manba_jozve(message):
 
     bot.send_document(message.chat.id, file_id, caption="📘 جزوه 99 - استاد فراهانی")
 
-@bot.message_handler(func=lambda msg: msg.text == "🧫 بافت‌شناسی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal')
-def oloomtash_1amal_baft(message):
-    user_states[message.from_user.id] = 'oloomtash_1amal_baft'
-
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add(
-        types.KeyboardButton("استاد روحانی"),
-        types.KeyboardButton("استاد تدین"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
-    )
-
-    bot.send_message(
-        message.chat.id,
-        "کدوم؟ 🤔",
-        reply_markup=markup
-    )
 
 @bot.message_handler(func=lambda msg: msg.text == "🧫 بافت‌شناسی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal')
 def oloomtash_1amal_baft(message):
@@ -728,6 +717,7 @@ def oloomtash_1amal_baft(message):
         "کدوم؟ 🤔",
         reply_markup=markup
     )
+
 
 @bot.message_handler(func=lambda msg: msg.text == "استاد روحانی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft')
 def oloomtash_1amal_baft_rohani(message):
@@ -797,6 +787,64 @@ def oloomtash_1amal_baft_tadayyon_jozve2(message):
     bot.send_document(message.chat.id, file_id, caption="📘 جزوه 99 - استاد فراهانی")
 
 
+
+
+
+
+
+# ------ TERM 1 هندلرهای بازگشت ------
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به ترم 1" and user_states.get(msg.from_user.id) in ['oloomtash_1','bionaz1','tafs','ravan','adab'])
+def back_to_show_term1_subjects(message):
+    show_term1_subjects(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz','oloomtash_1amal'])
+def back_to_oloomtash_1(message):
+    oloomtash_1(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy','oloomtash_1naz_baft','oloomtash_1naz'])
+def back_to_oloomtash_1naz(message):
+    oloomtash_1naz(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni'])
+def back_to_oloomtash_1naz_anatomy(message):
+    oloomtash_1naz_anatomy(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni_manba'])
+def back_to_oloomtash_1naz_anatomy_farhanni(message):
+    oloomtash_1naz_anatomy_farhanni(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni_manba_jozve'])
+def back_to_oloomtash_1naz_anatomy_farhanni_manba(message):
+    oloomtash_1naz_anatomy_farhanni_manba(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori'])
+def back_to_oloomtash_1naz_baft(message):
+    oloomtash_1naz_baft(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori_manba'])
+def back_to_oloomtash_1naz_baft_mansoori(message):
+    oloomtash_1naz_baft_mansoori(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori_manba_jozve'])
+def back_to_oloomtash_1naz_baft_mansoori_manba(message):
+    oloomtash_1naz_baft_mansoori_manba(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_janin_raei'])
+def back_to_oloomtash_1naz_janin(message):
+    oloomtash_1naz_janin(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1amal_anatomy','oloomtash_1amal_baft'])
+def back_to_oloomtash_1amal(message):
+    oloomtash_1amal(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1amal_anatomy_farahani_video','oloomtash_1amal_anatomy_farahani_manba'])
+def back_to_oloomtash_1amal_anatomy_farahani(message):
+    oloomtash_1amal_anatomy_farahani(message)
+
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1amal_baft_rohani','oloomtash_1amal_baft_tadayyon'])
+def back_to_oloomtash_1amal_baft(message):
+    oloomtash_1amal_baft(message)
 
 # ---------------------------------------------------------------
 # ===============================================================
