@@ -274,7 +274,7 @@ def oloomtash_1naz(message):
         types.KeyboardButton("🦴 آناتومی"),
         types.KeyboardButton("🧫 بافت‌شناسی"),
         types.KeyboardButton("👶 جنین‌شناسی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -291,7 +291,7 @@ def oloomtash_1naz_anatomy(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
         types.KeyboardButton("👨‍🏫 استاد فراهانی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -310,7 +310,7 @@ def oloomtash_1naz_anatomy_farhanni(message):
     markup.add(
         types.KeyboardButton("📑 پاور"),
         types.KeyboardButton("📚 منابع مطالعاتی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -351,7 +351,7 @@ def oloomtash_1naz_anatomy_farhanni_manba(message):
     markup.add(
         types.KeyboardButton("📄 جزوات جامع"),
         types.KeyboardButton("📘 رفرنس"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
         message.chat.id,
@@ -368,7 +368,7 @@ def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
         types.KeyboardButton("📄 جزوه 99"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
         message.chat.id,
@@ -408,7 +408,7 @@ def oloomtash_1naz_baft(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
         types.KeyboardButton("👩‍🏫 استاد منصوری"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -426,7 +426,7 @@ def oloomtash_1naz_baft_mansoori(message):
     markup.add(
         types.KeyboardButton("📑 پاور"),
         types.KeyboardButton("📚 منابع مطالعاتی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
         message.chat.id,
@@ -455,7 +455,7 @@ def oloomtash_1naz_baft_mansoori_manba(message):
     markup.add(
         types.KeyboardButton("📑 جزوات جلسه به جلسه"),
         types.KeyboardButton("📘 رفرنس"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
         message.chat.id,
@@ -513,7 +513,7 @@ def oloomtash_1naz_janin(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
         types.KeyboardButton("👨‍🏫 استاد راعی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -529,7 +529,7 @@ def oloomtash_1naz_janin_raei(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
         types.KeyboardButton("📑 پاور"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
         message.chat.id,
@@ -565,7 +565,7 @@ def oloomtash_1amal(message):
     markup.add(
         types.KeyboardButton("🦴 آناتومی"),
         types.KeyboardButton("🧫 بافت‌شناسی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -581,7 +581,7 @@ def oloomtash_1amal_anatomy(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
         types.KeyboardButton("استاد فراهانی"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -598,7 +598,7 @@ def oloomtash_1amal_anatomy_farahani(message):
     markup.add(
        types.KeyboardButton("🎬 ویدیو"),
        types.KeyboardButton("📚 منابع مطالعاتی"),
-       types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+       types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -683,7 +683,7 @@ def oloomtash_1amal_anatomy_farahani_manba(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
        types.KeyboardButton("📄 جزوات جامع"),
-       types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+       types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -709,7 +709,7 @@ def oloomtash_1amal_baft(message):
     markup.add(
         types.KeyboardButton("استاد روحانی"),
         types.KeyboardButton("استاد تدین"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -727,7 +727,7 @@ def oloomtash_1amal_baft_rohani(message):
     markup.add(
         types.KeyboardButton("جزوه 401"),
         types.KeyboardButton("جزوه 403"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -760,7 +760,7 @@ def oloomtash_1amal_baft_tadayyon(message):
     markup.add(
         types.KeyboardButton("جزوه جلسه 1"),
         types.KeyboardButton("جزوه جلسه 2"),
-        types.KeyboardButton("🔙 بازگشت به منوی قبلی ")
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
     bot.send_message(
@@ -794,55 +794,55 @@ def oloomtash_1amal_baft_tadayyon_jozve2(message):
 
 # ------ TERM 1 هندلرهای بازگشت ------
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به ترم 1" and user_states.get(msg.from_user.id) in ['oloomtash_1','bionaz1','tafs','ravan','adab'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به ترم 1" and user_states.get(msg.from_user.id) in ['oloomtash_1', 'bionaz1', 'tafs', 'ravan', 'adab'])
 def back_to_show_term1_subjects(message):
     show_term1_subjects(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz','oloomtash_1amal'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz', 'oloomtash_1amal'])
 def back_to_oloomtash_1(message):
     oloomtash_1(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy','oloomtash_1naz_baft','oloomtash_1naz'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy', 'oloomtash_1naz_baft', 'oloomtash_1naz'])
 def back_to_oloomtash_1naz(message):
     oloomtash_1naz(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni'])
 def back_to_oloomtash_1naz_anatomy(message):
     oloomtash_1naz_anatomy(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni_manba'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni_manba'])
 def back_to_oloomtash_1naz_anatomy_farhanni(message):
     oloomtash_1naz_anatomy_farhanni(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni_manba_jozve'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_anatomy_farhanni_manba_jozve'])
 def back_to_oloomtash_1naz_anatomy_farhanni_manba(message):
     oloomtash_1naz_anatomy_farhanni_manba(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori'])
 def back_to_oloomtash_1naz_baft(message):
     oloomtash_1naz_baft(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori_manba'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori_manba'])
 def back_to_oloomtash_1naz_baft_mansoori(message):
     oloomtash_1naz_baft_mansoori(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori_manba_jozve'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_baft_mansoori_manba_jozve'])
 def back_to_oloomtash_1naz_baft_mansoori_manba(message):
     oloomtash_1naz_baft_mansoori_manba(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1naz_janin_raei'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1naz_janin_raei'])
 def back_to_oloomtash_1naz_janin(message):
     oloomtash_1naz_janin(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1amal_anatomy','oloomtash_1amal_baft'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1amal_anatomy', 'oloomtash_1amal_baft'])
 def back_to_oloomtash_1amal(message):
     oloomtash_1amal(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1amal_anatomy_farahani_video','oloomtash_1amal_anatomy_farahani_manba'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1amal_anatomy_farahani_video', 'oloomtash_1amal_anatomy_farahani_manba'])
 def back_to_oloomtash_1amal_anatomy_farahani(message):
     oloomtash_1amal_anatomy_farahani(message)
 
-@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی " and user_states.get(msg.from_user.id) in ['oloomtash_1amal_baft_rohani','oloomtash_1amal_baft_tadayyon'])
+@bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) in ['oloomtash_1amal_baft_rohani', 'oloomtash_1amal_baft_tadayyon'])
 def back_to_oloomtash_1amal_baft(message):
     oloomtash_1amal_baft(message)
 
