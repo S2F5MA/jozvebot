@@ -233,24 +233,23 @@ def show_term1_subjects(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("🔹 علوم تشریح 1"),
-        types.KeyboardButton("🔹 بیوشیمی نظری 1"),
-        types.KeyboardButton("🔹 ادبیات"),
-        types.KeyboardButton("🔹 روانشناسی"),
-        types.KeyboardButton("🔹 تفسیر"),
-        types.KeyboardButton("🔙 بازگشت به خانه")
+        types.KeyboardButton("🧠 علوم تشریح 1"),
+        types.KeyboardButton("🧪 بیوشیمی نظری 1"),
+        types.KeyboardButton("📖 ادبیات"),
+        types.KeyboardButton("💭 روانشناسی"),
+        types.KeyboardButton("📜 تفسیر"),
+        types.KeyboardButton("🔙 بازگشت به خانه 🏠")
     )
 
     bot.send_message(
         message.chat.id,
-        "📚 لطفاً یکی از درس‌های ترم ۱ رو انتخاب کن:",
+        "📚 لطفاً یکی از درس‌های ترم ۱ رو انتخاب کن ✨:",
         reply_markup=markup
     )
 
-
 # --------هندلرهای علوم تشریح 1----------
 
-@bot.message_handler(func=lambda msg: msg.text == "🔹 علوم تشریح 1")
+@bot.message_handler(func=lambda msg: msg.text == "🧠 علوم تشریح 1")
 def oloomtash_1(message):
     user_states[message.from_user.id] = 'oloomtash_1'
 
@@ -326,8 +325,6 @@ def oloomtash_1naz_anatomy_farhanni(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni')
 def send_oloomtash_1naz_anatomy_farhanni_power(message):
-    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_power'
-
     file_ids = [
         "BQACAgQAAxkBAAJCI2joCqcjjLT2NKgPqYrmYP5GbubnAAIKFQAChODYUeU2rp8qEPMnNgQ",
         "BQACAgQAAxkBAAJCJGjoCqcwvPT2BLAWizP54OY14u7OAAINFQAChODYUVC7tgwxSXRjNgQ",
@@ -383,7 +380,6 @@ def oloomtash_1naz_anatomy_farhanni_manba_jozve(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📄 جزوه 99" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba_jozve')
 def send_oloomtash_1naz_anatomy_farhanni_jozve99(message):
-    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_jozve99'
 
     file_id = "BQACAgQAAxkBAAJCHWjn-rUvKVKRqhJ5ag_-oE-kEn-oAAIXCgACdxsQURtpL-AQh7t_NgQ"
 
@@ -393,7 +389,6 @@ def send_oloomtash_1naz_anatomy_farhanni_jozve99(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_anatomy_farhanni_manba')
 def send_oloomtash_1naz_anatomy_farhanni_ref(message):
-    user_states[message.from_user.id] = 'oloomtash_1naz_anatomy_farhanni_ref'
 
     file_ids = [
         "BQACAgQAAxkBAAJCM2joGG0eXTzfoDjdJ_Kx4Fcfy33iAAKrFwACYTZIUZqDPVB85Qw9NgQ",
@@ -412,7 +407,7 @@ def oloomtash_1naz_baft(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add(
-        types.KeyboardButton("👩‍🏫 استاد منصوری"),
+        types.KeyboardButton("👨‍🏫 استاد منصوری"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
@@ -423,7 +418,7 @@ def oloomtash_1naz_baft(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد منصوری" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft')
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد منصوری" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft')
 def oloomtash_1naz_baft_mansoori(message):
     user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori'
 
@@ -442,7 +437,6 @@ def oloomtash_1naz_baft_mansoori(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori')
 def send_oloomtash_1naz_baft_mansoori_power(message):
-    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_power'
 
     file_ids = [
         "BQACAgQAAxkBAAJCS2joHoWBaEVfYxvtFwFb4tNpEO0pAALpHAACzVAxUrxDz9II0mSuNgQ",
@@ -500,8 +494,6 @@ def send_oloomtash_1naz_baft_mansoori_manba_jozve(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_baft_mansoori_manba')
 def send_oloomtash_1naz_baft_mansoori_manba_ref(message):
-    user_states[message.from_user.id] = 'oloomtash_1naz_baft_mansoori_manba_ref'
-
     file_ids = [
         "BQACAgQAAxkBAAJCQ2joHcYURzyL6qLZgGWuSsVz82hSAAJcDwACesKgUcY2hI5ezC9UNgQ",
         "BQACAgQAAxkBAAJCRGjoHcb0UqHIWHYiVtTnyeghOLgYAAJRBgACFrMxU04aoXutPgN_NgQ",
@@ -549,7 +541,6 @@ def oloomtash_1naz_janin_raei(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📑 پاور" and user_states.get(msg.from_user.id) == 'oloomtash_1naz_janin_raei')
 def send_oloomtash_1naz_janin_raei_power(message):
-    user_states[message.from_user.id] = 'oloomtash_1naz_janin_raei_power'
 
     file_ids = ["BQACAgQAAxkBAAJCYGjoINlkUAyvj8Rq-vVwl6h3ws1aAALpGQACqMOxURqF6w8yTWQYNgQ",
                 "BQACAgQAAxkBAAJCYWjoINnFt7ot1IeLuu4iLLJ5KYuuAALhGQACqMOxUWZLpT9cDkpSNgQ",
@@ -590,7 +581,7 @@ def oloomtash_1amal_anatomy(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد فراهانی"),
+        types.KeyboardButton("👨‍🏫 استاد فراهانی"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
@@ -601,7 +592,7 @@ def oloomtash_1amal_anatomy(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "استاد فراهانی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_anatomy')
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد فراهانی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_anatomy')
 def oloomtash_1amal_anatomy_farahani(message):
     user_states[message.from_user.id] = 'oloomtash_1amal_anatomy_farahani'
 
@@ -708,7 +699,6 @@ def oloomtash_1amal_anatomy_farahani_manba(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "📄 جزوات جامع" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_anatomy_farahani_manba')
 def send_oloomtash_1amal_anatomy_farahani_manba_jozve(message):
-    user_states[message.from_user.id] = 'oloomtash_1amal_anatomy_farahani_manba_jozve'
 
     file_id = "BQACAgQAAxkBAAJD02jo3FOw_fRKSUGbdCKUg_g-SQl1AAIFGgACyu34UQUKM6hS3jPANgQ"
 
@@ -722,8 +712,8 @@ def oloomtash_1amal_baft(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد روحانی"),
-        types.KeyboardButton("استاد تدین"),
+        types.KeyboardButton("👩‍🏫 استاد روحانی"),
+        types.KeyboardButton("👩‍🏫 استاد تدین"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
@@ -734,14 +724,14 @@ def oloomtash_1amal_baft(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "استاد روحانی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft')
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد روحانی" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft')
 def oloomtash_1amal_baft_rohani(message):
     user_states[message.from_user.id] = 'oloomtash_1amal_baft_rohani'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("جزوه 401"),
-        types.KeyboardButton("جزوه 403"),
+        types.KeyboardButton("🎓 جزوه 401"),
+        types.KeyboardButton("🎓 جزوه 403"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
@@ -752,34 +742,31 @@ def oloomtash_1amal_baft_rohani(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "جزوه 401" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_rohani')
+@bot.message_handler(func=lambda msg: msg.text == "🎓 جزوه 401" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_rohani')
 def send_oloomtash_1amal_baft_rohani_jozve401(message):
-    user_states[message.from_user.id] = 'oloomtash_1amal_baft_rohani_jozve401'
 
     file_id = "BQACAgQAAxkBAAJD02jo3FOw_fRKSUGbdCKUg_g-SQl1AAIFGgACyu34UQUKM6hS3jPANgQ"
 
     bot.send_document(message.chat.id, file_id,
-                      caption="📘 جزوه 99 - استاد فراهانی")
+                      caption="🎓 جزوه 401 - استاد روحانی 👩‍🏫")
 
 
-@bot.message_handler(func=lambda msg: msg.text == "جزوه 403" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_rohani')
+@bot.message_handler(func=lambda msg: msg.text == "🎓 جزوه 403" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_rohani')
 def oloomtash_1amal_baft_rohani_jozve403(message):
-    user_states[message.from_user.id] = 'oloomtash_1amal_baft_rohani_jozve403'
 
     file_id = "BQACAgQAAxkBAAJD02jo3FOw_fRKSUGbdCKUg_g-SQl1AAIFGgACyu34UQUKM6hS3jPANgQ"
 
     bot.send_document(message.chat.id, file_id,
-                      caption="📘 جزوه 99 - استاد فراهانی")
+                      caption="🎓 جزوه 403 - استاد روحانی 👩‍🏫")
 
-
-@bot.message_handler(func=lambda msg: msg.text == "استاد تدین" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft')
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد تدین" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft')
 def oloomtash_1amal_baft_tadayyon(message):
     user_states[message.from_user.id] = 'oloomtash_1amal_baft_tadayyon'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("جزوه جلسه 1"),
-        types.KeyboardButton("جزوه جلسه 2"),
+        types.KeyboardButton("📖 جزوه جلسه 1"),
+        types.KeyboardButton("📖 جزوه جلسه 2"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
 
@@ -790,50 +777,60 @@ def oloomtash_1amal_baft_tadayyon(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "جزوه جلسه 1" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_tadayyon')
+@bot.message_handler(func=lambda msg: msg.text == "📖 جزوه جلسه 1" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_tadayyon')
 def oloomtash_1amal_baft_tadayyon_jozve1(message):
-    user_states[message.from_user.id] = 'oloomtash_1amal_baft_tadayyon_jozve1'
 
-    file_id = ["BQACAgQAAxkBAAJD3Gjo63lFTEH2gKQcRkzwCSi22Qp_AAJcGQACCYMQUXdW9v3I-8FRNgQ",
-               "BQACAgQAAxkBAAJD3Wjo63l-u407mbUQHqbmgJJ_q1oxAAJdGQACCYMQUVrlXQKK_Vq0NgQ"]
+    file_id = [
+        "BQACAgQAAxkBAAJD3Gjo63lFTEH2gKQcRkzwCSi22Qp_AAJcGQACCYMQUXdW9v3I-8FRNgQ",
+        "BQACAgQAAxkBAAJD3Wjo63l-u407mbUQHqbmgJJ_q1oxAAJdGQACCYMQUVrlXQKK_Vq0NgQ"
+    ]
 
-    bot.send_document(message.chat.id, file_id,
-                      caption="📘 جزوه 99 - استاد فراهانی")
+    for f_id in file_id:
+        bot.send_document(
+            message.chat.id,
+            f_id,
+            caption="📘 جزوه جلسه 1 - استاد تدیّن 👩‍🏫"
+        )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "جزوه جلسه 2" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_tadayyon')
+@bot.message_handler(func=lambda msg: msg.text == "📖 جزوه جلسه 2" and user_states.get(msg.from_user.id) == 'oloomtash_1amal_baft_tadayyon')
 def oloomtash_1amal_baft_tadayyon_jozve2(message):
-    user_states[message.from_user.id] = 'oloomtash_1amal_baft_tadayyon_jozve2'
 
     file_id = "BQACAgQAAxkBAAJD3mjo63mBj1m5OWRAx2bie9Mm3y64AAK_GgACURloUYukyuxcdjeANgQ"
 
-    bot.send_document(message.chat.id, file_id,
-                      caption="📘 جزوه 99 - استاد فراهانی")
+    bot.send_document(
+        message.chat.id,
+        file_id,
+        caption="📗 جزوه جلسه 2 - استاد تدیّن 👩‍🏫"
+    )
+
 
 
 # --------- هندلرهای بیوشیمی نظری 1 ----------
 
-@bot.message_handler(func=lambda msg: msg.text == "🔹 بیوشیمی نظری 1")
+@bot.message_handler(func=lambda msg: msg.text == "🧪 بیوشیمی نظری 1")
 def bionaz1(message):
     user_states[message.from_user.id] = 'bionaz1'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("گروه 1"),
-        types.KeyboardButton("🩻 عملی"),
+        types.KeyboardButton("👥 گروه 1"),
         types.KeyboardButton("🔙 بازگشت به ترم 1")
     )
 
     bot.send_message(
         message.chat.id,
-        """گروه 1 :
-        استاد رجبی 
-        استاد نوری""",
+        """این واحد هر ترم چند تا استاد داره 👨‍🏫👩‍🏫
+👥 گروه 1 :
+👩‍🏫 استاد رجبی  
+👩‍🏫 استاد نوری
+کدوم گروه؟‌ 🤔""",
         reply_markup=markup
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "گروه 1" and user_states.get(msg.from_user.id) == 'bionaz1')
+
+@bot.message_handler(func=lambda msg: msg.text == "👥 گروه 1" and user_states.get(msg.from_user.id) == 'bionaz1')
 def bionaz1_g1(message):
     user_states[message.from_user.id] = 'bionaz1_g1'
 
@@ -856,8 +853,8 @@ def bionaz1_g1_power(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد نوری"),
-        types.KeyboardButton("استاد رجبی"),
+        types.KeyboardButton("👩‍🏫 استاد نوری"),
+        types.KeyboardButton("👩‍🏫 استاد رجبی"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
@@ -866,9 +863,8 @@ def bionaz1_g1_power(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "استاد نوری" and user_states.get(msg.from_user.id) == 'bionaz1_g1_power')
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد نوری" and user_states.get(msg.from_user.id) == 'bionaz1_g1_power')
 def send_bionaz1_g1_power_noori(message):
-    user_states[message.from_user.id] = 'bionaz1_g1_power_noori'
 
     file_ids = ["BQACAgQAAxkBAAJCYGjoINlkUAyvj8Rq-vVwl6h3ws1aAALpGQACqMOxURqF6w8yTWQYNgQ",
                 "BQACAgQAAxkBAAJCYWjoINnFt7ot1IeLuu4iLLJ5KYuuAALhGQACqMOxUWZLpT9cDkpSNgQ",
@@ -884,9 +880,8 @@ def send_bionaz1_g1_power_noori(message):
     bot.send_message(message.chat.id, "✅ همه پاورها ارسال شدند.")
 
 
-@bot.message_handler(func=lambda msg: msg.text == "استاد رجبی" and user_states.get(msg.from_user.id) == 'bionaz1_g1_power')
+@bot.message_handler(func=lambda msg: msg.text == "👩‍🏫 استاد رجبی" and user_states.get(msg.from_user.id) == 'bionaz1_g1_power')
 def send_bionaz1_g1_power_rajabi(message):
-    user_states[message.from_user.id] = 'bionaz1_g1_power_rajabi'
 
     file_ids = ["BQACAgQAAxkBAAJCYGjoINlkUAyvj8Rq-vVwl6h3ws1aAALpGQACqMOxURqF6w8yTWQYNgQ",
                 "BQACAgQAAxkBAAJCYWjoINnFt7ot1IeLuu4iLLJ5KYuuAALhGQACqMOxUWZLpT9cDkpSNgQ",
@@ -908,7 +903,7 @@ def bionaz1_g1_manba(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("جزوات جامع"),
+        types.KeyboardButton("📄 جزوات جامع"),
         types.KeyboardButton("رفرنس"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
@@ -918,9 +913,8 @@ def bionaz1_g1_manba(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "جزوات جامع" and user_states.get(msg.from_user.id) == 'bionaz1_g1_manba')
+@bot.message_handler(func=lambda msg: msg.text == "📄 جزوات جامع" and user_states.get(msg.from_user.id) == 'bionaz1_g1_manba')
 def send_bionaz1_g1_manba_jozve(message):
-    user_states[message.from_user.id] = 'bionaz1_g1_manba_jozve'
 
     file_ids = ["BQACAgQAAxkBAAJCYGjoINlkUAyvj8Rq-vVwl6h3ws1aAALpGQACqMOxURqF6w8yTWQYNgQ",
                 "BQACAgQAAxkBAAJCYWjoINnFt7ot1IeLuu4iLLJ5KYuuAALhGQACqMOxUWZLpT9cDkpSNgQ",
@@ -936,9 +930,8 @@ def send_bionaz1_g1_manba_jozve(message):
     bot.send_message(message.chat.id, "✅ همه پاورها ارسال شدند.")
 
 
-@bot.message_handler(func=lambda msg: msg.text == "رفرنس" and user_states.get(msg.from_user.id) == 'bionaz1_g1_manba')
+@bot.message_handler(func=lambda msg: msg.text == "📘 رفرنس" and user_states.get(msg.from_user.id) == 'bionaz1_g1_manba')
 def send_bionaz1_g1_manba_ref(message):
-    user_states[message.from_user.id] = 'bionaz1_g1_manba_ref'
 
     file_ids = ["BQACAgQAAxkBAAJCYGjoINlkUAyvj8Rq-vVwl6h3ws1aAALpGQACqMOxURqF6w8yTWQYNgQ",
                 "BQACAgQAAxkBAAJCYWjoINnFt7ot1IeLuu4iLLJ5KYuuAALhGQACqMOxUWZLpT9cDkpSNgQ",
@@ -956,14 +949,14 @@ def send_bionaz1_g1_manba_ref(message):
 # --------- هندلرهای تفسیر  ----------
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🔹 تفسیر")
+@bot.message_handler(func=lambda msg: msg.text == "📜 تفسیر")
 def tafs(message):
     user_states[message.from_user.id] = 'tafs'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("آقایان"),
-        types.KeyboardButton("بانوان"),
+        types.KeyboardButton("🧔 آقایان"),
+        types.KeyboardButton("🧕 بانوان"),
         types.KeyboardButton("🔙 بازگشت به ترم 1")
     )
 
@@ -974,14 +967,14 @@ def tafs(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "آقایان" and user_states.get(msg.from_user.id) == 'tafs')
+@bot.message_handler(func=lambda msg: msg.text == "🧔 آقایان" and user_states.get(msg.from_user.id) == 'tafs')
 def tafs_agha(message):
     user_states[message.from_user.id] = 'tafs_agha'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد شمس"),
-        types.KeyboardButton("استاد اردستانی"),
+        types.KeyboardButton("👨‍🏫 استاد شمس"),
+        types.KeyboardButton("👨‍🏫 استاد اردستانی"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
@@ -991,7 +984,7 @@ def tafs_agha(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "استاد اردستانی" and user_states.get(msg.from_user.id) == 'tafs_agha')
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد اردستانی" and user_states.get(msg.from_user.id) == 'tafs_agha')
 def tafs_agha_ard(message):
     user_states[message.from_user.id] = 'tafs_agha_ard'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
@@ -1077,14 +1070,14 @@ def send_tafs_agha_ard(message):
         bot.send_message(message.chat.id, "ویدیویی برای این جلسه یافت نشد.")
 
 
-@bot.message_handler(func=lambda msg: msg.text == "بانوان" and user_states.get(msg.from_user.id) == 'tafs')
+@bot.message_handler(func=lambda msg: msg.text == "🧕 بانوان" and user_states.get(msg.from_user.id) == 'tafs')
 def tafs_bano(message):
     user_states[message.from_user.id] = 'tafs_bano'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد شمس"),
-        types.KeyboardButton("استاد رجبی"),
+        types.KeyboardButton("👨‍🏫 استاد شمس"),
+        types.KeyboardButton("👨‍🏫 استاد رجبی"),
         types.KeyboardButton("🔙 بازگشت به منوی قبلی")
     )
     bot.send_message(
@@ -1094,7 +1087,7 @@ def tafs_bano(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == "استاد شمس" and user_states.get(msg.from_user.id) == 'tafs_bano')
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد شمس" and user_states.get(msg.from_user.id) == 'tafs_bano')
 def tafs_bano_shams(message):
     user_states[message.from_user.id] = 'tafs_bano_shams'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
@@ -1182,14 +1175,14 @@ def send_tafs_bano_shams(message):
 # --------- هندلرهای ادبیات  ----------
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🔹 ادبیات")
+@bot.message_handler(func=lambda msg: msg.text == "📖 ادبیات")
 def adab(message):
     user_states[message.from_user.id] = 'adab'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد خراسانی"),
-        types.KeyboardButton("استاد خسروآبادی"),
+        types.KeyboardButton("👨‍🏫 استاد خراسانی"),
+        types.KeyboardButton("👨‍🏫 استاد خسروآبادی"),
         types.KeyboardButton("🔙 بازگشت به ترم 1")
     )
 
@@ -1202,14 +1195,14 @@ def adab(message):
 # --------- هندلرهای روانشناسی  ----------
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🔹 روانشناسی")
+@bot.message_handler(func=lambda msg: msg.text == "💭 روانشناسی")
 def ravan(message):
     user_states[message.from_user.id] = 'ravan'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
-        types.KeyboardButton("استاد خضرایی"),
-        types.KeyboardButton("استاد خسروآبادی"),
+        types.KeyboardButton("👨‍🏫 استاد خضرایی"),
+        types.KeyboardButton("👨‍🏫 استاد خسروآبادی"),
         types.KeyboardButton("🔙 بازگشت به ترم 1")
     )
 
@@ -1219,8 +1212,7 @@ def ravan(message):
         reply_markup=markup
     )
 
-
-@bot.message_handler(func=lambda msg: msg.text == "استاد خضرایی" and user_states.get(msg.from_user.id) == 'ravan')
+@bot.message_handler(func=lambda msg: msg.text == "👨‍🏫 استاد خضرایی" and user_states.get(msg.from_user.id) == 'ravan')
 def ravan_khez(message):
     user_states[message.from_user.id] = 'ravan_khez'
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
