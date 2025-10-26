@@ -259,7 +259,7 @@ def show_term1_subjects(message):
 
     bot.send_message(
         message.chat.id,
-        "📚 لطفاً یکی از درس‌های ترم ۱ رو انتخاب کن:",
+        "کدوم درس؟ 🤔",
         reply_markup=markup
     )
 
@@ -3141,6 +3141,346 @@ def back_islamic_thought_women_misaghi_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == "🔙 بازگشت به منوی قبلی" and user_states.get(msg.from_user.id) == 'ISLAMIC_THOUGHT_MEN_AKHAVI')
 def back_islamic_thought_men_professors_menu(message):
     show_islamic_thought_men_professors_menu(message)
+
+# ---------------------------------------------------------------
+# ===============================================================
+# TERM 3
+# ===============================================================
+# ---------------------------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "📙 ترم 3")
+def show_term3_subjects(message):
+    user_states[message.from_user.id] = 'TERM_3'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦷 مورفولوژی"),
+        types.KeyboardButton("🧠 علوم تشریح 3"),
+        types.KeyboardButton("💪 فیزیولوژی 2"),
+        types.KeyboardButton("🧫 فیزیولوژی عملی"),
+        types.KeyboardButton("🪱 انگل و قارچ"),
+        types.KeyboardButton("🧬 باکتری‌شناسی"),
+        types.KeyboardButton("🦠 ویروس‌شناسی"),
+        types.KeyboardButton("📜 انقلاب اسلامی"),
+        types.KeyboardButton("🕌 اندیشه 2"),
+        types.KeyboardButton("🔙 بازگشت به خانه")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم درس؟ 🤔",
+        reply_markup=markup
+    )
+
+
+
+# ------------------------------------------ هندلرهای مورفولوژی ---------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🦷 مورفولوژی")
+def morf(message):
+    user_states[message.from_user.id] = 'morf'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🪥 نظری"),
+        types.KeyboardButton("🦷 عملی"),
+        types.KeyboardButton("🔙 بازگشت به ترم 3")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم ؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🪥 نظری" and user_states.get(msg.from_user.id) == 'morf')
+def morf_naz(message):
+    user_states[message.from_user.id] = 'morf_naz'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی"),
+        types.KeyboardButton("🧫 بافت‌شناسی"),
+        types.KeyboardButton("👶 جنین‌شناسی"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🦷 عملی" and user_states.get(msg.from_user.id) == 'morf')
+def morf_amal(message):
+    user_states[message.from_user.id] = 'morf_amal'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی"),
+        types.KeyboardButton("🧫 بافت‌شناسی"),
+        types.KeyboardButton("👶 جنین‌شناسی"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+# ------------------------------------------ هندلرهای علوم تشریح 3 ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🧠 علوم تشریح 3")
+def oloomtash3(message):
+    user_states[message.from_user.id] = 'oloomtash3'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🧠 نظری"),
+        types.KeyboardButton("🩻 عملی"),
+        types.KeyboardButton("🔙 بازگشت به ترم 3")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🧠 نظری" and user_states.get(msg.from_user.id) == 'oloomtash3')
+def oloomtash3_naz(message):
+    user_states[message.from_user.id] = 'oloomtash3_naz'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی"),
+        types.KeyboardButton("🧫 بافت‌شناسی"),
+        types.KeyboardButton("👶 جنین‌شناسی"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🩻 عملی" and user_states.get(msg.from_user.id) == 'oloomtash3')
+def oloomtash3_amal(message):
+    user_states[message.from_user.id] = 'oloomtash3_amal'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦴 آناتومی"),
+        types.KeyboardButton("🧫 بافت‌شناسی"),
+        types.KeyboardButton("👶 جنین‌شناسی"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+# ------------------------------------------ هندلرهای فیزیولوژی 2 ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text =="💪 فیزیولوژی 2")
+def fizio(message):
+    user_states[message.from_user.id] = 'fizio'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("👥 گروه 1"),
+        types.KeyboardButton("🔙 بازگشت به ترم 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        """این واحد هر ترم چند تا استاد داره 👨‍🏫👩‍🏫
+👥 گروه 1 :
+👩‍🏫 استاد رجبی  
+👩‍🏫 استاد نوری
+کدوم گروه؟‌ 🤔""",
+        reply_markup=markup
+    )
+
+
+
+    
+# ------------------------------------------ هندلرهای فیزیولوژی عملی ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🧫 فیزیولوژی عملی")
+def fizioamali(message):
+    user_states[message.from_user.id] = 'fizioamali'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("👥 گروه 1"),
+        types.KeyboardButton("🔙 بازگشت به ترم 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        """این واحد هر ترم چند تا استاد داره 👨‍🏫👩‍🏫
+👥 گروه 1 :
+👩‍🏫 استاد رجبی  
+👩‍🏫 استاد نوری
+کدوم گروه؟‌ 🤔""",
+        reply_markup=markup
+    )
+# ------------------------------------------ هندلرهای انگل و قارچ ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🪱 انگل و قارچ")
+def angal(message):
+    user_states[message.from_user.id] = 'angal'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("👥 گروه 1"),
+        types.KeyboardButton("🔙 بازگشت به ترم 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        """این واحد هر ترم چند تا استاد داره 👨‍🏫👩‍🏫
+👥 گروه 1 :
+👩‍🏫 استاد رجبی  
+👩‍🏫 استاد نوری
+کدوم گروه؟‌ 🤔""",
+        reply_markup=markup
+    )
+
+# ------------------------------------------ هندلرهای باکتری‌شناسی ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🧬 باکتری‌شناسی")
+def bacteri(message):
+    user_states[message.from_user.id] = 'bacteri'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🦠 نظری"),
+        types.KeyboardButton("🧫 عملی"),
+        types.KeyboardButton("🔙 بازگشت به ترم 3")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🦠 نظری" and user_states.get(msg.from_user.id) == 'bacteri')
+def bacteri_naz(message):
+    user_states[message.from_user.id] = 'bacteri_naz'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("👥 گروه 1"),
+        types.KeyboardButton("🔙 بازگشت به ترم 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        """این واحد هر ترم چند تا استاد داره 👨‍🏫👩‍🏫
+👥 گروه 1 :
+👩‍🏫 استاد رجبی  
+👩‍🏫 استاد نوری
+کدوم گروه؟‌ 🤔""",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "🧫 عملی" and user_states.get(msg.from_user.id) == 'bacteri')
+def bacteri_amal(message):
+    user_states[message.from_user.id] = 'bacteri_amal'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("استاد قلاوند"),
+        types.KeyboardButton("🔙 بازگشت به منوی قبلی")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+# ------------------------------------------ هندلرهای ویروس‌شناسی ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🦠 ویروس‌شناسی")
+def virus(message):
+    user_states[message.from_user.id] = 'virus'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("👥 گروه 1"),
+        types.KeyboardButton("🔙 بازگشت به ترم 1")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        """این واحد هر ترم چند تا استاد داره 👨‍🏫👩‍🏫
+👥 گروه 1 :
+👩‍🏫 استاد رجبی  
+👩‍🏫 استاد نوری
+کدوم گروه؟‌ 🤔""",
+        reply_markup=markup
+    )
+
+# ------------------------------------------ هندلرهای انقلاب اسلامی ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "📜 انقلاب اسلامی")
+def enghelab(message):
+    user_states[message.from_user.id] = 'enghelab'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🧔 آقایان"),
+        types.KeyboardButton("🧕 بانوان"),
+        types.KeyboardButton("🔙 بازگشت به ترم 3")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+# ------------------------------------------ هندلرهای اندیشه 2 ------------------------------------------
+
+@bot.message_handler(func=lambda msg: msg.text == "🕌 اندیشه 2")
+def enghelab(message):
+    user_states[message.from_user.id] = 'enghelab'
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        types.KeyboardButton("🧔 آقایان"),
+        types.KeyboardButton("🧕 بانوان"),
+        types.KeyboardButton("🔙 بازگشت به ترم 3")
+    )
+
+    bot.send_message(
+        message.chat.id,
+        "کدوم؟ 🤔",
+        reply_markup=markup
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ===============================================================
 # بخش ۵: اجرای نهایی ربات 🚀
